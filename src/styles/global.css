@@ -1,9 +1,14 @@
 * {
   margin: 0 auto;
-  font-family: 'Lexend', sans-serif;
-  font-family: 'Montserrat', sans-serif;
-  font-family: 'Pathway Extreme', sans-serif;
   font-family: 'Roboto', sans-serif;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
 }
 
 .emoji-picker-upwards {
