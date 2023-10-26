@@ -12,7 +12,6 @@ const SignIn: React.FC = () => {
   return (
     <section className={styles.form_section}>
       <Form
-        name="normal_login"
         className={styles.login_form}
         initialValues={{ remember: true }}
         onFinish={onFinish}
@@ -21,14 +20,14 @@ const SignIn: React.FC = () => {
           name="username"
           rules={[{ required: true, message: 'Please input your Username!' }]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+          <Input prefix={<UserOutlined />} placeholder="Username" />
         </Form.Item>
         <Form.Item
           name="password"
           rules={[{ required: true, message: 'Please input your Password!' }]}
         >
           <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
+            prefix={<LockOutlined/>}
             type="password"
             placeholder="Password"
           />

@@ -12,14 +12,22 @@ const ActivateAccount: React.FC = () => {
   return (
     <section className={styles.form_section}>
       <Form
-        name="activateAccount"
         className={styles.login_form}
         initialValues={{ remember: true }}
         onFinish={onFinish}
       >
         <Form.Item
           name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}
+          rules={[
+            {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
+            },
+            {
+              required: true,
+              message: 'Please input your E-mail!',
+            },
+          ]}
         >
           <Input prefix={<MailOutlined />} placeholder="E-mail@" />
         </Form.Item>
