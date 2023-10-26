@@ -1,9 +1,16 @@
 import { useState } from 'react';
 import { Layout, Menu, Avatar, Badge, Button } from 'antd';
 import { UserOutlined, MessageOutlined } from '@ant-design/icons';
+import { Tooltip, Input } from 'antd';
+import { SendOutlined } from '@ant-design/icons';
+import EmojiPicker from 'emoji-picker-react';
+import { SmileOutlined } from '@ant-design/icons';
 
 const { Header, Content, Sider } = Layout;
-
+type ChatProps = {
+    username: string;
+};
+  
 const people = [
     { name: 'Yami', id: 1 },
     { name: 'Kayzz', id: 2 },
@@ -12,18 +19,29 @@ const people = [
     { name: 'Damian Nussbaum', id: 5}
 ];
 
-const Chat = () => {
+const Chat: React.FC<ChatProps>  = ({username}) => {
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const handleEmojiClick = () => {
+        setShowEmojiPicker(!showEmojiPicker);
+    };
+    const handleEmoji = (event: any, emojiObject: any) => {
+        console.log(emojiObject);
+    };
     return (
         <div style={{ height: '100%' }}>
-            {/* <div style={{ background: '#36393f', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '24px' }}>
-                Chat
-            </div> */}
             <div style={{ background: '#FAF9F6', color: 'black' ,height: '90%'}}>
-                <p style={{ padding: 30}}>Messages go here</p>
+                <p style={{ padding: 30}}>Messages to {username}</p>
             </div>
             <div style={{ background: '#FAF9F6', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-                <input type="text" placeholder="Type a message" style={{ flexGrow: 1, padding: '12px', borderRadius: '4px', border: 'none', background: '#fff', color: '#fff', fontSize: '16px' }} />
-                <Button type="primary" style={{ marginLeft: '8px' }}>Send</Button>
+                <Input type="text"  placeholder={`Type a message to ${username}`} style={{ flexGrow: 1, padding: '12px', borderRadius: '4px', border: 'none', background: '#fff', color: '#fff', fontSize: '16px' }} 
+                 suffix={
+                    <>
+                    <Button onClick={handleEmojiClick} ><SmileOutlined />{showEmojiPicker ? <div className="emoji-picker-upwards" ><EmojiPicker onEmojiClick={handleEmoji} /></div> : null}</Button>
+                    <Button><SendOutlined className="site-form-item-icon"/></Button>
+                    </>
+                  }
+                  
+                 />
             </div>
         </div>
     );
@@ -31,31 +49,29 @@ const Chat = () => {
 
 const Home = () => {
     const [showChat, setShowChat] = useState(false);
+    const [selectedUsername, setSelectedUsername] = useState(''); 
 
-    const toggleChat = () => {
-        setShowChat(!showChat);
+    const handlePersonClick = (username: string) => {
+        setShowChat(true);
+        setSelectedUsername(username); 
     };
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '64px', color: '#fff', fontSize: '24px' }}>
-                    Quark
+                   <img src='quarkLogo.png' style={{ width: '6.7rem', height: '2.5rem'}} />
                 </div>
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                    <Menu.Item key="0" icon={<UserOutlined />}>
+                    <Menu.Item key="0" icon={<UserOutlined />} onClick={()=>setShowChat(false)}>
                         People
                         <Badge count={5} style={{ marginLeft: '8px' }} />
                     </Menu.Item>
                     {people.map(person => (
-                        <Menu.Item key={person.id} icon={<UserOutlined />}>
-                            {person.name}
-                        </Menu.Item>
-                    ))
-                    }
-                    <Menu.Item key="chat" icon={<MessageOutlined />} onClick={toggleChat}>
-                        Chat
+                    <Menu.Item key={person.id} icon={<UserOutlined />} onClick={() => handlePersonClick(person.name)}>
+                        {person.name}
                     </Menu.Item>
+                    ))}
                 </Menu>
             </Sider>
             <Layout style={{ background: '#fff'}}>
@@ -68,7 +84,7 @@ const Home = () => {
                 
                 {showChat ? 
                 <Content style={{ margin: '0px' }}>
-                  <Chat />
+                  <Chat username={selectedUsername}/>
                 </Content>
                 : 
                 <Content style={{ margin: '16px' }}>
