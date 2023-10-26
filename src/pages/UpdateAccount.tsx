@@ -1,6 +1,10 @@
+import React from "react"
+
 const UpdateAccount = () => {
   return (
-    <div>AfterSignUp</div>
+    <React.Fragment>
+      
+    </React.Fragment>
   )
 }
 

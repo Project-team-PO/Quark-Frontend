@@ -1,7 +1,14 @@
-const Error404 = () => {
-  return (
-    <div>Error404 - Go back to other page</div>
-  )
-}
+import React from 'react';
+import { Button, Result } from 'antd';
 
-export default Error404
+const App: React.FC = () => (
+  <Result
+    style={{ marginTop: '10%' }}
+    status="404"
+    title="404"
+    subTitle="Sorry, the page you visited does not exist."
+    extra={<Button type="primary">Back Home</Button>}
+  />
+);
+
+export default App;

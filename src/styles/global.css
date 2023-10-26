@@ -10,3 +10,11 @@
 html {
   box-sizing: border-box;
 }
+
+.emoji-picker-upwards {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  z-index: 1;
+  margin-bottom: 0px;
+}
