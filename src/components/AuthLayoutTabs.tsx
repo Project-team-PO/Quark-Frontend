@@ -27,7 +27,11 @@ const AuthLayoutTabs: React.FC = () => (
           </Link>
         ),
         key: id,
-        children: <Outlet />,
+        children: (
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Outlet />
+          </React.Suspense>
+        )
       };
     })}
   />
