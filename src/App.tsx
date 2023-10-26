@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 import Error404 from "./pages/Error404"
 
-import authRoutes from "./routes/authRoutes"
+import { authRoutes, userRoutes } from "./routes/routes"
 
 import AuthLayout from "./layouts/AuthLayout"
 
@@ -14,6 +14,10 @@ const App = () => {
       element: <AuthLayout />,
       errorElement: <Error404 />,
       children: authRoutes
+    },
+    {
+      errorElement: <Error404 />,
+      children: userRoutes
     }
   ])
 

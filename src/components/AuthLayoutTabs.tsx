@@ -1,20 +1,17 @@
 import React from 'react';
 import { Tabs } from 'antd';
-import { UserAddOutlined, UserOutlined } from '@ant-design/icons';
 import { Outlet, Link } from 'react-router-dom';
 
-import PATH from '../routes/paths';
+import PATH from '../routes/urls';
 
 const tabs = [
   {
     name: "Sign In",
     url: PATH.SIGN_IN,
-    icon: UserOutlined
   },
   {
     name: "Activate account",
     url: PATH.ACTIVATE_ACCOUNT,
-    icon: UserAddOutlined
   }
 ]
 
