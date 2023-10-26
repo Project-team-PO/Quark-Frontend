@@ -7,7 +7,7 @@ import AuthLayoutTabs from "../components/AuthLayoutTabs"
 const AuthLayout = () => {
   return (
     <main className={styles.container}>
-      <section>
+      <section className={styles.layoutSection}>
         <Image width={400} src={quark} />
         <AuthLayoutTabs />
       </section>

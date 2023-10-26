@@ -20,7 +20,6 @@ const AuthLayoutTabs: React.FC = () => (
     defaultActiveKey="1"
     items={tabs.map((tab, i) => {
       const id = String(i + 1);
-
       return {
         label: (
           <Link to={tab.url}>
