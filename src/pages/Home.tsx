@@ -18,11 +18,11 @@ const Chat = () => {
             {/* <div style={{ background: '#36393f', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '24px' }}>
                 Chat
             </div> */}
-            <div style={{ background: '#2f3136', color: 'white' ,height: '90%'}}>
-                Messages go here
+            <div style={{ background: '#FAF9F6', color: 'black' ,height: '90%'}}>
+                <p style={{ padding: 30}}>Messages go here</p>
             </div>
-            <div style={{ background: '#36393f', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom: '17px' }}>
-                <input type="text" placeholder="Type a message" style={{ flexGrow: 1, padding: '12px', borderRadius: '4px', border: 'none', background: '#40444b', color: '#fff', fontSize: '16px' }} />
+            <div style={{ background: '#FAF9F6', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+                <input type="text" placeholder="Type a message" style={{ flexGrow: 1, padding: '12px', borderRadius: '4px', border: 'none', background: '#fff', color: '#fff', fontSize: '16px' }} />
                 <Button type="primary" style={{ marginLeft: '8px' }}>Send</Button>
             </div>
         </div>
@@ -58,8 +58,8 @@ const Home = () => {
                     </Menu.Item>
                 </Menu>
             </Sider>
-            <Layout style={{ background: '#36393f'}}>
-                <Header style={{ background: '#36393f', padding: 0 }}>
+            <Layout style={{ background: '#fff'}}>
+                <Header style={{ background: '#fff', padding: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', height: '64px', paddingRight: '24px', paddingLeft: '12px' }}>
                         <Avatar size="large" icon={<UserOutlined />} style={{ marginRight: '16px' }} />
                         <span style={{ fontSize: '18px', fontWeight: 'bold' }}>Kacper Mańczyk</span>
@@ -72,7 +72,7 @@ const Home = () => {
                 </Content>
                 : 
                 <Content style={{ margin: '16px' }}>
-                    <div style={{ background: '#fff', padding: '24px', minHeight: '360px' }}>
+                    <div style={{ background: '#F9F6EE', padding: '24px', minHeight: '360px' }}>
                         Content goes here
                     </div>
                 </Content>
