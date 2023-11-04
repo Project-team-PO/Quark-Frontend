@@ -8,12 +8,15 @@ const Home = React.lazy(() => import("../pages/Home"))
 
 const authRoutes = [
   { path: PATH.ACTIVATE_ACCOUNT, element: <ActivateAccount /> },
-  { path: PATH.SIGN_IN, element: <SignIn /> }
+  { path: PATH.SIGN_IN, element: <SignIn /> },
 ];
 
+const accountActionsRoutes = [
+  { path: PATH.UPDATE_ACCOUNT, element: <UpdateAccount /> }
+]
+
 const userRoutes = [
-  { path: PATH.UPDATE_ACCOUNT, element: <UpdateAccount /> },
   { path: PATH.HOME, element: <Home /> },
 ]
 
-export { authRoutes, userRoutes }
+export { authRoutes, userRoutes, accountActionsRoutes }

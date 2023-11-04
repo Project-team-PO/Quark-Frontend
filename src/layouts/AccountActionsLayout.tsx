@@ -1,19 +1,19 @@
-import React from "react"
+import React from 'react'
 import { Image } from "antd"
 
 import styles from "../styles/Layouts/AuthLayout.module.css"
 import quark from "../assets/Quark.png"
-import AuthLayoutTabs from "../components/AuthLayoutTabs"
+import { Outlet } from 'react-router-dom'
 
-const AuthLayout: React.FC = () => {
+const AccountActionsLayout: React.FC = () => {
   return (
     <main className={styles.container}>
       <section className={styles.layoutSection}>
         <Image width={400} src={quark} />
-        <AuthLayoutTabs />
+        <Outlet />
       </section>
     </main>
   )
 }
 
-export default AuthLayout
+export default AccountActionsLayout
