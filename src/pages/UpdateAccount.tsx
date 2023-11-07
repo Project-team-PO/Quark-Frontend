@@ -7,25 +7,10 @@ import styles from "../styles/Pages/UpdateAccount.module.css"
 import AvatarUpload from "../components/AvatarUpload";
 
 const selectOptions = [
-  {
-    label: 'HR',
-    options: [
-      { label: 'Jack', value: 'jack' },
-      { label: 'Lucy', value: 'lucy' },
-    ],
-  },
-  {
-    label: 'Administration',
-    options: [{ label: 'yiminghe', value: 'Yiminghe' }],
-  },
-  {
-    label: 'Maintenance',
-    options: [{ label: 'yiminghe', value: 'Yiminghe' }],
-  },
-  {
-    label: 'Software',
-    options: [{ label: 'yiminghe', value: 'Yiminghe' }],
-  },
+  { value: "hr", label: "HR" },
+  { value: "marketing", label: "Marketing" }, 
+  { value: "administration", label: "Administration" }, 
+  { value: "engineering", label: "Engineering" },
 ]
 
 const UpdateAccount: React.FC = () => {
@@ -33,14 +18,19 @@ const UpdateAccount: React.FC = () => {
     <section className={styles.form_section}>
       <Form
         initialValues={{ remember: true }}
+        onFinish={(values) => {
+          console.log(values)
+        }}
       >
         <Form.Item
           name="username"
+          initialValue={"Username"}
         >
           <Input prefix={<UserOutlined />} placeholder="Generated username" disabled />
         </Form.Item>
         <Form.Item
           name="email"
+          initialValue={"Email"}
         >
           <Input
             prefix={<MailOutlined />}
@@ -57,7 +47,7 @@ const UpdateAccount: React.FC = () => {
         <Form.Item name="department">
           <Select placeholder="Department that you work in" suffixIcon={<BankOutlined />} options={selectOptions} allowClear />
         </Form.Item>
-        <Form.Item>
+        <Form.Item name="avatar">
           <AvatarUpload />
         </Form.Item>
         <Form.Item>
