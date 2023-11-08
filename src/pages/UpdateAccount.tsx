@@ -1,24 +1,61 @@
 import React from "react"
-import { Button, Form, Input, Select } from 'antd';
-import { MailOutlined, UserOutlined, BankOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Select, Upload, message } from 'antd';
+import { MailOutlined, UserOutlined, BankOutlined, InboxOutlined } from "@ant-design/icons";
+import type { UploadProps } from 'antd';
+import axios from 'axios';
 
 import styles from "../styles/Pages/UpdateAccount.module.css"
 
-import AvatarUpload from "../components/AvatarUpload";
-
 const selectOptions = [
   { value: "hr", label: "HR" },
-  { value: "marketing", label: "Marketing" }, 
-  { value: "administration", label: "Administration" }, 
+  { value: "marketing", label: "Marketing" },
+  { value: "administration", label: "Administration" },
   { value: "engineering", label: "Engineering" },
 ]
 
 const UpdateAccount: React.FC = () => {
+  const [avatar, setAvatar] = React.useState<string | null>(null)
+
+  const props: UploadProps = {
+    name: 'file',
+    multiple: false,
+    accept: ".png, .jpg",
+    maxCount: 1,
+    async customRequest(info) {
+      const { file, onError, onSuccess } = info;
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "quarkUpload");
+      let data = "";
+      try {
+        const response = await axios.post("https://api.cloudinary.com/v1_1/ddrf0klbu/image/upload", formData)
+        data = response.data["secure_url"]
+        if (onSuccess) {
+          onSuccess("Ok")
+        }
+        setAvatar(data)
+      } catch (err: any) {
+        if (onError) {
+          onError(err);
+        }
+      }
+    },
+    onChange(info) {
+      const { status } = info.file;
+      if (status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    }
+  };
+
   return (
     <section className={styles.form_section}>
       <Form
         initialValues={{ remember: true }}
         onFinish={(values) => {
+          values.avatar = avatar;
           console.log(values)
         }}
       >
@@ -38,17 +75,32 @@ const UpdateAccount: React.FC = () => {
             disabled
           />
         </Form.Item>
-        <Form.Item name="name">
+        <Form.Item name="first_name">
           <Input placeholder="Name" />
         </Form.Item>
-        <Form.Item name="surname">
+        <Form.Item name="last_name">
           <Input placeholder="Surname" />
         </Form.Item>
         <Form.Item name="department">
           <Select placeholder="Department that you work in" suffixIcon={<BankOutlined />} options={selectOptions} allowClear />
         </Form.Item>
+        <Form.Item name="self_description">
+          <Input.TextArea
+            maxLength={30}
+            placeholder="Something about yourself!"
+            style={{ resize: 'none' }}
+          />
+        </Form.Item>
         <Form.Item name="avatar">
-          <AvatarUpload />
+          <Upload.Dragger {...props}>
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">Drag to upload</p>
+            <p className="ant-upload-hint">
+              Single bulk upload only
+            </p>
+          </Upload.Dragger>
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" className={styles.form_btn}>

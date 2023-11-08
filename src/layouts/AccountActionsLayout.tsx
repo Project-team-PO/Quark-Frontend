@@ -9,7 +9,7 @@ const AccountActionsLayout: React.FC = () => {
   return (
     <main className={styles.container}>
       <section className={styles.layoutSection}>
-        <Image width={400} src={quark} />
+        <Image width={400} src={quark} preview={false}/>
         <Outlet />
       </section>
     </main>
