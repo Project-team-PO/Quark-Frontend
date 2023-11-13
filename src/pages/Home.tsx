@@ -5,6 +5,7 @@ import { Tooltip, Input } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import EmojiPicker from 'emoji-picker-react';
 import { SmileOutlined } from '@ant-design/icons';
+import UserProfile from './UserProfile';
 
 const { Header, Content, Sider } = Layout;
 type ChatProps = {
@@ -77,8 +78,8 @@ const Home = () => {
             <Layout style={{ background: '#fff'}}>
                 <Header style={{ background: '#fff', padding: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', height: '64px', paddingRight: '24px', paddingLeft: '12px' }}>
-                        <Avatar size="large" icon={<UserOutlined />} style={{ marginRight: '16px' }} />
-                        <span style={{ fontSize: '18px', fontWeight: 'bold' }}>Kacper Mańczyk</span>
+
+                        <UserProfile selectedUsername={selectedUsername} />
                     </div>
                 </Header>
                 
