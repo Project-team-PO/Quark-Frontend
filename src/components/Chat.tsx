@@ -20,13 +20,13 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
 
     const handleEmojiClick = () => {
         setShowEmojiPicker(!showEmojiPicker);
+        
     };
 
-    const handleEmoji = (event: any, emojiObject: any) => {
-        console.log(emojiObject);
+    const handleEmoji = (emojiObject: any, event:any) => {
         setMessageInput(messageInput + emojiObject.emoji);
     };
-
+    
     const handleSend = () => {
         if (messageInput.trim() !== '') {
             const newMessage: Message = {
