@@ -1,12 +1,17 @@
 import React from 'react';
 import { Button, Form, Input, Select } from 'antd';
-import { MailOutlined, IdcardOutlined } from "@ant-design/icons";
+import { MailOutlined, UserOutlined } from "@ant-design/icons";
 
 import styles from "../styles/Pages/SignIn.module.css"
 
-const onFinish = (values: any) => {
-  console.log('Success:', values);
-};
+type MailInfo = {
+  email: string
+  username: string
+}
+
+const sendEmail = (values: MailInfo) => {
+  console.log(values)
+}
 
 const ActivateAccount: React.FC = () => {
   return (
@@ -14,7 +19,7 @@ const ActivateAccount: React.FC = () => {
       <Form
         className={styles.login_form}
         initialValues={{ remember: true }}
-        onFinish={onFinish}
+        onFinish={sendEmail}
       >
         <Form.Item
           name="email"
@@ -29,13 +34,26 @@ const ActivateAccount: React.FC = () => {
             },
           ]}
         >
-          <Input prefix={<MailOutlined />} placeholder="E-mail@" />
+          <Input prefix={<MailOutlined />} placeholder="Your work e-mail." />
         </Form.Item>
-        <Form.Item>
-          <Select placeholder="Placeholder" suffixIcon={<IdcardOutlined />} disabled>
-            <Select.Option value="Yes">Placeholder 1</Select.Option>
-            <Select.Option value="No">Placholder 2</Select.Option>
-          </Select>
+         <Form.Item
+          name="username"
+          rules={[
+            {
+              max: 20,
+              message: "Too long"
+            },
+            {
+              min: 5,
+              message: "Too short"
+            },
+            {
+              required: true,
+              message: 'Please input your E-mail!',
+            },
+          ]}
+        >
+          <Input prefix={<UserOutlined />} placeholder="Username" />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" className={styles.login_form_button}>
