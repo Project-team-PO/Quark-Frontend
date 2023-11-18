@@ -21,14 +21,19 @@ const sendEmail = async (values: MailInfo) => {
       username: values.username
     }
     //Save email, username, password to db --> ToDo <---
-    const SERVICE_ID = "service_xvclb2i" //All 3 should be in .env
-    const TEMPLATE_ID = "template_2b3pntj"
-    const PUBLIC_KEY = "M9B0ds_Is3kjmQxD0"
-    emailjs.send(SERVICE_ID, TEMPLATE_ID, emailData, PUBLIC_KEY)
-    console.log(emailData)
+    const SERVICE_ID = import.meta.env.VITE_SERVICE_ID
+    const TEMPLATE_ID = import.meta.env.VITE_TEMPLATE_ID
+    const PUBLIC_KEY = import.meta.env.VITE_PUBLIC_KEY
+    try {
+      emailjs.send(SERVICE_ID, TEMPLATE_ID, emailData, PUBLIC_KEY)
+      console.log(emailData)
+    }
+    catch (error) {
+      console.error("Email.js error", error)
+    }
   }
   catch (error) {
-    console.log(error)
+    console.log("Error at sendEmail function", error)
   }
 }
 
