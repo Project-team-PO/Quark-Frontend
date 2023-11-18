@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
 import { MailOutlined, UserOutlined } from "@ant-design/icons";
+import emailjs from "@emailjs/browser"
 
 import PasswordGenerator from '../shared/passwordGenerator';
 
@@ -19,8 +20,11 @@ const sendEmail = async (values: MailInfo) => {
       password: generatedPassowrd,
       username: values.username
     }
-    //save email, username, password to db
-    //send credentials to user's email
+    //Save email, username, password to db --> ToDo <---
+    const SERVICE_ID = "service_xvclb2i" //All 3 should be in .env
+    const TEMPLATE_ID = "template_2b3pntj"
+    const PUBLIC_KEY = "M9B0ds_Is3kjmQxD0"
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, emailData, PUBLIC_KEY)
     console.log(emailData)
   }
   catch (error) {
