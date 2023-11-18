@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { MailOutlined, UserOutlined } from "@ant-design/icons";
+
+import PasswordGenerator from '../shared/passwordGenerator';
 
 import styles from "../styles/Pages/SignIn.module.css"
 
@@ -9,8 +11,21 @@ type MailInfo = {
   username: string
 }
 
-const sendEmail = (values: MailInfo) => {
-  console.log(values)
+const sendEmail = async (values: MailInfo) => {
+  const generatedPassowrd = PasswordGenerator()
+  try {
+    const emailData = {
+      email: values.email,
+      password: generatedPassowrd,
+      username: values.username
+    }
+    //save email, username, password to db
+    //send credentials to user's email
+    console.log(emailData)
+  }
+  catch (error) {
+    console.log(error)
+  }
 }
 
 const ActivateAccount: React.FC = () => {
@@ -34,9 +49,9 @@ const ActivateAccount: React.FC = () => {
             },
           ]}
         >
-          <Input prefix={<MailOutlined />} placeholder="Your work e-mail." />
+          <Input prefix={<MailOutlined />} placeholder="Your work e-mail" />
         </Form.Item>
-         <Form.Item
+        <Form.Item
           name="username"
           rules={[
             {
