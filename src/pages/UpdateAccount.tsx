@@ -23,12 +23,14 @@ const UpdateAccount: React.FC = () => {
     maxCount: 1,
     async customRequest(info) {
       const { file, onError, onSuccess } = info;
+      const UPLOAD_PRESET: string = import.meta.env.VITE_UPLOAD_PRESET
+      const API_URL: string = import.meta.env.VITE_API_BASE_URl
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("upload_preset", "quarkUpload");
+      formData.append("upload_preset", UPLOAD_PRESET);
       let data = "";
       try {
-        const response = await axios.post("https://api.cloudinary.com/v1_1/ddrf0klbu/image/upload", formData)
+        const response = await axios.post(API_URL, formData)
         data = response.data["secure_url"]
         if (onSuccess) {
           onSuccess("Ok")
