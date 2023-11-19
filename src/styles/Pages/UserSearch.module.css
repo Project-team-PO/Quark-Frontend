@@ -1,0 +1,15 @@
+/* UserSearch.module.css */
+.user-search-container {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.user-list-item {
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.user-list-item:hover {
+    background: #f0f0f0;
+}

@@ -5,17 +5,38 @@ import UserProfile from './UserProfile';
 import Chat from '../components/Chat';
 import { Dropdown } from 'antd';
 import { MenuProps } from 'antd/lib/menu';
+import UserSearch from '../components/UserSearch';
+import { useSelector } from 'react-redux';
+import { User } from '../types/types';
+
 
 const { Header, Content, Sider } = Layout;
 
   
-const people = [
+const people: User[] = [
     { name: 'Yami', id: 1 },
     { name: 'Kayzz', id: 2 },
     { name: 'korekso', id: 3 },
     { name: 'Kacper Mańczyk', id: 4},
-    { name: 'Damian Nussbaum', id: 5}
+    { name: 'Damian Nussbaum', id: 5},
+    { name: 'bartek', id: 6},
+    { name: 'pawel', id: 7},
+    { name: 'kuba', id: 8},
+    { name: 'michal', id: 9},
+    { name: 'ola', id: 10},
+    { name: 'kasia', id: 11},
+    { name: 'Jhon', id: 12},
+    { name: 'Doe', id: 13},
+    { name: 'Jane', id: 14},
+    { name: 'albert', id: 15},
+    { name: 'kamil', id: 16},
+    { name: 'yamada', id: 17},
+    { name: 'asuka', id: 18},
+    
+    
 ];
+
+
 const items: MenuProps['items'] = [
     {
       key: '1',
@@ -33,15 +54,20 @@ const items: MenuProps['items'] = [
       ],
     },
   ];
+
+
 const Home = () => {
     const [showChat, setShowChat] = useState(false);
     const [selectedUsername, setSelectedUsername] = useState(''); 
+    //@ts-ignore
+    const users: User[] = useSelector(state => state.users.users);
 
     const handlePersonClick = (username: string) => {
         setShowChat(true);
         setSelectedUsername(username); 
     };
-
+    
+    console.log(users);
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider>
@@ -53,7 +79,7 @@ const Home = () => {
                         People
                         <Badge count={100} style={{ marginLeft: '8px' }} />
                     </Menu.Item>
-                    {people.map(person => (
+                    {users.map(person => (
                     <Menu.Item key={person.id} icon={<UserOutlined />} onClick={() => handlePersonClick(person.name)}>
                         {person.name}
                     </Menu.Item>
@@ -80,7 +106,7 @@ const Home = () => {
                 : 
                 <Content style={{ margin: '16px' }}>
                     <div style={{ background: '#F9F6EE', padding: '24px', minHeight: '360px' }}>
-                        Content goes here
+                        <UserSearch users={people} />
                     </div>
                 </Content>
                 }
