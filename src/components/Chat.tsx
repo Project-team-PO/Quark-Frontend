@@ -43,27 +43,27 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
         <div>
             <div style={{ background: '#FAF9F6', color: 'black', height: '85vh', overflowY: 'scroll' }}>
             {messages.map((message, index) => (
-                <div key={index} style={{ marginBottom: 10 }}>
+                <div key={index} style={{ marginLeft: 5, marginRight: 6 }}>
                     <div
                         style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: message.sender === username ? 'flex-end' : 'flex-start',
+                            display: 'block',
+                            wordWrap: 'break-word', 
+                            fontSize: 20,
                         }}
                     >
+                        <span style={{ fontSize: 10, color: 'gray' }}>{message.sender}</span>
                         <div
                             style={{
                                 backgroundColor: message.sender === username ? '#0084ff' : '#f0f0f0',
                                 color: message.sender === username ? 'white' : 'black',
                                 borderRadius: 10,
                                 padding: 10,
-                                maxWidth: '70%',
                             }}
                         >
                             <p style={{ margin: 0 }}>{message.text}</p>
                             <span style={{ fontSize: 10 }}>{message.timestamp}</span>
                         </div>
-                        <span style={{ fontSize: 10, color: 'gray' }}>{message.sender}</span>
+                        
                     </div>
                 </div>
             ))}
@@ -98,12 +98,12 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
                         <>
                             <Button onClick={handleEmojiClick}>
                                 <SmileOutlined />
-                                {showEmojiPicker ? (
+                            </Button>
+                            {showEmojiPicker ? (
                                     <div className="emoji-picker-upwards">
-                                        <EmojiPicker onEmojiClick={handleEmoji} />
+                                        <EmojiPicker onEmojiClick={handleEmoji} width='900' />
                                     </div>
                                 ) : null}
-                            </Button>
                             <Button onClick={handleSend}>
                                 <SendOutlined className="site-form-item-icon" />
                             </Button>
