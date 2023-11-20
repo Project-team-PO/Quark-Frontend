@@ -1,6 +1,6 @@
 import React from "react"
 import { Button, Form, Input, Select, Upload, message } from 'antd';
-import { MailOutlined, UserOutlined, BankOutlined, InboxOutlined } from "@ant-design/icons";
+import { MailOutlined, BankOutlined, InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from 'antd';
 import axios from 'axios';
 
@@ -61,12 +61,6 @@ const UpdateAccount: React.FC = () => {
           console.log(values)
         }}
       >
-        <Form.Item
-          name="username"
-          initialValue={"Username"}
-        >
-          <Input prefix={<UserOutlined />} placeholder="Generated username" disabled />
-        </Form.Item>
         <Form.Item
           name="email"
           initialValue={"Email"}
