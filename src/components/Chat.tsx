@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { Input, Button } from 'antd';
 import { SmileOutlined, SendOutlined } from '@ant-design/icons';
 import EmojiPicker from 'emoji-picker-react';
+import { useSelector } from 'react-redux';
+import UserProfile from '../pages/UserProfile';
+import { RootState } from '../app/store';
+import { VideoCameraOutlined, PushpinOutlined, PhoneOutlined } from '@ant-design/icons';
 
+           
 interface ChatProps {
     username: string;
 }
@@ -17,6 +22,7 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [messages, setMessages] = useState<Message[]>([{text: 'Hello', timestamp: '12:00', sender: 'Yami'}]);
     const [messageInput, setMessageInput] = useState('');
+    const activeUser = useSelector((state: RootState) => state.users.activeUser);
 
     const handleEmojiClick = () => {
         setShowEmojiPicker(!showEmojiPicker);
@@ -40,8 +46,20 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
     };
 
     return (
-        <div>
-            <div style={{ background: '#FAF9F6', color: 'black', height: '85vh', overflowY: 'scroll' }}>
+        <>
+            <div style={{ background: '#fff' }}>
+                <div style={{display: 'flex', justifyContent: 'space-between',  padding: '9px' }}>
+                    <div style={{ }}>
+                        <UserProfile selectedUsername={activeUser} />
+                    </div>
+                    <div style={{ marginLeft: '110svh', padding: '11px' }}>
+                        <PhoneOutlined style={{ marginRight: '10px' }} />
+                        <VideoCameraOutlined style={{ marginRight: '10px' }} />
+                        <PushpinOutlined />
+                    </div>
+                </div>
+            </div>
+            <div style={{ background: '#FAF9F6', color: 'black', height: '90vh', overflowY: 'scroll' }}>
             {messages.map((message, index) => (
                 <div key={index} style={{ marginLeft: 5, marginRight: 6 }}>
                     <div
@@ -72,7 +90,7 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
             <div
                 style={{
                     background: '#FAF9F6',
-                    height: '64px',
+                    height: '5vh',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -111,7 +129,7 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
                     }
                 />
             </div>
-        </div>
+        </>
     );
 };
 

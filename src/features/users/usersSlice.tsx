@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const usersSlice = createSlice({
   name: 'users',
   initialState: {
+    activeUser: '',
     users: [
         { name: 'Yami', id: 1 },
         { name: 'Kayzz', id: 2 },
@@ -19,6 +20,9 @@ export const usersSlice = createSlice({
         removeUser: (state, action) => {
         state.users = state.users.filter(user => user.id !== action.payload)
         },
+        addActiveUser: (state, action) => {
+        state.activeUser = action.payload
+        },
     },
 });
 
@@ -26,7 +30,7 @@ export const usersSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { addUser, removeUser } = usersSlice.actions
+export const { addUser, removeUser, addActiveUser } = usersSlice.actions
 
 
 

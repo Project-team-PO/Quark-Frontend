@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Layout, Menu, Badge, Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import UserProfile from './UserProfile';
 import Chat from '../components/Chat';
 import { Dropdown } from 'antd';
 import { MenuProps } from 'antd/lib/menu';
 import UserSearch from '../components/UserSearch';
 import { useSelector } from 'react-redux';
 import { User } from '../types/types';
-
+import { useDispatch } from 'react-redux';
+import { addActiveUser } from '../features/users/usersSlice';
 
 const { Header, Content, Sider } = Layout;
 
@@ -61,13 +61,14 @@ const Home = () => {
     const [selectedUsername, setSelectedUsername] = useState(''); 
     //@ts-ignore
     const users: User[] = useSelector(state => state.users.users);
+    const dispatch = useDispatch();
 
     const handlePersonClick = (username: string) => {
         setShowChat(true);
         setSelectedUsername(username); 
+        dispatch(addActiveUser(username));
     };
     
-    console.log(users);
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider>
@@ -79,6 +80,7 @@ const Home = () => {
                         People
                         <Badge count={100} style={{ marginLeft: '8px' }} />
                     </Menu.Item>
+                    <p style={{ fontSize: 10, color: 'gray', padding: 10 }}>Channels</p>
                     {users.map(person => (
                     <Menu.Item key={person.id} icon={<UserOutlined />} onClick={() => handlePersonClick(person.name)}>
                         {person.name}
@@ -92,12 +94,6 @@ const Home = () => {
                 </footer>
             </Sider>
             <Layout style={{ background: '#fff'}}>
-                <Header style={{ background: '#fff', padding: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', height: '64px', paddingRight: '24px', paddingLeft: '12px' }}>
-
-                        <UserProfile selectedUsername={selectedUsername} />
-                    </div>
-                </Header>
                 
                 {showChat ? 
                 <Content style={{ margin: '0px' }}>

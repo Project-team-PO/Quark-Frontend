@@ -5,4 +5,9 @@ export default configureStore({
   reducer: {
     users: usersReducer,
   }
-})
+});
+export interface RootState {
+  users: {
+    activeUser: string;
+  };
+};
