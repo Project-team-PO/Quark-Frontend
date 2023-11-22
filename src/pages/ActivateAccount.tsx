@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Spin, Alert } from 'antd';
 import { MailOutlined, LoadingOutlined } from "@ant-design/icons";
 import emailjs from "@emailjs/browser"
+import axios from "axios"
 
 import PasswordGenerator from '../shared/passwordGenerator';
 
@@ -21,7 +22,7 @@ const ActivateAccount: React.FC = () => {
         email: values.email,
         password: generatedPassword,
       }
-      //Save email, password to db --> ToDo <---
+      await axios.post("http://localhost:5253/api/Users/Register", emailData) 
       const SERVICE_ID = import.meta.env.VITE_SERVICE_ID
       const TEMPLATE_ID = import.meta.env.VITE_TEMPLATE_ID
       const PUBLIC_KEY = import.meta.env.VITE_PUBLIC_KEY
