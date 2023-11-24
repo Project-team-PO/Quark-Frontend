@@ -2,37 +2,36 @@ import React, { useState } from 'react';
 import { Input, Button } from 'antd';
 import { SmileOutlined, SendOutlined } from '@ant-design/icons';
 import EmojiPicker from 'emoji-picker-react';
-
-interface ChatProps {
-    username: string;
-}
+import { useParams } from 'react-router-dom';
 
 interface Message {
     text: string;
     timestamp: string;
-    sender: string;
+    sender: string |undefined;
 }
 
-const Chat: React.FC<ChatProps> = ({ username }) => {
+const Chat: React.FC = () => {
+    const params = useParams();
+    console.log(params.username)
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-    const [messages, setMessages] = useState<Message[]>([{text: 'Hello', timestamp: '12:00', sender: 'Yami'}]);
+    const [messages, setMessages] = useState<Message[]>([{ text: 'Hello', timestamp: '12:00', sender: 'Yami' }]);
     const [messageInput, setMessageInput] = useState('');
 
     const handleEmojiClick = () => {
         setShowEmojiPicker(!showEmojiPicker);
-        
+
     };
 
-    const handleEmoji = (emojiObject: any, event:any) => {
+    const handleEmoji = (emojiObject: any) => {
         setMessageInput(messageInput + emojiObject.emoji);
     };
-    
+
     const handleSend = () => {
         if (messageInput.trim() !== '') {
             const newMessage: Message = {
                 text: messageInput,
                 timestamp: new Date().toLocaleTimeString(),
-                sender: username,
+                sender: params.username,
             };
             setMessages([...messages, newMessage]);
             setMessageInput('');
@@ -42,31 +41,31 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
     return (
         <div>
             <div style={{ background: '#FAF9F6', color: 'black', height: '85vh', overflowY: 'scroll' }}>
-            {messages.map((message, index) => (
-                <div key={index} style={{ marginLeft: 5, marginRight: 6 }}>
-                    <div
-                        style={{
-                            display: 'block',
-                            wordWrap: 'break-word', 
-                            fontSize: 20,
-                        }}
-                    >
-                        <span style={{ fontSize: 10, color: 'gray' }}>{message.sender}</span>
+                {messages.map((message, index) => (
+                    <div key={index} style={{ marginLeft: 5, marginRight: 6 }}>
                         <div
                             style={{
-                                backgroundColor: message.sender === username ? '#0084ff' : '#f0f0f0',
-                                color: message.sender === username ? 'white' : 'black',
-                                borderRadius: 10,
-                                padding: 10,
+                                display: 'block',
+                                wordWrap: 'break-word',
+                                fontSize: 20,
                             }}
                         >
-                            <p style={{ margin: 0 }}>{message.text}</p>
-                            <span style={{ fontSize: 10 }}>{message.timestamp}</span>
+                            <span style={{ fontSize: 10, color: 'gray' }}>{message.sender}</span>
+                            <div
+                                style={{
+                                    backgroundColor: message.sender === params.username ? '#0084ff' : '#f0f0f0',
+                                    color: message.sender === params.username ? 'white' : 'black',
+                                    borderRadius: 10,
+                                    padding: 10,
+                                }}
+                            >
+                                <p style={{ margin: 0 }}>{message.text}</p>
+                                <span style={{ fontSize: 10 }}>{message.timestamp}</span>
+                            </div>
+
                         </div>
-                        
                     </div>
-                </div>
-            ))}
+                ))}
 
             </div>
             <div
@@ -81,7 +80,7 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
             >
                 <Input
                     type="text"
-                    placeholder={`Type a message to ${username}`}
+                    placeholder={`Type a message to ${params.username}`}
                     style={{
                         flexGrow: 1,
                         padding: '12px',
@@ -100,10 +99,10 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
                                 <SmileOutlined />
                             </Button>
                             {showEmojiPicker ? (
-                                    <div className="emoji-picker-upwards">
-                                        <EmojiPicker onEmojiClick={handleEmoji} width='900' />
-                                    </div>
-                                ) : null}
+                                <div className="emoji-picker-upwards">
+                                    <EmojiPicker onEmojiClick={handleEmoji} width='900' />
+                                </div>
+                            ) : null}
                             <Button onClick={handleSend}>
                                 <SendOutlined className="site-form-item-icon" />
                             </Button>

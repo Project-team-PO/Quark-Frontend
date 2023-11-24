@@ -6,6 +6,7 @@ import { accountActionsRoutes, authRoutes, userRoutes } from "./routes/routes"
 
 import AuthLayout from "./layouts/AuthLayout"
 import AccountActionsLayout from "./layouts/AccountActionsLayout"
+import HomeLayout from "./layouts/HomeLayout"
 
 import "./styles/global.css"
 
@@ -22,6 +23,7 @@ const App = () => {
       children: accountActionsRoutes
     },
     {
+      element: <HomeLayout />,
       errorElement: <Error404 />,
       children: userRoutes
     }
