@@ -4,7 +4,8 @@ import PATH from "./urls";
 const ActivateAccount = React.lazy(() => import("../pages/ActivateAccount"));
 const UpdateAccount = React.lazy(() => import("../pages/UpdateAccount"));
 const SignIn = React.lazy(() => import("../pages/SignIn"));
-const Home = React.lazy(() => import("../pages/Home"))
+const Chat = React.lazy(() => import("../components/Chat"));
+const Search = React.lazy(() => import("../components/UserSearch"))
 
 const authRoutes = [
   { path: PATH.ACTIVATE_ACCOUNT, element: <ActivateAccount /> },
@@ -16,7 +17,8 @@ const accountActionsRoutes = [
 ]
 
 const userRoutes = [
-  { path: PATH.HOME, element: <Home /> },
+  { path: PATH.CHAT, element: <Chat /> },
+  { path: PATH.SEARCH, element: <Search />}
 ]
 
 export { authRoutes, userRoutes, accountActionsRoutes }

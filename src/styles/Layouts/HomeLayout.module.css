@@ -1,0 +1,27 @@
+.layout_main {
+  height: 100vh;
+}
+
+.layout_title {
+  padding: 0.5vh;
+}
+
+.layout_title_small {
+  padding-left: 1vh;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+}
+
+.sider_dropdown {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.layout_menus {
+  display: "flex";
+  justify-content: "space-between";
+  flex-direction: "column";
+  height: "100%";
+}
