@@ -19,7 +19,6 @@ const Chat: React.FC = () => {
 
     const handleEmojiClick = () => {
         setShowEmojiPicker(!showEmojiPicker);
-
     };
 
     const handleEmoji = (emojiObject: any) => {

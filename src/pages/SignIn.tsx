@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, MailOutlined } from "@ant-design/icons";
 
 import styles from "../styles/Pages/SignIn.module.css"
 
@@ -17,17 +17,26 @@ const SignIn: React.FC = () => {
         onFinish={onFinish}
       >
         <Form.Item
-          name="username"
-          rules={[{ required: true, message: 'Please input your Username!' }]}
+          name="email"
+          rules={[
+            {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
+            },
+            {
+              required: true,
+              message: 'Please input your E-mail!',
+            },
+          ]}
         >
-          <Input prefix={<UserOutlined />} placeholder="Username" />
+          <Input prefix={<MailOutlined />} placeholder="Email" />
         </Form.Item>
         <Form.Item
           name="password"
           rules={[{ required: true, message: 'Please input your Password!' }]}
         >
           <Input
-            prefix={<LockOutlined/>}
+            prefix={<LockOutlined />}
             type="password"
             placeholder="Password"
           />
