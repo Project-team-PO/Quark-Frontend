@@ -4,7 +4,7 @@ import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 
-import { useSignInMutation } from '../app/slices/auth.api.slice';
+import { useSignInEndpointMutation } from '../app/slices/auth.api.slice';
 import { setCredentials } from '../app/slices/auth.slice';
 
 import styles from "../styles/Pages/SignIn.module.css"
@@ -13,12 +13,24 @@ const SignIn: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [SingIn, { isLoading, error }] = useSignInMutation();
-  
+  const [SignInEndpoint, { isLoading, error }] = useSignInEndpointMutation();
+
   const { userState } = useSelector((state: any) => state.auth);
 
-  const onFinish = (values: {email: string, password: string}) => {
-    console.log(values)
+  /*useEffect(() => {
+    if (userState) {
+      navigate("/home")
+    }
+  }, [navigate, userState])*/
+
+  const onFinish = async (values: { email: string, password: string }) => {
+    try {
+      const response = await SignInEndpoint(values).unwrap();
+      dispatch(setCredentials({ ...response }));
+      navigate("/update_account");
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -55,7 +67,7 @@ const SignIn: React.FC = () => {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" className={styles.login_form_button}>
-            Sign In
+            {isLoading ? <div>Loading...</div> : "Sign In"}
           </Button>
         </Form.Item>
       </Form>
