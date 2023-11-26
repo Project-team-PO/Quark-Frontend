@@ -2,10 +2,11 @@ import React from "react"
 import { Button, Form, Input, Select, Upload, message } from 'antd';
 import { MailOutlined, BankOutlined, InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from 'antd';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios';
 
 import styles from "../styles/Pages/UpdateAccount.module.css"
+import { updateCredentials } from "../app/slices/auth.slice";
 
 const selectOptions = [
   { value: "hr", label: "HR" },
@@ -16,8 +17,8 @@ const selectOptions = [
 
 const UpdateAccount: React.FC = () => {
   const [avatar, setAvatar] = React.useState<string | null>(null)
-
   const { userState } = useSelector((state: any) => state.auth)
+  const dispatch = useDispatch()
 
   const props: UploadProps = {
     name: 'file',
@@ -55,14 +56,26 @@ const UpdateAccount: React.FC = () => {
     }
   };
 
+  const onFinish = async (values: any) => {
+    values.avatar = avatar;
+    //mock profile update
+    const response = {
+      email: "kacperfcbm@gmail.com",
+      firstName: "XD",
+      lastName: null,
+      username: null,
+      selfDescription: "XD",
+      pictureUrl: null,
+    }
+    dispatch(updateCredentials(response))
+    console.log(values)
+  }
+
   return (
     <section className={styles.form_section}>
       <Form
         initialValues={{ remember: true }}
-        onFinish={(values) => {
-          values.avatar = avatar;
-          console.log(values)
-        }}
+        onFinish={onFinish}
       >
         <Form.Item
           name="email"
