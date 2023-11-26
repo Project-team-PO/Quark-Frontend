@@ -13,7 +13,7 @@ const SignIn: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [SignInEndpoint, { isLoading, error }] = useSignInEndpointMutation();
+  const [SignInEndpoint, { isLoading }] = useSignInEndpointMutation();
 
   const { userState } = useSelector((state: any) => state.auth);
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Layout, theme, Image } from 'antd';
 import Quark from "../assets/Quark.png"
 import QuarkSmall from "../assets/QuarkSmall.png"
+import UserProfile from '../pages/UserProfile';
 
 import styles from "../styles/Layouts/HomeLayout.module.css"
 import UserMenu from '../components/UserMenu';
@@ -27,7 +28,11 @@ const HomeLayout: React.FC = () => {
         </div>
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+        <Header style={{ padding: 0, background: "red"}}>
+          <div style={{ display: 'flex', alignItems: '', justifyContent: 'flex-end', height: '64px', paddingRight: '24px', paddingLeft: '12px', background: colorBgContainer }}>
+            <UserProfile />
+          </div>
+        </Header>
         <Content style={{ margin: '0 16px' }}>
           <React.Suspense fallback={<div>Loading...</div>}>
             <Outlet />

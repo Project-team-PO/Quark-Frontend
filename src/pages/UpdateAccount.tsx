@@ -1,12 +1,14 @@
 import React from "react"
-import { Button, Form, Input, Select, Upload, message } from 'antd';
-import { MailOutlined, BankOutlined, InboxOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Select, Upload, message, Spin } from 'antd';
+import { MailOutlined, BankOutlined, InboxOutlined, LoadingOutlined } from "@ant-design/icons";
 import type { UploadProps } from 'antd';
 import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios';
 
 import styles from "../styles/Pages/UpdateAccount.module.css"
+
 import { updateCredentials } from "../app/slices/auth.slice";
+import { useUpdateProfileEndpointMutation } from "../app/slices/auth.api.slice";
 
 const selectOptions = [
   { value: "hr", label: "HR" },
@@ -17,6 +19,8 @@ const selectOptions = [
 
 const UpdateAccount: React.FC = () => {
   const [avatar, setAvatar] = React.useState<string | null>(null)
+
+  const [UpdateProfileEndpoint, { isLoading }] = useUpdateProfileEndpointMutation();
   const { userState } = useSelector((state: any) => state.auth)
   const dispatch = useDispatch()
 
@@ -57,18 +61,14 @@ const UpdateAccount: React.FC = () => {
   };
 
   const onFinish = async (values: any) => {
-    values.avatar = avatar;
-    //mock profile update
-    const response = {
-      email: "kacperfcbm@gmail.com",
-      firstName: "XD",
-      lastName: null,
-      username: null,
-      selfDescription: "XD",
-      pictureUrl: null,
-    }
-    dispatch(updateCredentials(response))
+    values.pictureUrl = avatar;
     console.log(values)
+    try {
+      const response = await UpdateProfileEndpoint(values).unwrap();
+      dispatch(updateCredentials({ ...response }));
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -87,23 +87,23 @@ const UpdateAccount: React.FC = () => {
             disabled
           />
         </Form.Item>
-        <Form.Item name="first_name" rules={[{ required: true, message: 'Please input your Name!' }]}>
+        <Form.Item name="firstName" rules={[{ required: true, message: 'Please input your Name!' }]}>
           <Input placeholder="Name" />
         </Form.Item>
-        <Form.Item name="last_name" rules={[{ required: true, message: 'Please input your Last Name!' }]}>
+        <Form.Item name="lastName" rules={[{ required: true, message: 'Please input your Last Name!' }]}>
           <Input placeholder="Surname" />
         </Form.Item>
         <Form.Item name="department" rules={[{ required: true, message: 'Please select your department!' }]}>
           <Select placeholder="Department that you work in" suffixIcon={<BankOutlined />} options={selectOptions} allowClear />
         </Form.Item>
-        <Form.Item name="self_description">
+        <Form.Item name="selfDescription">
           <Input.TextArea
             maxLength={30}
             placeholder="Something about yourself!"
             style={{ resize: 'none' }}
           />
         </Form.Item>
-        <Form.Item name="avatar">
+        <Form.Item name="pictureUrl">
           <Upload.Dragger {...props}>
             <p className="ant-upload-drag-icon">
               <InboxOutlined />
@@ -116,7 +116,7 @@ const UpdateAccount: React.FC = () => {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" className={styles.form_btn}>
-            Update
+            {isLoading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18, color: "whitesmoke", padding: 1 }} spin />} /> : "Update"}
           </Button>
         </Form.Item>
       </Form>

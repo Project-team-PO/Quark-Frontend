@@ -93,9 +93,8 @@ const Home = () => {
             </Sider>
             <Layout style={{ background: '#fff' }}>
                 <Header style={{ background: '#fff', padding: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', height: '64px', paddingRight: '24px', paddingLeft: '12px' }}>
-
-                        <UserProfile selectedUsername={selectedUsername} />
+                    <div style={{ display: 'flex', alignItems: '', justifyContent: 'flex-end', height: '64px', paddingRight: '24px', paddingLeft: '12px' }}>
+                        <UserProfile/>
                     </div>
                 </Header>
 
