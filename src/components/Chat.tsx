@@ -3,6 +3,7 @@ import { Input, Button } from 'antd';
 import { SmileOutlined, SendOutlined } from '@ant-design/icons';
 import EmojiPicker from 'emoji-picker-react';
 import { useParams } from 'react-router-dom';
+import styles from "../styles/Components/chat.module.css"
 
 interface Message {
     text: string;
@@ -38,7 +39,7 @@ const Chat: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className={styles.chat_main}>
             <div style={{ background: '#FAF9F6', color: 'black', height: '85vh', overflowY: 'scroll' }}>
                 {messages.map((message, index) => (
                     <div key={index} style={{ marginLeft: 5, marginRight: 6 }}>
