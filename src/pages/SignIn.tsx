@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Button, Form, Input } from 'antd';
-import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Spin } from 'antd';
+import { LockOutlined, MailOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 
@@ -17,11 +17,15 @@ const SignIn: React.FC = () => {
 
   const { userState } = useSelector((state: any) => state.auth);
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (userState) {
-      navigate("/home")
+      if (userState.user.firstName) {
+        navigate("/home")
+      } else {
+        navigate("/update_account")
+      }
     }
-  }, [navigate, userState])*/
+  }, [navigate, userState])
 
   const onFinish = async (values: { email: string, password: string }) => {
     try {
@@ -67,7 +71,7 @@ const SignIn: React.FC = () => {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" className={styles.login_form_button}>
-            {isLoading ? <div>Loading...</div> : "Sign In"}
+            {isLoading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18, color: "whitesmoke", padding: 1 }} spin />} /> : "Sign In"}
           </Button>
         </Form.Item>
       </Form>

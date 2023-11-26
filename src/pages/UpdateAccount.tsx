@@ -2,6 +2,7 @@ import React from "react"
 import { Button, Form, Input, Select, Upload, message } from 'antd';
 import { MailOutlined, BankOutlined, InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from 'antd';
+import { useSelector } from "react-redux";
 import axios from 'axios';
 
 import styles from "../styles/Pages/UpdateAccount.module.css"
@@ -15,6 +16,8 @@ const selectOptions = [
 
 const UpdateAccount: React.FC = () => {
   const [avatar, setAvatar] = React.useState<string | null>(null)
+
+  const { userState } = useSelector((state: any) => state.auth)
 
   const props: UploadProps = {
     name: 'file',
@@ -63,7 +66,7 @@ const UpdateAccount: React.FC = () => {
       >
         <Form.Item
           name="email"
-          initialValue={"Email"}
+          initialValue={userState.user.email}
         >
           <Input
             prefix={<MailOutlined />}
@@ -71,13 +74,13 @@ const UpdateAccount: React.FC = () => {
             disabled
           />
         </Form.Item>
-        <Form.Item name="first_name">
+        <Form.Item name="first_name" rules={[{ required: true, message: 'Please input your Name!' }]}>
           <Input placeholder="Name" />
         </Form.Item>
-        <Form.Item name="last_name">
+        <Form.Item name="last_name" rules={[{ required: true, message: 'Please input your Last Name!' }]}>
           <Input placeholder="Surname" />
         </Form.Item>
-        <Form.Item name="department">
+        <Form.Item name="department" rules={[{ required: true, message: 'Please select your department!' }]}>
           <Select placeholder="Department that you work in" suffixIcon={<BankOutlined />} options={selectOptions} allowClear />
         </Form.Item>
         <Form.Item name="self_description">
