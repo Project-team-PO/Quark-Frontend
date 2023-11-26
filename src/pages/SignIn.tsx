@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Form, Input } from 'antd';
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux"
+
+import { useSignInMutation } from '../app/slices/auth.api.slice';
+import { setCredentials } from '../app/slices/auth.slice';
 
 import styles from "../styles/Pages/SignIn.module.css"
 
-const onFinish = (values: any) => {
-  console.log('Success:', values);
-};
-
 const SignIn: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [SingIn, { isLoading, error }] = useSignInMutation();
+  
+  const { userState } = useSelector((state: any) => state.auth);
+
+  const onFinish = (values: {email: string, password: string}) => {
+    console.log(values)
+  }
+
   return (
     <section className={styles.form_section}>
       <Form

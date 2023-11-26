@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Input, List, Avatar, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUser } from '../features/users/usersSlice';
+import { addUser } from '../app/slices/usersSlice';
 import { people } from '../shared/MenuItems';
 
 import '../styles/pages/UserSearch.module.css';
