@@ -4,7 +4,9 @@ const PATH = {
   ACTIVATE_ACCOUNT: "/activate_account",
   HOME: "/home",
   CHAT: "/home/chat/:username",
-  SEARCH: "/home/search/"
+  SEARCH: "/home",
+  ADMIN: "/admin/dashboard",
+  ADMIN_STATISTICS: "/admin/statistics",
 };
 
 export default PATH;
