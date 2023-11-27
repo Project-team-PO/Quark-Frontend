@@ -9,6 +9,7 @@ import styles from "../styles/Pages/UpdateAccount.module.css"
 
 import { updateCredentials } from "../app/slices/auth.slice";
 import { useUpdateProfileEndpointMutation } from "../app/slices/auth.api.slice";
+import { useNavigate } from "react-router-dom";
 
 const selectOptions = [
   { value: "hr", label: "HR" },
@@ -23,6 +24,7 @@ const UpdateAccount: React.FC = () => {
   const [UpdateProfileEndpoint, { isLoading }] = useUpdateProfileEndpointMutation();
   const { userState } = useSelector((state: any) => state.auth)
   const dispatch = useDispatch()
+  const navigate = useNavigate();
 
   const props: UploadProps = {
     name: 'file',
@@ -66,6 +68,7 @@ const UpdateAccount: React.FC = () => {
     try {
       const response = await UpdateProfileEndpoint(values).unwrap();
       dispatch(updateCredentials({ ...response }));
+      navigate("/home")
     } catch (error) {
       console.error(error)
     }

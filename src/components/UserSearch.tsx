@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../app/slices/usersSlice';
 import { people } from '../shared/MenuItems';
 
-import '../styles/pages/UserSearch.module.css';
+import styles from "../styles/Pages/UserSearch.module.css"
 
 interface User {
   name: string;
@@ -34,7 +34,7 @@ const UserSearch: React.FC = () => {
 
   return (
     <div style={{ background: '#F9F6EE', padding: '24px', minHeight: '360px' }}>
-      <div className="user-search-container">
+      <div className={styles.user_search_container}>
         <Input
           placeholder="Search for users"
           onChange={e => setSearchText(e.target.value)}
@@ -44,7 +44,7 @@ const UserSearch: React.FC = () => {
           itemLayout="horizontal"
           dataSource={filteredUsers}
           renderItem={(user: User) => (
-            <List.Item onClick={() => AddUser(user)} className="user-list-item">
+            <List.Item onClick={() => AddUser(user)} className={styles.user_list_item}>
               <List.Item.Meta
                 avatar={<Avatar icon={<UserOutlined />} />}
                 title={user.name}

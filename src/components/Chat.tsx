@@ -5,7 +5,7 @@ import EmojiPicker from 'emoji-picker-react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import styles from "../styles/Components/chat.module.css"
+import styles from "../styles/Components/Chat.module.css"
 
 interface Message {
 	text: string;
@@ -23,7 +23,7 @@ const getCurrTime = () => {
 const Chat: React.FC = () => {
 	const params = useParams();
 	const { userState } = useSelector((state: any) => state.auth)
-	
+
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 	const [messages, setMessages] = useState<Message[]>
 		([{ text: `Hello, ${userState.user.firstName}`, timestamp: getCurrTime(), sender: params.username }]);
