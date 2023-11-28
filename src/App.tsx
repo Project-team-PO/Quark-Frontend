@@ -10,7 +10,8 @@ import HomeLayout from "./layouts/HomeLayout"
 import AdminLayout from "./layouts/AdminLayout"
 
 import "./styles/global.css"
-import ActionRoute from "./components/ProtectedRoutes/actionRoute"
+
+import ActionRoute from "./components/ProtectedRoutes/ActionRoute"
 import UserRoute from "./components/ProtectedRoutes/UserRoute"
 
 const App = () => {
