@@ -10,6 +10,8 @@ import HomeLayout from "./layouts/HomeLayout"
 import AdminLayout from "./layouts/AdminLayout"
 
 import "./styles/global.css"
+import ActionRoute from "./components/ProtectedRoutes/actionRoute"
+import UserRoute from "./components/ProtectedRoutes/UserRoute"
 
 const App = () => {
   const router = createBrowserRouter([
@@ -19,12 +21,18 @@ const App = () => {
       children: authRoutes
     },
     {
-      element: <AccountActionsLayout />,
+      element:
+        <ActionRoute>
+          <AccountActionsLayout />
+        </ActionRoute>,
       errorElement: <Error404 />,
       children: accountActionsRoutes
     },
     {
-      element: <HomeLayout />,
+      element:
+        <UserRoute>
+          <HomeLayout />
+        </UserRoute>,
       errorElement: <Error404 />,
       children: userRoutes
     },

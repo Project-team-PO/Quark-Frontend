@@ -17,7 +17,7 @@ const LogoutModal: React.FC = (user: any) => {
       icon: <ExclamationCircleFilled />,
       content: 'Click ok to sign out',
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           setTimeout(() => {
             dispatch(SignOut({ ...user }));
             navigate("sign_in");
