@@ -13,11 +13,15 @@ import "./styles/global.css"
 
 import ActionRoute from "./components/ProtectedRoutes/ActionRoute"
 import UserRoute from "./components/ProtectedRoutes/UserRoute"
+import AuthRoute from "./components/ProtectedRoutes/AuthRoute"
 
 const App = () => {
   const router = createBrowserRouter([
     {
-      element: <AuthLayout />,
+      element:
+        <AuthRoute>
+          <AuthLayout />
+        </AuthRoute>,
       errorElement: <Error404 />,
       children: authRoutes
     },

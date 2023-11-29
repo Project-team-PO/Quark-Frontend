@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button, Form, Input, Spin } from 'antd';
 import { LockOutlined, MailOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import { useSignInEndpointMutation } from '../app/slices/auth.api.slice';
 import { setCredentials } from '../app/slices/auth.slice';
@@ -14,18 +14,6 @@ const SignIn: React.FC = () => {
   const navigate = useNavigate();
 
   const [SignInEndpoint, { isLoading }] = useSignInEndpointMutation();
-
-  const { userState } = useSelector((state: any) => state.auth);
-
-  useEffect(() => {
-    if (userState) {
-      if (userState.user.firstName) {
-        navigate("/home")
-      } else {
-        navigate("/update_account")
-      }
-    }
-  }, [navigate, userState])
 
   const onFinish = async (values: { email: string, password: string }) => {
     try {

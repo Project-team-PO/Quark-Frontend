@@ -1,3 +1,5 @@
+//Accessible for users that are signed in but it's their first login
+
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
