@@ -6,7 +6,7 @@ const { Header, Content, Footer } = Layout;
 const columns = [
     {
         title: 'Name',
-        dataIndex: 'name',
+        dataIndex: 'Name',
         key: 'Name',
     },
     {
@@ -22,6 +22,16 @@ const columns = [
 ];
 const data: any = [
     { Name: 'Tom', Position: 'Manager', Privilage: 'Admin' },
+    { Name: 'Bill', Position: 'Mid', Privilage: 'Admin' },
+    { Name: 'Pablo', Position: 'Senior', Privilage: 'Admin' },
+    { Name: 'Alex', Position: 'Manager', Privilage: 'Admin' },
+    { Name: 'elena', Position: 'Junior', Privilage: 'Admin' },
+    { Name: 'Damian', Position: 'Senior', Privilage: 'Admin' },
+    { Name: 'Kacper', Position: 'Mid', Privilage: 'Admin' },
+    { Name: 'Kamil', Position: 'Junior', Privilage: 'Admin' },
+    { Name: 'Kuba', Position: 'Senior', Privilage: 'Admin' },
+    { Name: 'Olaf', Position: 'Junior', Privilage: 'Admin' },
+    { Name: 'Krzysztof', Position: 'Mid', Privilage: 'Admin' },
 ];
 
 const App = () => {
