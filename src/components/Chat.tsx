@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Button } from 'antd';
+import { Input, Button, Card, Layout } from 'antd';
 import { SmileOutlined, SendOutlined } from '@ant-design/icons';
 import EmojiPicker from 'emoji-picker-react';
 import { useParams } from 'react-router-dom';
@@ -50,8 +50,8 @@ const Chat: React.FC = () => {
 	};
 
 	return (
-		<div className={styles.chat_main}>
-			<div style={{ background: '#FAF9F6', color: 'black', height: '85vh', overflowY: 'scroll' }}>
+		<Card className={styles.chat_main}>
+			<div style={{ background: '#fff', color: 'black', height: '85vh', overflowY: 'scroll' }}>
 				{messages.map((message, index) => (
 					<div key={index} style={{ marginLeft: 5, marginRight: 6 }}>
 						<div
@@ -78,27 +78,30 @@ const Chat: React.FC = () => {
 				))}
 			</div>
 			<div
+				className={styles.chat_input}
 				style={{
-					background: '#FAF9F6',
+					background: '#fff',
 					height: '64px',
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
 					padding: '20px',
+
 				}}
 			>
 				<Input
 					type="text"
 					placeholder={`Type a message to ${params.username}`}
 					style={{
-						flexGrow: 1,
-						padding: '12px',
+						padding: '15px',
 						borderRadius: '4px',
-						border: 'none',
+						border: 'solid 1px #d9d9d9',
 						background: '#fff',
 						color: '#fff',
 						fontSize: '16px',
+
 					}}
+
 					value={messageInput}
 					onChange={(e) => setMessageInput(e.target.value)}
 					onPressEnter={handleSend}
@@ -119,7 +122,7 @@ const Chat: React.FC = () => {
 					}
 				/>
 			</div>
-		</div>
+		</Card>
 	);
 };
 

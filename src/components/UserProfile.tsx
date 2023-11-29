@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Modal } from 'antd';
 import { Avatar, Tooltip, Divider } from 'antd';
 import { useSelector } from 'react-redux';
-import LogoutModal from '../components/LogoutModal';
+import LogoutModal from './LogoutModal';
 
 const UserProfile = () => {
 	const [visible, setVisible] = useState(false);
@@ -47,7 +47,7 @@ const UserProfile = () => {
 				<div style={{ marginTop: '16px' }}>
 					<h3 style={{ fontWeight: 'bold' }}>Summary: {userState.user.selfDescription}</h3>
 					<p style={{ margin: '16px 0' }}></p>
-					<LogoutModal {...userState}/>
+					<LogoutModal {...userState} />
 				</div>
 			</Modal>
 		</div>
