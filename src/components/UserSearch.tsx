@@ -1,6 +1,6 @@
 // UserSearch.tsx
 import React, { useState } from 'react';
-import { Input, List, Avatar, message } from 'antd';
+import { Input, List, Avatar, message, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../app/slices/usersSlice';
@@ -33,27 +33,28 @@ const UserSearch: React.FC = () => {
   }
 
   return (
-    <div style={{ background: '#F9F6EE', padding: '24px', minHeight: '360px' }}>
-      <div className={styles.user_search_container}>
-        <Input
-          placeholder="Search for users"
-          onChange={e => setSearchText(e.target.value)}
+    <Card className={styles.user_search_container} style={{ background: '#FFFFFF', padding: '24px', minHeight: '360px' }}>
+      <h1>Search for users</h1>
+      <Input
+        placeholder="Search for users"
+        onChange={e => setSearchText(e.target.value)}
+        style={{ marginBottom: '24px' }}
+      />
 
-        />
-        <List
-          itemLayout="horizontal"
-          dataSource={filteredUsers}
-          renderItem={(user: User) => (
-            <List.Item onClick={() => AddUser(user)} className={styles.user_list_item}>
-              <List.Item.Meta
-                avatar={<Avatar icon={<UserOutlined />} />}
-                title={user.name}
-              />
-            </List.Item>
-          )}
-        />
-      </div>
-    </div>
+      <List
+        itemLayout="horizontal"
+        dataSource={filteredUsers}
+        renderItem={(user: User) => (
+          <List.Item onClick={() => AddUser(user)} className={styles.user_list_item}>
+            <List.Item.Meta
+              avatar={<Avatar icon={<UserOutlined />} />}
+              title={user.name}
+            />
+          </List.Item>
+        )}
+      />
+    </Card>
+
   );
 };
 

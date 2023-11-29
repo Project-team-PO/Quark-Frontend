@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Layout, Menu, Badge, Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import UserProfile from './UserProfile';
+import UserProfile from '../components/UserProfile';
 import Chat from '../components/Chat';
 import { Dropdown } from 'antd';
 import { MenuProps } from 'antd/lib/menu';
@@ -94,7 +94,7 @@ const Home = () => {
             <Layout style={{ background: '#fff' }}>
                 <Header style={{ background: '#fff', padding: 0 }}>
                     <div style={{ display: 'flex', alignItems: '', justifyContent: 'flex-end', height: '64px', paddingRight: '24px', paddingLeft: '12px' }}>
-                        <UserProfile/>
+                        <UserProfile />
                     </div>
                 </Header>
 

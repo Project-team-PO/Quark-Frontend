@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Layout, Image } from 'antd';
 import Quark from "../assets/Quark.png"
 import QuarkSmall from "../assets/QuarkSmall.png"
-import UserProfile from '../pages/UserProfile';
+import UserProfile from '../components/UserProfile';
 
 import styles from "../styles/Layouts/HomeLayout.module.css"
 import UserMenu from '../components/UserMenu';
@@ -37,6 +37,7 @@ const HomeLayout: React.FC = () => {
         </Content>
       </Layout>
     </Layout>
+
   );
 };
 

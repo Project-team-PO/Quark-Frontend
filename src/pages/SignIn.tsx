@@ -24,7 +24,22 @@ const SignIn: React.FC = () => {
       console.error(error)
     }
   }
-
+  const validateEmail = (rule: any, value: string, callback: any) => {
+    if (value === "") {
+      callback('Please input your E-mail!');
+    } else if (value.length > 0 && !value.includes('@gmail.com')) {
+      callback('Please enter a valid email address!');
+    } else if (!value.match(/^([A-Z]?|[a-z])[a-z]{0,19}\.[A-Za-z]{0,19}@gmail\.com/)) {
+      callback('Please add a dot before @ like "example.example@gmail.com"!');
+    } else if (!value.match(/^([A-Z]?|[a-z])[a-z]{3,19}\.[A-Za-z]{3,19}@gmail\.com/)) {
+      callback('make sure you use 3 characters for the domain and 3 characters for the extension of the first part of the email!');
+    } else if (!value || value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      callback();
+    } else {
+      callback('Please enter your E-mail!');
+    }
+    rule("required");
+  };
   return (
     <section className={styles.form_section}>
       <Form
@@ -36,12 +51,7 @@ const SignIn: React.FC = () => {
           name="email"
           rules={[
             {
-              type: 'email',
-              message: 'The input is not valid E-mail!',
-            },
-            {
-              required: true,
-              message: 'Please input your E-mail!',
+              validator: validateEmail,
             },
           ]}
         >
