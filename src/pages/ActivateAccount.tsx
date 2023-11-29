@@ -2,44 +2,31 @@ import React from 'react';
 import { Form, Input, Button, Spin, Alert } from 'antd';
 import { MailOutlined, LoadingOutlined } from "@ant-design/icons";
 import emailjs from "@emailjs/browser"
-import axios from "axios"
-
-import PasswordGenerator from '../shared/passwordGenerator';
+import { useActivateAccountEndpointMutation } from '../app/slices/auth.api.slice';
 
 import styles from "../styles/Pages/SignIn.module.css"
 
 import { MailInfo } from '../types/types';
+import GeneratePassword from '../shared/passwordGenerator';
+
+const SERVICE_ID = import.meta.env.VITE_SERVICE_ID
+const TEMPLATE_ID = import.meta.env.VITE_TEMPLATE_ID
+const PUBLIC_KEY = import.meta.env.VITE_PUBLIC_KEY
 
 const ActivateAccount: React.FC = () => {
-  const [loading, setLoading] = React.useState(false);
-  const [alert, setAlert] = React.useState(false)
+  const [ActivateAccountEndpoint, { isLoading, isSuccess }] = useActivateAccountEndpointMutation();
 
   const sendEmail = async (values: MailInfo) => {
-    const generatedPassword = PasswordGenerator()
-    try {
-      setLoading(true)
-      const emailData = {
-        email: values.email,
-        password: generatedPassword,
-      }
-      await axios.post("http://localhost:5253/api/Users/Register", emailData) 
-      const SERVICE_ID = import.meta.env.VITE_SERVICE_ID
-      const TEMPLATE_ID = import.meta.env.VITE_TEMPLATE_ID
-      const PUBLIC_KEY = import.meta.env.VITE_PUBLIC_KEY
-      try {
-        await emailjs.send(SERVICE_ID, TEMPLATE_ID, emailData, PUBLIC_KEY)
-        console.log(emailData)
-        setLoading(false)
-        setAlert(true)
-      }
-      catch (error) {
-        console.error("Email.js error", error)
-        setLoading(false)
-      }
+    const password = GeneratePassword();
+    const data = {
+      email: values.email,
+      password
     }
-    catch (error) {
-      console.log("Error at sendEmail function", error)
-      setLoading(false)
+    try {
+      await ActivateAccountEndpoint(data).unwrap();
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, data, PUBLIC_KEY)
+    } catch (err) {
+      console.error(err)
     }
   }
 
@@ -67,10 +54,10 @@ const ActivateAccount: React.FC = () => {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ float: "right" }}>
-            {loading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18, color: "whitesmoke", padding: 1 }} spin />} /> : "Activate"}
+            {isLoading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18, color: "whitesmoke", padding: 1 }} spin />} /> : "Activate"}
           </Button>
         </Form.Item>
-        {alert ? <Alert style={{ paddingTop: 10 }} message="Your account activation was a success, please check your e-mail account for more information" type="success" showIcon /> : ""}
+        {isSuccess ? <Alert style={{ paddingTop: 10 }} message="Your account activation was a success, credentiasl" type="success" showIcon /> : ""}
       </Form>
     </section>
   );

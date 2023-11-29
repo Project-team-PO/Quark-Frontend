@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Layout, theme, Image } from 'antd';
+import { Layout, Image } from 'antd';
 import Quark from "../assets/Quark.png"
 import QuarkSmall from "../assets/QuarkSmall.png"
+import UserProfile from '../pages/UserProfile';
 
 import styles from "../styles/Layouts/HomeLayout.module.css"
 import UserMenu from '../components/UserMenu';
@@ -12,9 +13,6 @@ const { Header, Content, Sider } = Layout;
 
 const HomeLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
   return (
     <Layout className={styles.layout_main}>
@@ -27,7 +25,11 @@ const HomeLayout: React.FC = () => {
         </div>
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+        <Header style={{ padding: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', height: '64px', paddingRight: '24px', paddingLeft: '12px', background: "#f5f5f5" }}>
+            <UserProfile />
+          </div>
+        </Header>
         <Content style={{ margin: '0 16px' }}>
           <React.Suspense fallback={<div>Loading...</div>}>
             <Outlet />

@@ -1,14 +1,30 @@
 import React from 'react';
-import { Button, Form, Input } from 'antd';
-import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Spin } from 'antd';
+import { LockOutlined, MailOutlined, LoadingOutlined } from "@ant-design/icons";
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux"
+
+import { useSignInEndpointMutation } from '../app/slices/auth.api.slice';
+import { setCredentials } from '../app/slices/auth.slice';
 
 import styles from "../styles/Pages/SignIn.module.css"
 
-const onFinish = (values: any) => {
-  console.log('Success:', values);
-};
-
 const SignIn: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [SignInEndpoint, { isLoading }] = useSignInEndpointMutation();
+
+  const onFinish = async (values: { email: string, password: string }) => {
+    try {
+      const response = await SignInEndpoint(values).unwrap();
+      dispatch(setCredentials({ ...response }));
+      navigate("/update_account");
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <section className={styles.form_section}>
       <Form
@@ -43,7 +59,7 @@ const SignIn: React.FC = () => {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" className={styles.login_form_button}>
-            Sign In
+            {isLoading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18, color: "whitesmoke", padding: 1 }} spin />} /> : "Sign In"}
           </Button>
         </Form.Item>
       </Form>
