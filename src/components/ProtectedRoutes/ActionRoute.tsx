@@ -15,7 +15,7 @@ const ActionRoute: React.FC<IChildrenProps> = ({ children }) => {
     if (userState.user.firstName) {
       navigation = <Navigate to="/home" />
     } else {
-      navigation = children
+      navigation = children 
     }
   } else {
     navigation = <Navigate to="/sign_in" />

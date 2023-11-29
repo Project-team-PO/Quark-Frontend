@@ -36,12 +36,11 @@ const UserProfile = () => {
 						<Avatar style={{ height: '140px', width: '140px' }} src={userState.user.pictureUrl} />
 					</div>
 					<div>
-						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Username: {userState.user.Username}</p>
+						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Username: {userState.user.username}</p>
 						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Name: {userState.user.firstName} {userState.user.lastName}</p>
 						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Email: {userState.user.email}</p>
 						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Department: </p>
 						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Position: </p>
-						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Phone Number: </p>
 					</div>
 				</div>
 				<Divider />

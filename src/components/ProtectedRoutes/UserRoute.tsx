@@ -10,7 +10,18 @@ interface IChildrenProps {
 const UserRoute: React.FC<IChildrenProps> = ({ children }) => {
   const { userState } = useSelector((state: any) => state.auth)
 
-  return userState ? children : <Navigate to="/sign_in" />
+  let navigation;
+  if (userState) {
+    if (userState.user.firstName) {
+      navigation = children
+    } else {
+      navigation = <Navigate to="/update_account" />
+    }
+  } else {
+    navigation = <Navigate to="/sign_in" />
+  }
+
+  return navigation
 }
 
 export default UserRoute 
