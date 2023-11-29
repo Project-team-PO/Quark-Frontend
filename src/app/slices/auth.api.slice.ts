@@ -16,7 +16,18 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    ActivateAccountEndpoint: builder.mutation({
+      query: (data) => ({
+        url: "/api/Users/Register",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useSignInEndpointMutation, useUpdateProfileEndpointMutation } = authApiSlice;
+export const {
+  useSignInEndpointMutation,
+  useUpdateProfileEndpointMutation,
+  useActivateAccountEndpointMutation,
+} = authApiSlice;
