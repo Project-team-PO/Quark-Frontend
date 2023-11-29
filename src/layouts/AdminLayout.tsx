@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, theme, Image } from 'antd';
+import { Layout, theme } from 'antd';
 import type { MenuProps } from 'antd';
 import { Outlet } from 'react-router-dom';
 import { Menu } from 'antd/lib';
