@@ -1,9 +1,9 @@
 import React from 'react'
 import { Menu, Badge } from 'antd';
-import { BorderHorizontalOutlined, UserOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 
-import { User } from '../types/types';
+import { User } from '../ts/types';
 import { NavLink } from 'react-router-dom';
 
 const UserMenu: React.FC = () => {

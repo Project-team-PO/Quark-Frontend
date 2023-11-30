@@ -1,4 +1,3 @@
-// types.ts
 export interface User {
   name: string;
   id: number;
@@ -11,7 +10,8 @@ export interface MenuItems {
   children?: MenuItems[];
 }
 
-export type MailInfo = {
-  email: string;
-  password: string;
-};
+export interface IMessage {
+  text: string;
+  timestamp: string;
+  sender: string | undefined;
+}

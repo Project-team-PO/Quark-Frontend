@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import { Input, Button, Card, Layout } from 'antd';
+import { Input, Button, Card } from 'antd';
 import { SmileOutlined, SendOutlined } from '@ant-design/icons';
 import EmojiPicker from 'emoji-picker-react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import Message from './Message';
 import styles from "../styles/Components/Chat.module.css"
 
-interface Message {
-	text: string;
-	timestamp: string;
-	sender: string | undefined;
-}
+import { IMessage } from '../ts/interfaces';
 
 const getCurrTime = () => {
 	const now = new Date();
@@ -25,8 +22,7 @@ const Chat: React.FC = () => {
 	const { userState } = useSelector((state: any) => state.auth)
 
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-	const [messages, setMessages] = useState<Message[]>
-		([{ text: `Hello, ${userState.user.firstName}`, timestamp: getCurrTime(), sender: params.username }]);
+	const [messages, setMessages] = useState<IMessage[]>([{ text: `Hello, ${userState.user.firstName}`, timestamp: getCurrTime(), sender: params.username }]);
 	const [messageInput, setMessageInput] = useState('');
 
 	const handleEmojiClick = () => {
@@ -39,7 +35,7 @@ const Chat: React.FC = () => {
 
 	const handleSend = () => {
 		if (messageInput.trim() !== '') {
-			const newMessage: Message = {
+			const newMessage: IMessage = {
 				text: messageInput,
 				timestamp: getCurrTime(),
 				sender: `${userState.user.firstName} ${userState.user.lastName}`,
@@ -53,28 +49,7 @@ const Chat: React.FC = () => {
 		<Card className={styles.chat_main}>
 			<div style={{ background: '#fff', color: 'black', height: '85vh', overflowY: 'scroll' }}>
 				{messages.map((message, index) => (
-					<div key={index} style={{ marginLeft: 5, marginRight: 6 }}>
-						<div
-							style={{
-								display: 'block',
-								wordWrap: 'break-word',
-								fontSize: 20,
-							}}
-						>
-							<span style={{ fontSize: 10, color: 'gray' }}>{message.sender}</span>
-							<div
-								style={{
-									backgroundColor: message.sender === params.username ? '#0084ff' : '#f0f0f0',
-									color: message.sender === params.username ? 'white' : 'black',
-									borderRadius: 10,
-									padding: 10,
-								}}
-							>
-								<p style={{ margin: 0 }}>{message.text}</p>
-								<span style={{ fontSize: 10 }}>{message.timestamp}</span>
-							</div>
-						</div>
-					</div>
+					<Message message={message} index={index} params={params} />
 				))}
 			</div>
 			<div

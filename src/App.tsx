@@ -9,11 +9,9 @@ import AccountActionsLayout from "./layouts/AccountActionsLayout"
 import HomeLayout from "./layouts/HomeLayout"
 import AdminLayout from "./layouts/AdminLayout"
 
-import "./styles/global.css"
-
-import ActionRoute from "./components/ProtectedRoutes/ActionRoute"
-import UserRoute from "./components/ProtectedRoutes/UserRoute"
-import AuthRoute from "./components/ProtectedRoutes/AuthRoute"
+import ActionRoute from "./components/protected/ActionRoute"
+import UserRoute from "./components/protected/UserRoute"
+import AuthRoute from "./components/protected/AuthRoute"
 
 const App = () => {
   const router = createBrowserRouter([

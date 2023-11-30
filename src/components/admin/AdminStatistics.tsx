@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowDownOutlined, ArrowUpOutlined, MessageOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Statistic, Divider } from 'antd';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut, Line } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 
 const AdminStatistics: React.FC = () => {
     // Dummy data for the chart
@@ -21,18 +21,6 @@ const AdminStatistics: React.FC = () => {
             ],
             hoverOffset: 4
         }]
-    };
-    const lineChartData = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-        datasets: [
-            {
-                label: 'Sales',
-                data: [65, 59, 80, 81, 56, 55],
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-            }
-        ]
     };
     return (
         <div>

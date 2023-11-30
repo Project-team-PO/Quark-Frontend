@@ -7,8 +7,7 @@ import { Dropdown } from 'antd';
 import { MenuProps } from 'antd/lib/menu';
 import UserSearch from '../components/UserSearch';
 import { useSelector } from 'react-redux';
-import { User } from '../types/types';
-
+import { User } from '../ts/interfaces';
 
 const { Header, Content, Sider } = Layout;
 
