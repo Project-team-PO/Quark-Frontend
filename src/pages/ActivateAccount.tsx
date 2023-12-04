@@ -6,7 +6,7 @@ import { useActivateAccountEndpointMutation } from '../app/slices/auth.api.slice
 
 import styles from "../styles/Pages/SignIn.module.css"
 
-import { MailInfo } from '../types/types';
+import { MailInfo } from '../ts/types';
 import GeneratePassword from '../shared/passwordGenerator';
 
 const SERVICE_ID = import.meta.env.VITE_SERVICE_ID
@@ -14,7 +14,7 @@ const TEMPLATE_ID = import.meta.env.VITE_TEMPLATE_ID
 const PUBLIC_KEY = import.meta.env.VITE_PUBLIC_KEY
 
 const ActivateAccount: React.FC = () => {
-  const [ActivateAccountEndpoint, { isLoading, isSuccess }] = useActivateAccountEndpointMutation();
+  const [ActivateAccountEndpoint, { isLoading, isSuccess, isError }] = useActivateAccountEndpointMutation();
   const [form] = Form.useForm();
 
   const sendEmail = async (values: MailInfo) => {
@@ -31,7 +31,7 @@ const ActivateAccount: React.FC = () => {
     }
   }
 
-  const validateEmail = (rule: any, value: string, callback: any) => {
+  const validateEmail = (_rule: any, value: string, callback: any) => {
     if (value === "") {
       callback('Please input your E-mail!');
     } else if (value.length > 0 && !value.includes('@gmail.com')) {
@@ -59,7 +59,7 @@ const ActivateAccount: React.FC = () => {
           name="email"
           rules={[
             {
-              validator: validateEmail,
+              validator: validateEmail
             },
           ]}
         >
@@ -70,7 +70,8 @@ const ActivateAccount: React.FC = () => {
             {isLoading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18, color: "whitesmoke", padding: 1 }} spin />} /> : "Activate"}
           </Button>
         </Form.Item>
-        {isSuccess ? <Alert style={{ paddingTop: 10 }} message="Your account activation was a success, credentials" type="success" showIcon /> : ""}
+        {isSuccess ? <Alert style={{ paddingTop: 10 }} message="Your account activation was a success, credentials can be found on your e-mail account." type="success" showIcon /> : ""}
+        {isError ? <Alert style={{ paddingTop: 10 }} message="E-mail is already taken." type="error" showIcon /> : ""}
       </Form>
     </section>
   );

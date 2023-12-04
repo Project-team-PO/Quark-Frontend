@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, theme, Carousel, Table, Col, Divider, Row, Card, Image } from 'antd';
-import Quark from "../assets/Quark.png"
+import Quark from "../../assets/Quark.png"
 
 const { Header, Content, Footer } = Layout;
 //table data

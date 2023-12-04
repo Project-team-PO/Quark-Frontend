@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, Spin } from 'antd';
+import { Alert, Button, Form, Input, Spin } from 'antd';
 import { LockOutlined, MailOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux"
@@ -13,7 +13,7 @@ const SignIn: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [SignInEndpoint, { isLoading }] = useSignInEndpointMutation();
+  const [SignInEndpoint, { isLoading, isError }] = useSignInEndpointMutation();
 
   const onFinish = async (values: { email: string, password: string }) => {
     try {
@@ -51,7 +51,7 @@ const SignIn: React.FC = () => {
           name="email"
           rules={[
             {
-              validator: validateEmail,
+              validator: validateEmail
             },
           ]}
         >
@@ -72,6 +72,7 @@ const SignIn: React.FC = () => {
             {isLoading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18, color: "whitesmoke", padding: 1 }} spin />} /> : "Sign In"}
           </Button>
         </Form.Item>
+        {isError ? <Alert style={{ paddingTop: 10 }} message="Wrong e-mail or password." type="error" showIcon /> : ""}
       </Form>
     </section>
   );

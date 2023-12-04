@@ -12,6 +12,7 @@ const AdminManagers = React.lazy(() => import("../components/AdminManagers"));
 const AdminTeams = React.lazy(() => import("../components/AdminTeams"));
 const Announcements = React.lazy(() => import("../components/HomeAnnouncements"));
 
+
 const authRoutes = [
   { path: PATH.ACTIVATE_ACCOUNT, element: <ActivateAccount /> },
   { path: PATH.SIGN_IN, element: <SignIn /> },

@@ -3,11 +3,9 @@
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-interface IChildrenProps {
-  children: JSX.Element
-}
+import { IRouteChildren } from "../../ts/interfaces";
 
-const UserRoute: React.FC<IChildrenProps> = ({ children }) => {
+const UserRoute: React.FC<IRouteChildren> = ({ children }) => {
   const { userState } = useSelector((state: any) => state.auth)
 
   let navigation;
