@@ -10,7 +10,7 @@ const AdminDashboard = React.lazy(() => import("../components/AdminDashboard"));
 const AdminStatistics = React.lazy(() => import("../components/AdminStatistics"));
 const AdminManagers = React.lazy(() => import("../components/AdminManagers"));
 const AdminTeams = React.lazy(() => import("../components/AdminTeams"));
-
+const Announcements = React.lazy(() => import("../components/HomeAnnouncements"));
 
 const authRoutes = [
   { path: PATH.ACTIVATE_ACCOUNT, element: <ActivateAccount /> },
@@ -24,6 +24,7 @@ const accountActionsRoutes = [
 const userRoutes = [
   { path: PATH.CHAT, element: <Chat /> },
   { path: PATH.SEARCH, element: <Search /> },
+  { path: PATH.ANNOUNCEMENT, element: <Announcements /> },
 ]
 const adminRoutes = [
   { path: PATH.ADMIN, element: <AdminDashboard /> },

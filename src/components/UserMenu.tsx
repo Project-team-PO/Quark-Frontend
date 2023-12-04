@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, Badge } from 'antd';
-import { BorderHorizontalOutlined, UserOutlined } from '@ant-design/icons';
+import { UserOutlined, ScheduleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 
 import { User } from '../types/types';
@@ -12,12 +12,15 @@ const UserMenu: React.FC = () => {
 
   return (
     <div>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
-        <Menu.Item key="0" icon={<UserOutlined />}>
+      <Menu theme="dark" mode="inline" >
+        <Menu.Item key="-1" icon={<UserOutlined />}>
           <NavLink to="/home/">People</NavLink>
           <Badge count={users.length} style={{ marginLeft: '8px' }} />
         </Menu.Item>
-        <span style={{ color: 'gray', marginLeft: '16px', fontSize: 10}}>Channels</span>
+        <Menu.Item key="0" icon={<ScheduleOutlined />}>
+          <NavLink to="/home/Announcements">Announcements</NavLink>
+        </Menu.Item>
+        <span style={{ color: 'gray', marginLeft: '16px', fontSize: 10 }}>Channels</span>
         {users.map(person => (
           <Menu.Item key={person.id} icon={<UserOutlined />}>
             <NavLink to={`/home/chat/${person.name}`}>{person.name}</NavLink>
