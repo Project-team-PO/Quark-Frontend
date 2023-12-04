@@ -5,6 +5,7 @@ const PATH = {
   HOME: "/home",
   CHAT: "/home/chat/:username",
   SEARCH: "/home",
+  ANNOUNCEMENT: "/home/announcements",
   ADMIN: "/admin/dashboard",
   ADMIN_STATISTICS: "/admin/statistics",
   ADMIN_MANAGERS: "/admin/managers/:username",

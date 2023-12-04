@@ -6,10 +6,11 @@ const UpdateAccount = React.lazy(() => import("../pages/UpdateAccount"));
 const SignIn = React.lazy(() => import("../pages/SignIn"));
 const Chat = React.lazy(() => import("../components/Chat"));
 const Search = React.lazy(() => import("../components/UserSearch"));
-const AdminDashboard = React.lazy(() => import("../components/admin/AdminDashboard"));
-const AdminStatistics = React.lazy(() => import("../components/admin/AdminStatistics"));
-const AdminManagers = React.lazy(() => import("../components/admin/AdminManagers"));
-const AdminTeams = React.lazy(() => import("../components/admin/AdminTeams"));
+const AdminDashboard = React.lazy(() => import("../components/AdminDashboard"));
+const AdminStatistics = React.lazy(() => import("../components/AdminStatistics"));
+const AdminManagers = React.lazy(() => import("../components/AdminManagers"));
+const AdminTeams = React.lazy(() => import("../components/AdminTeams"));
+const Announcements = React.lazy(() => import("../components/HomeAnnouncements"));
 
 
 const authRoutes = [
@@ -24,6 +25,7 @@ const accountActionsRoutes = [
 const userRoutes = [
   { path: PATH.CHAT, element: <Chat /> },
   { path: PATH.SEARCH, element: <Search /> },
+  { path: PATH.ANNOUNCEMENT, element: <Announcements /> },
 ]
 const adminRoutes = [
   { path: PATH.ADMIN, element: <AdminDashboard /> },
