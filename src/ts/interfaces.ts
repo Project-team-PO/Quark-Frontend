@@ -15,3 +15,7 @@ export interface IMessage {
   timestamp: string;
   sender: string | undefined;
 }
+
+export interface IRouteChildren {
+  children: JSX.Element
+}

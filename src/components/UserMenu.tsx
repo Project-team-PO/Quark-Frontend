@@ -3,7 +3,7 @@ import { Menu, Badge } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 
-import { User } from '../ts/types';
+import { User } from '../ts/interfaces';
 import { NavLink } from 'react-router-dom';
 
 const UserMenu: React.FC = () => {
