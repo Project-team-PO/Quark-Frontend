@@ -1,6 +1,6 @@
 import React from "react"
 import { Button, Form, Input, Select, Upload, message, Spin } from 'antd';
-import { MailOutlined, BankOutlined, InboxOutlined, LoadingOutlined } from "@ant-design/icons";
+import { MailOutlined, InboxOutlined, LoadingOutlined } from "@ant-design/icons";
 import type { UploadProps } from 'antd';
 import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios';
@@ -10,13 +10,8 @@ import styles from "../styles/Pages/UpdateAccount.module.css"
 import { updateCredentials } from "../app/slices/auth.slice";
 import { useUpdateProfileEndpointMutation } from "../app/slices/auth.api.slice";
 import { useNavigate } from "react-router-dom";
+import { selectOptions } from "../shared/options";
 
-const selectOptions = [
-  { value: "hr", label: "HR" },
-  { value: "marketing", label: "Marketing" },
-  { value: "administration", label: "Administration" },
-  { value: "engineering", label: "Engineering" },
-]
 
 const UpdateAccount: React.FC = () => {
   const [avatar, setAvatar] = React.useState<string | null>(null)
@@ -97,7 +92,7 @@ const UpdateAccount: React.FC = () => {
           <Input placeholder="Surname" />
         </Form.Item>
         <Form.Item name="department" rules={[{ required: true, message: 'Please select your department!' }]}>
-          <Select placeholder="Department that you work in" suffixIcon={<BankOutlined />} options={selectOptions} allowClear />
+          <Select placeholder="Department that you work in" options={selectOptions} allowClear/>
         </Form.Item>
         <Form.Item name="selfDescription">
           <Input.TextArea
