@@ -91,7 +91,7 @@ const UpdateAccount: React.FC = () => {
         <Form.Item name="lastName" rules={[{ required: true, message: 'Please input your Last Name!' }]}>
           <Input placeholder="Surname" />
         </Form.Item>
-        <Form.Item name="department" rules={[{ required: true, message: 'Please select your department!' }]}>
+        <Form.Item name="jobPosition" rules={[{ required: true, message: 'Please select your department!' }]}>
           <Select placeholder="Department that you work in" options={selectOptions} allowClear/>
         </Form.Item>
         <Form.Item name="selfDescription">
