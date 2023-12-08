@@ -1,45 +1,54 @@
 import React, { useState } from 'react';
 import { Card, List, Avatar, Form, Input, Button, Modal, DatePicker } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { FormatDate } from '../shared/functions';
 
 import styles from "../styles/Pages/UserSearch.module.css";
+import { setAnnouncements } from '../app/slices/announcement.slice';
+import { useAddAnnouncementEndpointMutation } from '../app/slices/auth.api.slice';
 
 interface Announcement {
-	id: number;
 	title: string;
 	content: string;
-	name: string;
-	avatar: string;
-	time: Date;
+	email: string
+	time: Date | string;
+}
+
+interface AnnouncementResponse {
+	title: string
+	content: string,
+	time: Date | string,
+	userFirstName: string,
+	userLastName: string,
+	userPictureUrl: string
 }
 
 const Announcements: React.FC = () => {
-	const [announcements, setAnnouncements] = useState<Announcement[]>([
-		{ id: 1, title: 'Announcement #1', content: 'This is an example.', name: 'John Doe', avatar: 'https://gravatar.com/avatar/1c8e8a6e8d1fe52b782b280909abeb38?s=400&d=robohash&r=x', time: new Date() },
-	]);
-
 	const [form] = Form.useForm();
 	const [showModal, setShowModal] = useState(false);
 
+	const dispatch = useDispatch();
+
+	const [AddAnnouncementEndpoint] = useAddAnnouncementEndpointMutation();
+
+	const { announcements } = useSelector((state: any) => state.announcement);
 	const { userState } = useSelector((state: any) => state.auth);
 	const { user } = userState;
 
 	const handleAddAnnouncement = () => {
-		form.validateFields().then((values) => {
+		form.validateFields().then(async (values) => {
 			values["date"] = FormatDate(values.date); // Change the default DatePicker format
 			const newAnnouncement: Announcement = {
-				id: announcements.length + 1,
 				title: values.title,
 				content: values.content,
-				name: `${user.firstName} ${user.lastName}`,
-				avatar: user.pictureUrl,
-				time: values.date
+				time: values.date.toString(),
+				email: user.email
 			};
 
-			setAnnouncements([...announcements, newAnnouncement]);
+			const response = await AddAnnouncementEndpoint(newAnnouncement).unwrap();
+			dispatch(setAnnouncements(response));
 			form.resetFields();
 			setShowModal(false);
 		});
@@ -68,12 +77,12 @@ const Announcements: React.FC = () => {
 			</Modal>
 			<List
 				dataSource={announcements}
-				renderItem={(item) => (
+				renderItem={(item: AnnouncementResponse) => (
 					<>
-						<div style={{ fontFamily: 'monospace' }}>{item.name}</div>
+						<div style={{ fontFamily: 'monospace' }}>{item.userFirstName} {item.userLastName}</div>
 						<List.Item>
 							<List.Item.Meta
-								avatar={<Avatar src={item.avatar} />}
+								avatar={<Avatar src={item.userPictureUrl} />}
 								title={item.title}
 								description={<div style={{ overflow: 'hidden', wordWrap: 'break-word' }}>{item.content}</div>}
 							/>
