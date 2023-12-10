@@ -6,7 +6,6 @@ import dayjs from 'dayjs';
 import type { RangePickerProps } from 'antd/es/date-picker';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 
-import { FormatDate } from '../shared/functions';
 import { Announcement, AnnouncementResponse } from '../ts/interfaces';
 
 import styles from "../styles/Pages/UserSearch.module.css";
@@ -18,7 +17,7 @@ const Announcements: React.FC = () => {
 	const [form] = Form.useForm();
 	const [showModal, setShowModal] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
-	const itemsPerPage = 8;
+	const itemsPerPage = 5;
 	dayjs.extend(customParseFormat);
 	const dispatch = useDispatch();
 
