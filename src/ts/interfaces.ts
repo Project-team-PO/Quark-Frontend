@@ -6,6 +6,7 @@ export interface Announcement {
 }
 
 export interface AnnouncementResponse {
+  id: number;
   title: string;
   content: string;
   time: string;
