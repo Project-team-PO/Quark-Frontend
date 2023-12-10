@@ -27,7 +27,7 @@ const UserProfile = () => {
 			</Tooltip>
 			<Modal
 				title="User Profile"
-				visible={visible}
+				open={visible}
 				onCancel={handleCloseModal}
 				footer={null}
 			>
