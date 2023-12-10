@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, List, Avatar, Form, Input, Button, Modal, DatePicker } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,20 +6,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FormatDate } from '../shared/functions';
 
 import styles from "../styles/Pages/UserSearch.module.css";
-import { setAnnouncements } from '../app/slices/announcement.slice';
-import { useAddAnnouncementEndpointMutation } from '../app/slices/auth.api.slice';
+import { addAnnouncement, setAnnouncements } from '../app/slices/announcement.slice';
+import { useAddAnnouncementEndpointMutation, useGetAnnouncementsEndpointMutation } from '../app/slices/auth.api.slice';
 
 interface Announcement {
 	title: string;
 	content: string;
 	email: string
-	time: Date | string;
+	time: string;
 }
 
-interface AnnouncementResponse {
+export interface AnnouncementResponse {
 	title: string
 	content: string,
-	time: Date | string,
+	time: string,
 	userFirstName: string,
 	userLastName: string,
 	userPictureUrl: string
@@ -31,7 +31,21 @@ const Announcements: React.FC = () => {
 
 	const dispatch = useDispatch();
 
-	const [AddAnnouncementEndpoint] = useAddAnnouncementEndpointMutation();
+	const [AddAnnouncementEndpoint, { isError }] = useAddAnnouncementEndpointMutation(); // Error alert/message if adding fails
+	const [GetAnnouncementEndpoint, { isLoading }] = useGetAnnouncementsEndpointMutation(); //Skeleton if the data is loading
+
+	useEffect(() => {
+		const fetchAnnouncements = async () => {
+			try {
+				const response = await GetAnnouncementEndpoint(undefined).unwrap();
+				console.log(response);
+				dispatch(setAnnouncements(response));
+			} catch (error) {
+				console.error(error)
+			}
+		}
+		fetchAnnouncements();
+	}, [])
 
 	const { announcements } = useSelector((state: any) => state.announcement);
 	const { userState } = useSelector((state: any) => state.auth);
@@ -48,7 +62,8 @@ const Announcements: React.FC = () => {
 			};
 
 			const response = await AddAnnouncementEndpoint(newAnnouncement).unwrap();
-			dispatch(setAnnouncements(response));
+			console.log(response);
+			dispatch(addAnnouncement(response));
 			form.resetFields();
 			setShowModal(false);
 		});
@@ -88,9 +103,9 @@ const Announcements: React.FC = () => {
 							/>
 
 							{new Date(item.time) < new Date() ?
-								<div style={{ color: 'red', fontWeight: "bold" }}>{item.time.toLocaleString()}</div>
+								<div style={{ color: 'red', fontWeight: "bold" }}>{item.time}</div>
 								:
-								<div style={{ color: 'green', fontWeight: "bold" }}>{item.time.toLocaleString()}</div>}
+								<div style={{ color: 'green', fontWeight: "bold" }}>{item.time}</div>}
 						</List.Item>
 					</>
 				)}

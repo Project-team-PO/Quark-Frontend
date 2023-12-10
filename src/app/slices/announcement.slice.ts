@@ -18,12 +18,15 @@ const announcementSlice = createSlice({
   name: "announcement",
   initialState,
   reducers: {
-    setAnnouncements: (state, action) => {
+    addAnnouncement: (state, action) => {
       state.announcements.push(action.payload);
     },
+    setAnnouncements: (state, action) => {
+      state.announcements = action.payload;
+    }
   },
 });
 
-export const { setAnnouncements } = announcementSlice.actions;
+export const { addAnnouncement, setAnnouncements } = announcementSlice.actions;
 
 export default announcementSlice.reducer;
