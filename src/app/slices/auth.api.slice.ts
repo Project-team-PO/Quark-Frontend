@@ -25,7 +25,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
     }),
     AddAnnouncementEndpoint: builder.mutation({
       query: (data) => ({
-        url: "/api/Users/AddAnnouncement",
+        url: "/api/Announcements/AddAnnouncement",
         method: "POST",
         body: data,
       }),
