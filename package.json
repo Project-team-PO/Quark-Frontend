@@ -12,7 +12,9 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@emailjs/browser": "^3.11.0",
+    "@microsoft/signalr": "^8.0.0",
     "@reduxjs/toolkit": "^1.9.7",
+    "@types/node": "^20.10.4",
     "antd": "^5.10.2",
     "axios": "^1.6.0",
     "chart.js": "^4.4.0",
