@@ -38,7 +38,7 @@ const Announcements: React.FC = () => {
 			}
 		};
 		fetchAnnouncements();
-	}, []);
+	}, [showModal]);
 
 	const { announcements } = useSelector((state: any) => state.announcement);
 	const { userState } = useSelector((state: any) => state.auth);
