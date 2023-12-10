@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import { apiSlice } from './slices/api.slice'
 import authReducer from './slices/auth.slice'
-import usersReducer from './slices/usersSlice'
+import usersReducer from './slices/user.slice'
 import announcementReducer from './slices/announcement.slice'
 
 export default configureStore({

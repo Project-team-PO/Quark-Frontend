@@ -1,32 +1,42 @@
 // UserSearch.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, List, Avatar, message, Card } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUser } from '../app/slices/usersSlice';
-import { people } from '../shared/MenuItems';
+import { addUser, setUsers } from '../app/slices/user.slice';
+import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
 
 import styles from "../styles/Pages/UserSearch.module.css"
 
-interface User {
-  name: string;
-  id: number;
-}
+import { User } from '../ts/interfaces';
 
 const UserSearch: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const dispatch = useDispatch();
-  const users = people;
-  const userList = useSelector((state: { users: { users: User[] } }) => state.users.users);
+  const [GetUsersEndpoint] = useGetUsersEndpointMutation();
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await GetUsersEndpoint(undefined).unwrap();
+        console.log(response);
+        dispatch(setUsers(response));
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchUsers();
+  }, [])
+
+  const { users } = useSelector((state: any) => state.users)
 
   const filteredUsers: User[] = users
-    .filter(user => user.name.toLowerCase().includes(searchText.toLowerCase()))
+    .filter((user: User) => user.firstName.toLowerCase().includes(searchText.toLowerCase()))
     .slice(0, 15);
 
   function AddUser(user: User) {
-    if (userList.find(({ name }) => name === user.name) === undefined) {
+    if (users.find((email: string) => email === user.email) === undefined) {
       dispatch(addUser(user));
-      message.success(`${user.name} added successfully!`);
+      message.success(`${user.firstName} added successfully!`);
     } else {
       message.warning('User already added!');
     }
@@ -47,8 +57,8 @@ const UserSearch: React.FC = () => {
         renderItem={(user: User) => (
           <List.Item onClick={() => AddUser(user)} className={styles.user_list_item}>
             <List.Item.Meta
-              avatar={<Avatar icon={<UserOutlined />} />}
-              title={user.name}
+              avatar={<Avatar src={user.pictureUrl} />}
+              title={`${user.firstName} ${user.lastName}`}
             />
           </List.Item>
         )}
