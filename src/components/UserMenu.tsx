@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Badge } from 'antd';
+import { Menu, Badge, Avatar } from 'antd';
 import { UserOutlined, ScheduleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 
@@ -21,9 +21,10 @@ const UserMenu: React.FC = () => {
           <NavLink to="/home/Announcements">Announcements</NavLink>
         </Menu.Item>
         <span style={{ color: 'gray', marginLeft: '16px', fontSize: 10 }}>Channels</span>
-        {users.map(person => (
-          <Menu.Item key={person.id} icon={<UserOutlined />}>
-            <NavLink to={`/home/chat/${person.name}`}>{person.name}</NavLink>
+        {users.map((user: User) => (
+          <Menu.Item key={user.id}>
+            <Avatar src={user.pictureUrl}/>
+            <NavLink to={`/home/chat/${user.id}`} style={{paddingLeft: "15px"}}>{user.firstName} {user.lastName}</NavLink>
           </Menu.Item>
         ))}
       </Menu>

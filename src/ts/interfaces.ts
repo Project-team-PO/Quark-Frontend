@@ -1,6 +1,9 @@
 export interface User {
-  name: string;
   id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  pictureUrl: string;
 }
 
 export interface MenuItems {
