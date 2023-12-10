@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button, Card } from 'antd';
 import { SmileOutlined, SendOutlined } from '@ant-design/icons';
 import EmojiPicker from 'emoji-picker-react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
+import Connector from "../shared/signalr-conn"
 
 import Message from './Message';
 import styles from "../styles/Components/Chat.module.css"
@@ -25,6 +27,19 @@ const Chat: React.FC = () => {
 	const [messages, setMessages] = useState<IMessage[]>([{ text: `Hello, ${userState.user.firstName}`, timestamp: getCurrTime(), sender: params.username }]);
 	const [messageInput, setMessageInput] = useState('');
 
+	const { PushMessage, events } = Connector();
+	useEffect(() => {
+		events((message) => {
+			console.log(message);
+			const newMessage: IMessage = {
+				text: message,
+				timestamp: getCurrTime(),
+				sender: params.username,
+			};
+			setMessages(prev => [...prev, newMessage]); 
+		});
+	}, [events]);
+
 	const handleEmojiClick = () => {
 		setShowEmojiPicker(!showEmojiPicker);
 	};
@@ -40,7 +55,7 @@ const Chat: React.FC = () => {
 				timestamp: getCurrTime(),
 				sender: `${userState.user.firstName} ${userState.user.lastName}`,
 			};
-			setMessages([...messages, newMessage]);
+			PushMessage(newMessage.text);
 			setMessageInput('');
 		}
 	};
