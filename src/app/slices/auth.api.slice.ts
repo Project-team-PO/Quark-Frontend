@@ -23,6 +23,19 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    AddAnnouncementEndpoint: builder.mutation({
+      query: (data) => ({
+        url: "/api/Announcements/AddAnnouncement",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    GetAnnouncementsEndpoint: builder.mutation({
+      query: () => ({
+        url: "/api/Announcements/GetAnnouncements",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -30,4 +43,6 @@ export const {
   useSignInEndpointMutation,
   useUpdateProfileEndpointMutation,
   useActivateAccountEndpointMutation,
+  useAddAnnouncementEndpointMutation,
+  useGetAnnouncementsEndpointMutation,
 } = authApiSlice;

@@ -1,0 +1,58 @@
+.announcement_first_container {
+    overflow: unset;
+
+}
+
+.announcement_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.announcement_card_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: auto;
+    height: 75vh;
+}
+
+.announcement_card {
+    width: 100%;
+    margin: 0 15px 16px 0;
+
+}
+
+.announcement_card .ant-card {
+    height: 100%;
+}
+
+.announcement_card .ant-card-body {
+    padding: 16px;
+}
+
+.announcement_card .ant-card-extra {
+    font-family: monospace;
+}
+
+.announcement_card .ant-card-cover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    width: 10vh;
+}
+
+
+
+
+
+/* Hide the scrollbar */
+.announcement_card_container::-webkit-scrollbar {
+    width: 0.5em;
+    background-color: transparent;
+}
+
+.announcement_card_container::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}

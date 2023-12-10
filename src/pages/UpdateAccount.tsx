@@ -96,7 +96,7 @@ const UpdateAccount: React.FC = () => {
         </Form.Item>
         <Form.Item name="selfDescription">
           <Input.TextArea
-            maxLength={30}
+            maxLength={90}
             placeholder="Something about yourself!"
             style={{ resize: 'none' }}
           />
