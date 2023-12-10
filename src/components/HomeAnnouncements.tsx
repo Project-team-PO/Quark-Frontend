@@ -4,26 +4,12 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { FormatDate } from '../shared/functions';
+import { Announcement, AnnouncementResponse } from '../ts/interfaces';
 
 import styles from "../styles/Pages/UserSearch.module.css";
 import { addAnnouncement, setAnnouncements } from '../app/slices/announcement.slice';
 import { useAddAnnouncementEndpointMutation, useGetAnnouncementsEndpointMutation } from '../app/slices/auth.api.slice';
 
-interface Announcement {
-	title: string;
-	content: string;
-	email: string
-	time: string;
-}
-
-export interface AnnouncementResponse {
-	title: string
-	content: string,
-	time: string,
-	userFirstName: string,
-	userLastName: string,
-	userPictureUrl: string
-}
 
 const Announcements: React.FC = () => {
 	const [form] = Form.useForm();
