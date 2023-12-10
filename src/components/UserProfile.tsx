@@ -39,7 +39,7 @@ const UserProfile = () => {
 						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Username: {userState.user.username}</p>
 						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Name: {userState.user.firstName} {userState.user.lastName}</p>
 						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Email: {userState.user.email}</p>
-						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Department: IT</p>
+						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Department: {userState.user.jobPosition.department.name}</p>
 						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>Position: {userState.user.jobPosition?.name}</p>
 					</div>
 				</div>
