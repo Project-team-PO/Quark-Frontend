@@ -24,7 +24,7 @@ const Chat: React.FC = () => {
 	const { userState } = useSelector((state: any) => state.auth)
 
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-	const [messages, setMessages] = useState<IMessage[]>([{ text: `Hello, ${userState.user.firstName}`, timestamp: getCurrTime(), sender: params.username }]);
+	const [messages, setMessages] = useState<IMessage[]>([{ text: `Hello, ${userState.user.firstName}!`, timestamp: getCurrTime(), sender: params.username }]);
 	const [messageInput, setMessageInput] = useState('');
 
 	const { PushMessage, events } = Connector();
@@ -34,9 +34,9 @@ const Chat: React.FC = () => {
 			const newMessage: IMessage = {
 				text: message,
 				timestamp: getCurrTime(),
-				sender: params.username,
+				sender: userState.user.username,
 			};
-			setMessages(prev => [...prev, newMessage]); 
+			setMessages(prev => [...prev, newMessage]);
 		});
 	}, [events]);
 
