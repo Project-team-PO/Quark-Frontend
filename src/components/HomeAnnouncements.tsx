@@ -41,6 +41,7 @@ const Announcements: React.FC = () => {
 	const handlePageChange = (page: number) => {
 		setCurrentPage(page);
 	};
+
 	useEffect(() => {
 		const fetchAnnouncements = async () => {
 			try {
