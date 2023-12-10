@@ -41,6 +41,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
         url: "/api/Announcements/DeleteAnnouncement",
         method: "DELETE",
         body: data,
+    GetUsersEndpoint: builder.mutation({
+      query: () => ({
+        url: "/api/Users/GetUsers",
+        method: "GET",
       }),
     }),
   }),
@@ -53,4 +57,5 @@ export const {
   useAddAnnouncementEndpointMutation,
   useGetAnnouncementsEndpointMutation,
   useDeleteAnnouncementEndpointMutation,
+  useGetUsersEndpointMutation,
 } = authApiSlice;

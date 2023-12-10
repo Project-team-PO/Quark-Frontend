@@ -1,6 +1,26 @@
-export interface User {
-  name: string;
+export interface Announcement {
+  title: string;
+  content: string;
+  email: string;
+  time: string;
+}
+
+export interface AnnouncementResponse {
   id: number;
+  title: string;
+  content: string;
+  time: string;
+  userFirstName: string;
+  userLastName: string;
+  userPictureUrl: string;
+}
+
+export interface User {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  pictureUrl: string;
 }
 
 export interface MenuItems {
@@ -17,5 +37,5 @@ export interface IMessage {
 }
 
 export interface IRouteChildren {
-  children: JSX.Element
+  children: JSX.Element;
 }
