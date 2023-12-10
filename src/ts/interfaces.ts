@@ -1,3 +1,19 @@
+export interface Announcement {
+  title: string;
+  content: string;
+  email: string;
+  time: string;
+}
+
+export interface AnnouncementResponse {
+  title: string;
+  content: string;
+  time: string;
+  userFirstName: string;
+  userLastName: string;
+  userPictureUrl: string;
+}
+
 export interface User {
   id: number;
   email: string;
@@ -20,5 +36,5 @@ export interface IMessage {
 }
 
 export interface IRouteChildren {
-  children: JSX.Element
+  children: JSX.Element;
 }

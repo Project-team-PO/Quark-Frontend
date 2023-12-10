@@ -2,12 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import { Input, List, Avatar, message, Card } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUser, setUsers } from '../app/slices/user.slice';
+import { setUsers } from '../app/slices/user.slice';
 import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
 
 import styles from "../styles/Pages/UserSearch.module.css"
 
 import { User } from '../ts/interfaces';
+import { addFavourites } from '../app/slices/favourites.slice';
 
 const UserSearch: React.FC = () => {
   const [searchText, setSearchText] = useState('');
@@ -28,14 +29,16 @@ const UserSearch: React.FC = () => {
   }, [])
 
   const { users } = useSelector((state: any) => state.users)
+  const { favourites } = useSelector((state: any) => state.favourites)
 
   const filteredUsers: User[] = users
     .filter((user: User) => user.firstName.toLowerCase().includes(searchText.toLowerCase()))
     .slice(0, 15);
 
-  function AddUser(user: User) {
-    if (users.find((email: string) => email === user.email) === undefined) {
-      dispatch(addUser(user));
+  const AddToFavourites = (user: User) => {
+    const userExists = favourites.find((favUser: User) => favUser.email === user.email);
+    if (!userExists) {
+      dispatch(addFavourites(user));
       message.success(`${user.firstName} added successfully!`);
     } else {
       message.warning('User already added!');
@@ -55,7 +58,7 @@ const UserSearch: React.FC = () => {
         itemLayout="horizontal"
         dataSource={filteredUsers}
         renderItem={(user: User) => (
-          <List.Item onClick={() => AddUser(user)} className={styles.user_list_item}>
+          <List.Item onClick={() => AddToFavourites(user)} className={styles.user_list_item}>
             <List.Item.Meta
               avatar={<Avatar src={user.pictureUrl} />}
               title={`${user.firstName} ${user.lastName}`}
