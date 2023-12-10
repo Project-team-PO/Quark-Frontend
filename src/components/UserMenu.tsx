@@ -2,11 +2,11 @@ import React from 'react'
 import { Menu, Badge, Avatar } from 'antd';
 import { UserOutlined, ScheduleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-
 import { User } from '../ts/interfaces';
 import { NavLink } from 'react-router-dom';
 
 const UserMenu: React.FC = () => {
+  const announcements = useSelector((state: any) => state.announcement.announcements);
   //@ts-ignore
   const { favourites } = useSelector((state: any) => state.favourites);
 
@@ -19,6 +19,7 @@ const UserMenu: React.FC = () => {
         </Menu.Item>
         <Menu.Item key="0" icon={<ScheduleOutlined />}>
           <NavLink to="/home/Announcements">Announcements</NavLink>
+          <Badge count={announcements.length} style={{ marginLeft: '8px' }} />
         </Menu.Item>
         <span style={{ color: 'gray', marginLeft: '16px', fontSize: 10 }}>Channels</span>
         {favourites ? favourites.map((user: User) => (
