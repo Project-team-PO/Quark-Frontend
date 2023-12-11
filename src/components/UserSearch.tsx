@@ -19,7 +19,6 @@ const UserSearch: React.FC = () => {
     const fetchUsers = async () => {
       try {
         const response = await GetUsersEndpoint(undefined).unwrap();
-        console.log(response);
         dispatch(setUsers(response));
       } catch (error) {
         console.error(error)
@@ -32,7 +31,7 @@ const UserSearch: React.FC = () => {
   const { favourites } = useSelector((state: any) => state.favourites)
 
   const filteredUsers: User[] = users
-    .filter((user: User) => user.firstName.toLowerCase().includes(searchText.toLowerCase()))
+    ?.filter((user: User) => user?.firstName.toLowerCase().includes(searchText?.toLowerCase()))
     .slice(0, 15);
 
   const AddToFavourites = (user: User) => {

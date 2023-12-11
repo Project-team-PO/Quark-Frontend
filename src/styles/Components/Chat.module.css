@@ -2,8 +2,9 @@
     display: "flex";
     justify-content: "space-between";
     flex-direction: "column";
-    height: "90svh";
+    height: "85svh";
     margin-bottom: '100px';
+    overflow: "hidden";
 }
 
 .chat_input {
