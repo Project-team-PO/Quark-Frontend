@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Card } from 'antd';
-import { SmileOutlined, SendOutlined } from '@ant-design/icons';
+import { Button, Card, Tooltip, Modal, Input, List, Avatar, message } from 'antd';
+import { SmileOutlined, SendOutlined, UsergroupAddOutlined, PlusOutlined, MinusCircleOutlined, MinusOutlined } from '@ant-design/icons';
 import EmojiPicker from 'emoji-picker-react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
 import Connector from "../shared/signalr-conn"
-
 import Message from './Message';
 import styles from "../styles/Components/Chat.module.css"
 
 import { IMessage } from '../ts/interfaces';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUsers } from '../app/slices/user.slice';
+import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
+
+
+import { User } from '../ts/interfaces';
+import { addFavourites } from '../app/slices/favourites.slice';
 
 const getCurrTime = () => {
 	const now = new Date();
@@ -22,7 +26,7 @@ const getCurrTime = () => {
 const Chat: React.FC = () => {
 	const params = useParams();
 	const { userState } = useSelector((state: any) => state.auth)
-
+	const [ModalVisible, setModalVisible] = useState(false);
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 	const [messages, setMessages] = useState<IMessage[]>([{ text: `Hello, ${userState.user.firstName}!`, timestamp: getCurrTime(), sender: params.username }]);
 	const [messageInput, setMessageInput] = useState('');
@@ -59,7 +63,42 @@ const Chat: React.FC = () => {
 			setMessageInput('');
 		}
 	};
+	const handleGroupChat = () => {
+		setModalVisible(true);
 
+	};
+	const [searchText, setSearchText] = useState('');
+	const dispatch = useDispatch();
+	const [GetUsersEndpoint] = useGetUsersEndpointMutation();
+
+	useEffect(() => {
+		const fetchUsers = async () => {
+			try {
+				const response = await GetUsersEndpoint(undefined).unwrap();
+				dispatch(setUsers(response));
+			} catch (error) {
+				console.error(error)
+			}
+		}
+		fetchUsers();
+	}, [])
+
+	const { users } = useSelector((state: any) => state.users)
+	const { favourites } = useSelector((state: any) => state.favourites)
+
+	const filteredUsers: User[] = users
+		?.filter((user: User) => user?.firstName.toLowerCase().includes(searchText?.toLowerCase()))
+		.slice(0, 15);
+
+	const AddToChatRoom = (user: User) => {
+		const userExists = favourites.find((favUser: User) => favUser.email === user.email);
+		if (!userExists) {
+			//dispatch(AddToChatRoom(user));
+			message.success(`${user.firstName} added successfully!`);
+		} else {
+			message.warning('User already added!');
+		}
+	}
 	return (
 		<Card className={styles.chat_main}>
 			<div style={{ background: '#fff', color: 'black', height: '85vh', overflowY: 'scroll' }}>
@@ -89,6 +128,8 @@ const Chat: React.FC = () => {
 						background: '#fff',
 						color: '#fff',
 						fontSize: '16px',
+						position: 'absolute',
+						bottom: '0',
 
 					}}
 
@@ -97,21 +138,69 @@ const Chat: React.FC = () => {
 					onPressEnter={handleSend}
 					suffix={
 						<>
-							<Button onClick={handleEmojiClick}>
-								<SmileOutlined />
-							</Button>
-							{showEmojiPicker ? (
-								<div className="emoji-picker-upwards">
-									<EmojiPicker onEmojiClick={handleEmoji} width='900' />
-								</div>
-							) : null}
-							<Button onClick={handleSend}>
-								<SendOutlined className="site-form-item-icon" />
-							</Button>
+							<Tooltip title="Group Chat" >
+								<Button onClick={handleGroupChat}>
+									<UsergroupAddOutlined />
+								</Button>
+							</Tooltip>
+							<Tooltip title="Emoji" >
+								<Button onClick={handleEmojiClick}>
+									<SmileOutlined />
+								</Button>
+							</Tooltip>
+							<Tooltip title="Send" >
+								{showEmojiPicker ? (
+									<div className="emoji-picker-upwards">
+										<EmojiPicker onEmojiClick={handleEmoji} width='900' />
+									</div>
+								) : null}
+								<Button onClick={handleSend}>
+									<SendOutlined className="site-form-item-icon" />
+								</Button>
+							</Tooltip>
 						</>
 					}
 				/>
 			</div>
+			<Modal
+				title="Group Chat"
+				open={ModalVisible}
+				onCancel={() => { setModalVisible(false) }}
+				onOk={() => { setModalVisible(false) }}
+
+			>
+				<Card style={{ background: '#FFFFFF', padding: '0 10px 10px 24px', minHeight: '360px', border: 'none' }}>
+					<h2>Search for users</h2>
+					<Input
+						placeholder="Search for users"
+						onChange={e => setSearchText(e.target.value)}
+						style={{ margin: '10px 0 15px 0' }}
+					/>
+
+					<List
+						itemLayout="horizontal"
+						dataSource={filteredUsers}
+						renderItem={(user: User) => (
+
+							<List.Item className={styles.user_list_item}>
+								<List.Item.Meta
+									avatar={<Avatar src={user.pictureUrl} />}
+									title={`${user.firstName} ${user.lastName}`}
+								/>
+								<Tooltip title="Delete from Chat Room" >
+									<MinusOutlined />
+								</Tooltip>
+								<Tooltip title="Add to Chat Room" >
+									<PlusOutlined style={{ marginLeft: '5px' }} onClick={() => AddToChatRoom(user)} />
+								</Tooltip>
+
+							</List.Item>
+
+						)}
+					/>
+				</Card>
+			</Modal>
+
 		</Card>
 	);
 };
