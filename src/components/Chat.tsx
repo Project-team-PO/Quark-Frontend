@@ -14,7 +14,6 @@ import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
 
 
 import { User } from '../ts/interfaces';
-import { addFavourites } from '../app/slices/favourites.slice';
 
 const getCurrTime = () => {
 	const now = new Date();
@@ -33,6 +32,7 @@ const Chat: React.FC = () => {
 
 	const { PushMessage, events } = Connector();
 	useEffect(() => {
+		console.log(messages)
 		events((message) => {
 			console.log(message);
 			const newMessage: IMessage = {
@@ -40,6 +40,7 @@ const Chat: React.FC = () => {
 				timestamp: getCurrTime(),
 				sender: userState.user.username,
 			};
+			console.log(newMessage);
 			setMessages(prev => [...prev, newMessage]);
 		});
 	}, [events]);
@@ -54,19 +55,15 @@ const Chat: React.FC = () => {
 
 	const handleSend = () => {
 		if (messageInput.trim() !== '') {
-			const newMessage: IMessage = {
-				text: messageInput,
-				timestamp: getCurrTime(),
-				sender: `${userState.user.firstName} ${userState.user.lastName}`,
-			};
-			PushMessage(newMessage.text);
+			PushMessage(messageInput);
 			setMessageInput('');
 		}
 	};
+
 	const handleGroupChat = () => {
 		setModalVisible(true);
-
 	};
+
 	const [searchText, setSearchText] = useState('');
 	const dispatch = useDispatch();
 	const [GetUsersEndpoint] = useGetUsersEndpointMutation();

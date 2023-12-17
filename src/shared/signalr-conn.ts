@@ -16,9 +16,11 @@ class Connector {
             });
         };
     }
+
     public PushMessage = (message: string) => {
-        this.connection.send("PushMessage", message).then(_x => console.log(`Message sent - ${message}`))
+        this.connection.send("PushMessage", message).then(_x => console.log(`Message - ${message}`))
     }
+
     public static getInstance(): Connector {
         if (!Connector.instance)
             Connector.instance = new Connector();
