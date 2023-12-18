@@ -32,15 +32,13 @@ const Chat: React.FC = () => {
 
 	const { PushMessage, events } = Connector();
 	useEffect(() => {
-		console.log(messages)
 		events((message) => {
-			console.log(message);
 			const newMessage: IMessage = {
 				text: message,
 				timestamp: getCurrTime(),
 				sender: userState.user.username,
 			};
-			console.log(newMessage);
+			console.log(`Message -> ${newMessage.text} sent by ${userState.user.username}`);
 			setMessages(prev => [...prev, newMessage]);
 		});
 	}, [events]);

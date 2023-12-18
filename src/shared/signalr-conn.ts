@@ -18,7 +18,7 @@ class Connector {
     }
 
     public PushMessage = (message: string) => {
-        this.connection.send("PushMessage", message).then(_x => console.log(`Message - ${message}`))
+        this.connection.send("PushMessage", message).then(_x => console.log(message))
     }
 
     public static getInstance(): Connector {

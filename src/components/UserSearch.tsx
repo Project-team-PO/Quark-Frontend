@@ -46,7 +46,7 @@ const UserSearch: React.FC = () => {
 
   return (
     <Card className={styles.user_search_container} style={{ background: '#FFFFFF', padding: '24px', minHeight: '360px' }}>
-      <h1>Search for users</h1>
+      <h1 style={{marginBottom: "12px"}}>Search for users</h1>
       <Input
         placeholder="Search for users"
         onChange={e => setSearchText(e.target.value)}
