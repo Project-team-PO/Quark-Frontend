@@ -1,14 +1,14 @@
 import React from 'react'
 import { Menu, Badge, Avatar } from 'antd';
 import { UserOutlined, ScheduleOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../app/redux-hooks';
 import { User } from '../ts/interfaces';
 import { NavLink } from 'react-router-dom';
 
 const UserMenu: React.FC = () => {
-  const announcements = useSelector((state: any) => state.announcement.announcements);
+  const announcements = useAppSelector((state: any) => state.announcement.announcements);
   //@ts-ignore
-  const { favourites } = useSelector((state: any) => state.favourites);
+  const { favourites } = useAppSelector((state: any) => state.favourites);
 
   return (
     <div>
