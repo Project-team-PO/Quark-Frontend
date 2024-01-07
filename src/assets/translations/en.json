@@ -34,6 +34,8 @@
     "Settings": {
         "Settings": "Settings",
         "MuteNotifications": "Mute Notifications",
-        "DarkMode": "Dark Mode"
+        "DarkMode": "Dark Mode",
+        "GeneralOptions": "General Options",
+        "ChooseLanguage": "Choose your Language"
     }
 }
