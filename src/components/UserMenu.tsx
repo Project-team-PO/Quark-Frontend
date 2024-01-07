@@ -34,9 +34,6 @@ const UserMenu: React.FC = () => {
         <Menu.Item key="0" icon={<ScheduleOutlined />}>
           <NavLink to="/home/Announcements">{languagePack.announcements}</NavLink>
         </Menu.Item>
-        <Menu.Item key="1" icon={<GlobalOutlined />}>
-          <NavLink to="/home/chat/global">{languagePack.global}</NavLink>
-        </Menu.Item>
         <span style={{ color: 'gray', marginLeft: '16px', fontSize: 10 }}>{languagePack.channels}</span>
         {favourites ? favourites.map((user: User) => (
           <Menu.Item key={user.id}>
