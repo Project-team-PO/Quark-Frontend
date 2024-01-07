@@ -7,7 +7,6 @@ import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const UserMenu: React.FC = () => {
-  const announcements = useSelector((state: any) => state.announcement.announcements);
   //@ts-ignore
   const { favourites } = useSelector((state: any) => state.favourites);
   const language: string = useSelector((state: { language: { currentLanguage: string } }) => state.language.currentLanguage);
@@ -33,8 +32,7 @@ const UserMenu: React.FC = () => {
           <Badge count={favourites.length} style={{ marginLeft: '8px' }} />
         </Menu.Item>
         <Menu.Item key="0" icon={<ScheduleOutlined />}>
-          <NavLink to="/home/Announcements">{languagePack.announcements}</NavLink>
-          <Badge count={announcements.length} style={{ marginLeft: '8px' }} />
+          <NavLink to="/home/Announcements">Announcements</NavLink>
         </Menu.Item>
         <span style={{ color: 'gray', marginLeft: '16px', fontSize: 10 }}>{languagePack.channels}</span>
         {favourites ? favourites.map((user: User) => (
