@@ -1,5 +1,36 @@
 {
     "people": "People",
     "announcements": "Announcements",
-    "channels": "Channels"
+    "channels": "Channels",
+    "UserProfile": "User Profile",
+    "Summary": "Summary",
+    "Username": "Username",
+    "Name": "Name",
+    "Email": "Email",
+    "Department": "Department",
+    "Position": "Position",
+    "SignOut": "Sign Out",
+    "Logout":{
+        "title": "Are you sure you want to sign out?",
+        "content": "Click ok to sign out"
+    },
+    "UserSearch": {
+        "title": "Search for users",
+        "success": "added successfully!",
+        "warning": "User already added!"
+    },
+    "Announcement": {
+        "AddAnnouncement": "Add Announcement",
+        "title": "Search for announcements",
+        "titleMessage": "Please enter a title",
+        "content": "Content",
+        "contentMessage": "Please enter a content",
+        "selectDate": "Select Date",
+        "selectDateMessage": "Please select a date"
+    },
+    "Settings": {
+        "Settings": "Settings",
+        "MuteNotifications": "Mute Notifications",
+        "DarkMode": "Dark Mode"
+    }
 }

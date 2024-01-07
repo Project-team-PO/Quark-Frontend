@@ -13,12 +13,28 @@ interface User {
   id: number;
 }
 
+
+
 const UserSearch: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const dispatch = useDispatch();
   const users = people;
   const userList = useSelector((state: { users: { users: User[] } }) => state.users.users);
+  const language: string = useSelector((state: { language: { currentLanguage: string } }) => state.language.currentLanguage);
+  const [languagePack, setLanguagePack] = useState<any>("");
 
+  React.useEffect(() => {
+    const fetchLanguagePack = async () => {
+      try {
+        let pack = await import(`../assets/translations/${language}.json`);
+        setLanguagePack(pack);
+      } catch (error) {
+        console.error(`Failed to load language pack for ${language}`, error);
+      }
+    };
+
+    fetchLanguagePack();
+  }, [language]);
   const filteredUsers: User[] = users
     .filter(user => user.name.toLowerCase().includes(searchText.toLowerCase()))
     .slice(0, 15);
@@ -26,17 +42,17 @@ const UserSearch: React.FC = () => {
   function AddUser(user: User) {
     if (userList.find(({ name }) => name === user.name) === undefined) {
       dispatch(addUser(user));
-      message.success(`${user.name} added successfully!`);
+      message.success(`${user.name} ${languagePack?.UserSearch?.success}`);
     } else {
-      message.warning('User already added!');
+      message.warning(`${languagePack?.UserSearch?.warning}`);
     }
   }
 
   return (
     <Card className={styles.user_search_container} style={{ background: '#FFFFFF', padding: '24px', minHeight: '360px' }}>
-      <h1>Search for users</h1>
+      <h1>{languagePack?.UserSearch?.title}</h1>
       <Input
-        placeholder="Search for users"
+        placeholder={languagePack?.UserSearch?.title}
         onChange={e => setSearchText(e.target.value)}
         style={{ marginBottom: '24px' }}
       />

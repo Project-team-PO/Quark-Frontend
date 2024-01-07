@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, List, Avatar, Form, Input, Button, Modal, DatePicker } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
@@ -20,7 +20,21 @@ const Announcements: React.FC = () => {
 	const [announcements, setAnnouncements] = useState<Announcement[]>([
 		{ id: 1, title: 'Announcement #1', content: 'This is an example.', name: 'John Doe', avatar: 'https://gravatar.com/avatar/1c8e8a6e8d1fe52b782b280909abeb38?s=400&d=robohash&r=x', time: new Date() },
 	]);
+	const language: string = useSelector((state: { language: { currentLanguage: string } }) => state.language.currentLanguage);
+	const [languagePack, setLanguagePack] = useState<any>("");
 
+	useEffect(() => {
+		const fetchLanguagePack = async () => {
+			try {
+				let pack = await import(`../assets/translations/${language}.json`);
+				setLanguagePack(pack);
+			} catch (error) {
+				console.error(`Failed to load language pack for ${language}`, error);
+			}
+		};
+
+		fetchLanguagePack();
+	}, [language]);
 	const [form] = Form.useForm();
 	const [showModal, setShowModal] = useState(false);
 
@@ -49,20 +63,20 @@ const Announcements: React.FC = () => {
 		<Card className={styles.user_search_container} style={{ background: '#FFFFFF', padding: '24px', minHeight: '360px' }}>
 			<Button type="primary" shape="circle" icon={<PlusOutlined />} onClick={() => setShowModal(true)} style={{ position: 'fixed', bottom: '24px', right: '24px' }} />
 			<Modal
-				title="Add Announcement"
+				title={languagePack?.Announcement?.AddAnnouncement}
 				visible={showModal}
 				onCancel={() => setShowModal(false)}
 				onOk={handleAddAnnouncement}
 			>
 				<Form form={form}>
-					<Form.Item name="title" rules={[{ required: true, message: 'Please enter the title' }]}>
-						<Input placeholder="Title" />
+					<Form.Item name="title" rules={[{ required: true, message: `${languagePack?.Announcement?.titleMessage}` }]}>
+						<Input placeholder={languagePack?.Announcement?.title} />
 					</Form.Item>
-					<Form.Item name="content" rules={[{ required: true, message: 'Please enter the content' }]}>
-						<Input.TextArea placeholder="Content" />
+					<Form.Item name="content" rules={[{ required: true, message: `${languagePack?.Announcement?.contentMessage}` }]}>
+						<Input.TextArea placeholder={languagePack?.Announcement?.content} />
 					</Form.Item>
-					<Form.Item name="date" rules={[{ required: true, message: 'Please select the date' }]}>
-						<DatePicker />
+					<Form.Item name="time" rules={[{ required: true, message: `${languagePack?.Announcement?.selectDateMessage}` }]}>
+						<DatePicker placeholder={languagePack?.Announcement?.selectDate} />
 					</Form.Item>
 				</Form>
 			</Modal>
