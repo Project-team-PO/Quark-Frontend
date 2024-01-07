@@ -1,5 +1,5 @@
 {
-    "people": "Personen",
+    "people": "Menschen",
     "announcements": "Ankündigungen",
     "channels": "Kanäle",
     "UserProfile": "Benutzerprofil",
@@ -15,7 +15,7 @@
         "content": "Klicken Sie auf OK, um sich abzumelden"
     },
     "UserSearch": {
-        "title": "Nach Benutzern suchen",
+        "title": "Benutzer suchen",
         "success": "erfolgreich hinzugefügt!",
         "warning": "Benutzer bereits hinzugefügt!"
     },
@@ -33,6 +33,8 @@
     "Settings": {
         "Settings": "Einstellungen",
         "MuteNotifications": "Benachrichtigungen stummschalten",
-        "DarkMode": "Dunkelmodus"
+        "DarkMode": "Dunkelmodus",
+        "GeneralOptions": "Allgemeine Optionen",
+        "ChooseLanguage": "Wähle deine Sprache"
     }
 }

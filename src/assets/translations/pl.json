@@ -1,5 +1,5 @@
 {
-    "people": "użytkownicy",
+    "people": "Ludzie",
     "announcements": "Ogłoszenia",
     "channels": "Kanały",
     "UserProfile": "Profil użytkownika",
@@ -33,6 +33,8 @@
     "Settings": {
         "Settings": "Ustawienia",
         "MuteNotifications": "Wycisz powiadomienia",
-        "DarkMode": "Tryb ciemny"
+        "DarkMode": "Tryb ciemny",
+        "GeneralOptions": "Opcje ogólne",
+        "ChooseLanguage": "Wybierz język"
     }
 }
