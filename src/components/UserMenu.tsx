@@ -4,24 +4,39 @@ import { UserOutlined, ScheduleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { User } from '../ts/interfaces';
 import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const UserMenu: React.FC = () => {
   const announcements = useSelector((state: any) => state.announcement.announcements);
   //@ts-ignore
   const { favourites } = useSelector((state: any) => state.favourites);
+  const language: string = useSelector((state: { language: { currentLanguage: string } }) => state.language.currentLanguage);
+  const [languagePack, setLanguagePack] = useState<any>("");
 
+  useEffect(() => {
+    const fetchLanguagePack = async () => {
+      try {
+        let pack = await import(`../assets/translations/${language}.json`);
+        setLanguagePack(pack);
+      } catch (error) {
+        console.error(`Failed to load language pack for ${language}`, error);
+      }
+    };
+
+    fetchLanguagePack();
+  }, [language]);
   return (
     <div>
       <Menu theme="dark" mode="inline" >
         <Menu.Item key="-1" icon={<UserOutlined />}>
-          <NavLink to="/home/">People</NavLink>
+          <NavLink to="/home/">{languagePack.people}</NavLink>
           <Badge count={favourites.length} style={{ marginLeft: '8px' }} />
         </Menu.Item>
         <Menu.Item key="0" icon={<ScheduleOutlined />}>
-          <NavLink to="/home/Announcements">Announcements</NavLink>
+          <NavLink to="/home/Announcements">{languagePack.announcements}</NavLink>
           <Badge count={announcements.length} style={{ marginLeft: '8px' }} />
         </Menu.Item>
-        <span style={{ color: 'gray', marginLeft: '16px', fontSize: 10 }}>Channels</span>
+        <span style={{ color: 'gray', marginLeft: '16px', fontSize: 10 }}>{languagePack.channels}</span>
         {favourites ? favourites.map((user: User) => (
           <Menu.Item key={user.id}>
             <Avatar src={user.pictureUrl} />

@@ -1,0 +1,38 @@
+{
+    "people": "użytkownicy",
+    "announcements": "Ogłoszenia",
+    "channels": "Kanały",
+    "UserProfile": "Profil użytkownika",
+    "Summary": "Podsumowanie",
+    "Username": "Nazwa użytkownika",
+    "Name": "Imię",
+    "Email": "E-mail",
+    "Department": "Dział",
+    "Position": "Stanowisko",
+    "SignOut": "Wyloguj się",
+    "Logout": {
+        "title": "Czy na pewno chcesz się wylogować?",
+        "content": "Kliknij OK, aby się wylogować"
+    },
+    "UserSearch": {
+        "title": "Wyszukaj użytkowników",
+        "success": "dodano pomyślnie!",
+        "warning": "Użytkownik już dodany!"
+    },
+    "Announcement": {
+        "AddAnnouncement": "Dodaj ogłoszenie",
+        "title": "Szukaj ogłoszeń",
+        "titleMessage": "Proszę podać tytuł",
+        "content": "Treść",
+        "contentMessage": "Proszę podać treść",
+        "selectDate": "Wybierz datę",
+        "selectDateMessage": "Proszę wybrać datę",
+        "confirmDelete": "Potwierdź usunięcie",
+        "confirmDeleteMessage": "Czy na pewno chcesz usunąć to ogłoszenie?"
+    },
+    "Settings": {
+        "Settings": "Ustawienia",
+        "MuteNotifications": "Wycisz powiadomienia",
+        "DarkMode": "Tryb ciemny"
+    }
+}
