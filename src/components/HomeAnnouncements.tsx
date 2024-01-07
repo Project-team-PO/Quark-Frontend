@@ -20,6 +20,22 @@ const Announcements: React.FC = () => {
 	dayjs.extend(customParseFormat);
 	const dispatch = useDispatch();
 
+	const language: string = useSelector((state: { language: { currentLanguage: string } }) => state.language.currentLanguage);
+	const [languagePack, setLanguagePack] = useState<any>("");
+
+	useEffect(() => {
+		const fetchLanguagePack = async () => {
+			try {
+				let pack = await import(`../assets/translations/${language}.json`);
+				setLanguagePack(pack);
+			} catch (error) {
+				console.error(`Failed to load language pack for ${language}`, error);
+			}
+		};
+
+		fetchLanguagePack();
+	}, [language]);
+
 	const [AddAnnouncementEndpoint, { isError }] = useAddAnnouncementEndpointMutation(); // Error alert/message if adding fails
 	const [GetAnnouncementEndpoint, { isLoading }] = useGetAnnouncementsEndpointMutation(); //Skeleton if the data is loading
 	const [DeleteAnnouncementEndpoint] = useDeleteAnnouncementEndpointMutation(); // Delete announcement endpoint
@@ -102,21 +118,22 @@ const Announcements: React.FC = () => {
 		<Card className={styles.announcement_first_container} style={{ background: '#FFFFFF', padding: '24px', minHeight: '360px' }}>
 			<Button type="primary" shape="circle" icon={<PlusOutlined />} onClick={() => setShowModal(true)} style={{ position: 'fixed', bottom: '24px', right: '24px' }} />
 			<Modal
-				title="Add Announcement"
+				title={languagePack?.Announcement?.AddAnnouncement}
 				open={showModal}
 				onCancel={() => setShowModal(false)}
 				onOk={handleAddAnnouncement}
 			>
 				<Form form={form}>
-					<Form.Item name="title" rules={[{ required: true, message: 'Please enter the title' }]}>
-						<Input placeholder="Title" />
+					<Form.Item name="title" rules={[{ required: true, message: `${languagePack?.Announcement?.titleMessage}` }]}>
+						<Input placeholder={languagePack?.Announcement?.title} />
 					</Form.Item>
-					<Form.Item name="content" rules={[{ required: true, message: 'Please enter the content' }]}>
-						<Input.TextArea placeholder="Content" />
+					<Form.Item name="content" rules={[{ required: true, message: `${languagePack?.Announcement?.contentMessage}` }]}>
+						<Input.TextArea placeholder={languagePack?.Announcement?.content} />
 					</Form.Item>
-					<Form.Item name="date" rules={[{ required: true, message: 'Please select the date' }]}>
+					<Form.Item name="date" rules={[{ required: true, message: `${languagePack?.Announcement?.selectDateMessage}` }]}>
 						<DatePicker.RangePicker
 							disabledDate={disabledDate}
+
 							showTime={{
 								hideDisabledOptions: true,
 								defaultValue: [dayjs('00:00:00', 'HH:mm:ss'), dayjs('11:59:59', 'HH:mm:ss')],
@@ -127,12 +144,12 @@ const Announcements: React.FC = () => {
 				</Form>
 			</Modal>
 			<Modal
-				title="Confirm Delete"
+				title={languagePack?.Announcement?.confirmDelete}
 				open={showDeleteModal}
 				onCancel={() => setShowDeleteModal(false)}
 				onOk={confirmDeleteAnnouncement}
 			>
-				Are you sure you want to delete this announcement?
+				{languagePack?.Announcement?.confirmDeleteMessage}
 			</Modal>
 			<div className={styles.announcement_card_container}>
 				{currentAnnouncements.map((item: AnnouncementResponse) => (

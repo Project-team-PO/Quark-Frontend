@@ -1,0 +1,38 @@
+{
+    "people": "Personen",
+    "announcements": "Ankündigungen",
+    "channels": "Kanäle",
+    "UserProfile": "Benutzerprofil",
+    "Summary": "Zusammenfassung",
+    "Username": "Benutzername",
+    "Name": "Name",
+    "Email": "E-Mail",
+    "Department": "Abteilung",
+    "Position": "Position",
+    "SignOut": "Abmelden",
+    "Logout": {
+        "title": "Sind Sie sicher, dass Sie sich abmelden möchten?",
+        "content": "Klicken Sie auf OK, um sich abzumelden"
+    },
+    "UserSearch": {
+        "title": "Nach Benutzern suchen",
+        "success": "erfolgreich hinzugefügt!",
+        "warning": "Benutzer bereits hinzugefügt!"
+    },
+    "Announcement": {
+        "AddAnnouncement": "Ankündigung hinzufügen",
+        "title": "Nach Ankündigungen suchen",
+        "titleMessage": "Bitte geben Sie einen Titel ein",
+        "content": "Inhalt",
+        "contentMessage": "Bitte geben Sie einen Inhalt ein",
+        "selectDate": "Datum auswählen",
+        "selectDateMessage": "Bitte wählen Sie ein Datum aus",
+        "confirmDelete": "Löschen bestätigen",
+        "confirmDeleteMessage": "Sind Sie sicher, dass Sie diese Ankündigung löschen möchten?"
+    },
+    "Settings": {
+        "Settings": "Einstellungen",
+        "MuteNotifications": "Benachrichtigungen stummschalten",
+        "DarkMode": "Dunkelmodus"
+    }
+}
