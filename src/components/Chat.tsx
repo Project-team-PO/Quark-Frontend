@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Tooltip, Modal, Input, List, Avatar, message } from 'antd';
-import { SmileOutlined, SendOutlined, UsergroupAddOutlined, PlusOutlined, MinusCircleOutlined, MinusOutlined } from '@ant-design/icons';
+import { SmileOutlined, SendOutlined, UsergroupAddOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import EmojiPicker from 'emoji-picker-react';
 import { useParams } from 'react-router-dom';
 import Connector from "../shared/signalr-conn"

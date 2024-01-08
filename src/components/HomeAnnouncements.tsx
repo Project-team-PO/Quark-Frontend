@@ -36,8 +36,8 @@ const Announcements: React.FC = () => {
 		fetchLanguagePack();
 	}, [language]);
 
-	const [AddAnnouncementEndpoint, { isError }] = useAddAnnouncementEndpointMutation(); // Error alert/message if adding fails
-	const [GetAnnouncementEndpoint, { isLoading }] = useGetAnnouncementsEndpointMutation(); //Skeleton if the data is loading
+	const [AddAnnouncementEndpoint] = useAddAnnouncementEndpointMutation(); // Error alert/message if adding fails
+	const [GetAnnouncementEndpoint] = useGetAnnouncementsEndpointMutation(); //Skeleton if the data is loading
 	const [DeleteAnnouncementEndpoint] = useDeleteAnnouncementEndpointMutation(); // Delete announcement endpoint
 
 	const handlePageChange = (page: number) => {

@@ -54,8 +54,8 @@ const UserProfile = () => {
 						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>{languagePack.Username}: {userState.user.username}</p>
 						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>{languagePack.Name}: {userState.user.firstName} {userState.user.lastName}</p>
 						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>{languagePack.Email}: {userState.user.email}</p>
-						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>{languagePack.Department}: </p>
-						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>{languagePack.Position}: </p>
+						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>{languagePack.Department}: {userState.user.jobPosition?.department?.name}</p>
+						<p style={{ fontWeight: 'bold', marginBottom: '4px' }}>{languagePack.Position}: {userState.user.jobPosition?.name}</p>
 					</div>
 				</div>
 				<Divider />
