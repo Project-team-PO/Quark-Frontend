@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, Badge, Avatar } from 'antd';
-import { UserOutlined, ScheduleOutlined } from '@ant-design/icons';
+import { UserOutlined, ScheduleOutlined, GlobalOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { User } from '../ts/interfaces';
 import { NavLink } from 'react-router-dom';
@@ -33,6 +33,9 @@ const UserMenu: React.FC = () => {
         </Menu.Item>
         <Menu.Item key="0" icon={<ScheduleOutlined />}>
           <NavLink to="/home/Announcements">{languagePack.announcements}</NavLink>
+        </Menu.Item>
+        <Menu.Item key="1" icon={<GlobalOutlined />}>
+          <NavLink to="/home/chat/global">{languagePack.global}</NavLink>
         </Menu.Item>
         <span style={{ color: 'gray', marginLeft: '16px', fontSize: 10 }}>{languagePack.channels}</span>
         {favourites ? favourites.map((user: User) => (

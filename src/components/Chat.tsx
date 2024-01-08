@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUsers } from '../app/slices/user.slice';
 import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
 
-
 import { User } from '../ts/interfaces';
 
 const getCurrTime = () => {
@@ -27,18 +26,19 @@ const Chat: React.FC = () => {
 	const { userState } = useSelector((state: any) => state.auth)
 	const [ModalVisible, setModalVisible] = useState(false);
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-	const [messages, setMessages] = useState<IMessage[]>([{ text: `Hello, ${userState.user.firstName}!`, timestamp: getCurrTime(), sender: params.username }]);
+	const [messages, setMessages] = useState<IMessage[]>([])
 	const [messageInput, setMessageInput] = useState('');
 
 	const { PushMessage, events } = Connector();
+
 	useEffect(() => {
-		events((message) => {
+		events((message, username) => {
 			const newMessage: IMessage = {
 				text: message,
 				timestamp: getCurrTime(),
-				sender: userState.user.username,
+				sender: username
 			};
-			console.log(`Message -> ${newMessage.text} sent by ${userState.user.username}`);
+			console.log(`Message -> ${newMessage.text} sent by ${username}`);
 			setMessages(prev => [...prev, newMessage]);
 		});
 	}, [events]);
@@ -53,7 +53,7 @@ const Chat: React.FC = () => {
 
 	const handleSend = () => {
 		if (messageInput.trim() !== '') {
-			PushMessage(messageInput);
+			PushMessage(messageInput, userState.user.username);
 			setMessageInput('');
 		}
 	};
@@ -97,8 +97,9 @@ const Chat: React.FC = () => {
 	return (
 		<Card className={styles.chat_main}>
 			<div style={{ background: '#fff', color: 'black', height: '85vh', overflowY: 'scroll' }}>
+				{messages && messages.length === 0 ? <p>Type to start chatting</p> : ""}
 				{messages.map((message, index) => (
-					<Message message={message} index={index} params={params} />
+					<Message message={message} index={index} />
 				))}
 			</div>
 			<div
@@ -115,7 +116,7 @@ const Chat: React.FC = () => {
 			>
 				<Input
 					type="text"
-					placeholder={`Type a message to ${params.username}`}
+					placeholder={params.username == "global" ? `Type a message for everyone to see!` : `Type a message to ${params.username}`}
 					style={{
 						padding: '15px',
 						borderRadius: '4px',

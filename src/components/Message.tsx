@@ -1,8 +1,9 @@
 import { MessageProps } from "../ts/types"
+import { useSelector } from "react-redux";
 
+const Message = ({ index, message }: MessageProps) => {
+  const { userState } = useSelector((state: any) => state.auth);
 
-
-const Message = ({ index, message, params }: MessageProps) => {
   return (
     <div key={index} style={{ marginLeft: 5, marginRight: 6 }}>
       <div
@@ -15,8 +16,8 @@ const Message = ({ index, message, params }: MessageProps) => {
         <span style={{ fontSize: 10, color: 'gray' }}>{message.sender}</span>
         <div
           style={{
-            backgroundColor: message.sender === params.username ? '#0084ff' : '#f0f0f0',
-            color: message.sender === params.username ? 'white' : 'black',
+            backgroundColor: message.sender === userState.user.username ? '#0084ff' : '#f0f0f0',
+            color: message.sender === userState.user.username ? 'white' : 'black',
             borderRadius: 10,
             padding: 10,
           }}
