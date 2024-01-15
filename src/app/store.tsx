@@ -6,6 +6,7 @@ import usersReducer from './slices/user.slice'
 import announcementReducer from './slices/announcement.slice'
 import favouritesReducer from './slices/favourites.slice'
 import languageSlice from './slices/language.slice'
+import tourSlice from './slices/tour.slice'
 
 export default configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export default configureStore({
     language: languageSlice,
     announcement: announcementReducer,
     favourites: favouritesReducer,
+    tour: tourSlice,
     [apiSlice.reducerPath]: apiSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),

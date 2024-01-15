@@ -1,7 +1,7 @@
 {
     "people": "Ludzie",
     "announcements": "Ogłoszenia",
-    "global": "Kanał globalny",
+    "global": "Globalne",
     "channels": "Kanały",
     "UserProfile": "Profil użytkownika",
     "Summary": "Podsumowanie",
@@ -16,16 +16,16 @@
         "content": "Kliknij OK, aby się wylogować"
     },
     "UserSearch": {
-        "title": "Wyszukaj użytkowników",
-        "success": "dodano pomyślnie!",
+        "title": "Szukaj użytkowników",
+        "success": "dodany pomyślnie!",
         "warning": "Użytkownik już dodany!"
     },
     "Announcement": {
         "AddAnnouncement": "Dodaj ogłoszenie",
         "title": "Szukaj ogłoszeń",
-        "titleMessage": "Proszę podać tytuł",
-        "content": "Treść",
-        "contentMessage": "Proszę podać treść",
+        "titleMessage": "Proszę wprowadzić tytuł",
+        "content": "Zawartość",
+        "contentMessage": "Proszę wprowadzić zawartość",
         "selectDate": "Wybierz datę",
         "selectDateMessage": "Proszę wybrać datę",
         "confirmDelete": "Potwierdź usunięcie",
@@ -35,7 +35,10 @@
         "Settings": "Ustawienia",
         "MuteNotifications": "Wycisz powiadomienia",
         "DarkMode": "Tryb ciemny",
-        "GeneralOptions": "Opcje ogólne",
-        "ChooseLanguage": "Wybierz język"
+        "GeneralOptions": "Ogólne opcje",
+        "ChooseLanguage": "Wybierz język",
+        "UserMenuTutorial": "Samouczek menu użytkownika",
+        "AnnouncementsTutorial": "Samouczek ogłoszeń",
+        "Tutorials": "Samouczki"
     }
 }

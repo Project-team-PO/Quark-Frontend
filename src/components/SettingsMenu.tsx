@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Modal, Button, Select } from 'antd';
 import { changeLanguage } from '../app/slices/language.slice';
+import { setOpenModalAnnouncements, setOpenModalUserMenu } from '../app/slices/tour.slice';
+
 const SettingsMenu: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [chooseLanguage, setChooseLangugage] = useState("");
@@ -38,6 +40,11 @@ const SettingsMenu: React.FC = () => {
     setIsModalVisible(false);
   };
 
+  const handleTutorial = (data: any) => {
+    dispatch(data)
+    handleCancel()
+  }
+
   return (
     <div>
       <Menu style={{ position: "absolute", bottom: 0, width: "100%" }}
@@ -48,7 +55,7 @@ const SettingsMenu: React.FC = () => {
         <Menu.Item disabled></Menu.Item>
       </Menu>
 
-      <Modal title={languagePack?.Settings?.Settings} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title={languagePack?.Settings?.Settings} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} >
         <p>{languagePack?.Settings?.ChooseLanguage}:</p>
         <Select
           defaultValue={chooseLanguage || language}
@@ -59,9 +66,17 @@ const SettingsMenu: React.FC = () => {
 
         <Button type="primary">
           {languagePack?.Settings?.MuteNotifications} <NotificationOutlined />
-        </Button>
-        <Button type="primary" style={{ marginLeft: '7px' }}>
+        </Button><br />
+        <Button type="primary" style={{ marginTop: '5px' }}>
           {languagePack?.Settings?.DarkMode}<AlertOutlined />
+        </Button>
+        <p>{languagePack?.Settings?.Tutorials}:</p>
+        <Button type="primary" onClick={() => (handleTutorial(setOpenModalUserMenu()))}>
+          {languagePack?.Settings?.UserMenuTutorial}
+        </Button>
+        <br />
+        <Button type="primary" onClick={() => (handleTutorial(setOpenModalAnnouncements()))} style={{ marginTop: '5px' }}>
+          {languagePack?.Settings?.AnnouncementsTutorial}
         </Button>
       </Modal>
     </div>

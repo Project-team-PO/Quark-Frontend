@@ -11,7 +11,7 @@ const initialState = {
       userPictureUrl:
         "https://gravatar.com/avatar/1c8e8a6e8d1fe52b782b280909abeb38?s=400&d=robohash&r=x",
       time: "12/12/2023",
-    },
+    }
   ],
 };
 

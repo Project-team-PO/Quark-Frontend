@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Avatar, Form, Input, Button, Modal, DatePicker, Pagination, Tooltip, message } from 'antd';
+import React, { useState, useEffect, useRef } from 'react';
+import { Card, Avatar, Form, Input, Button, Modal, DatePicker, Pagination, Tooltip, message, Tour } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
@@ -9,6 +9,9 @@ import { Announcement, AnnouncementResponse } from '../ts/interfaces';
 import styles from "../styles/Components/Announcements.module.css";
 import { addAnnouncement, setAnnouncements, deleteAnnouncement } from '../app/slices/announcement.slice';
 import { useAddAnnouncementEndpointMutation, useGetAnnouncementsEndpointMutation, useDeleteAnnouncementEndpointMutation } from '../app/slices/auth.api.slice';
+import type { TourProps } from 'antd';
+import { setOpenModalAnnouncements } from '../app/slices/tour.slice';
+
 
 const Announcements: React.FC = () => {
 	const [form] = Form.useForm();
@@ -19,7 +22,28 @@ const Announcements: React.FC = () => {
 	const itemsPerPage = 5;
 	dayjs.extend(customParseFormat);
 	const dispatch = useDispatch();
+	const ref1 = useRef(null);
+	const ref2 = useRef(null);
+	const ref3 = useRef(null);
 
+	const open = useSelector((state: any) => state.tour.openModalAnnouncements)
+	const steps: TourProps['steps'] = [
+		{
+			title: 'Announcement',
+			description: 'here you can see example Announcement, from top title, name and photo(of creator), content and date(of happening).',
+			target: () => ref1.current,
+		},
+		{
+			title: 'Add announcements',
+			description: 'Here you can add your announcement.',
+			target: () => ref2.current,
+		},
+		{
+			title: 'Pagination',
+			description: 'Here you can change pages.',
+			target: () => ref3.current,
+		}
+	];
 	const language: string = useSelector((state: { language: { currentLanguage: string } }) => state.language.currentLanguage);
 	const [languagePack, setLanguagePack] = useState<any>("");
 
@@ -116,7 +140,7 @@ const Announcements: React.FC = () => {
 
 	return (
 		<Card className={styles.announcement_first_container} style={{ background: '#FFFFFF', padding: '24px', minHeight: '360px' }}>
-			<Button type="primary" shape="circle" icon={<PlusOutlined />} onClick={() => setShowModal(true)} style={{ position: 'fixed', bottom: '24px', right: '24px' }} />
+			<Button ref={ref2} type="primary" shape="circle" icon={<PlusOutlined />} onClick={() => setShowModal(true)} style={{ position: 'fixed', bottom: '24px', right: '24px' }} />
 			<Modal
 				title={languagePack?.Announcement?.AddAnnouncement}
 				open={showModal}
@@ -151,10 +175,11 @@ const Announcements: React.FC = () => {
 			>
 				{languagePack?.Announcement?.confirmDeleteMessage}
 			</Modal>
-			<div className={styles.announcement_card_container}>
+			<div className={styles.announcement_card_container} >
 				{currentAnnouncements.map((item: AnnouncementResponse) => (
 
 					<Card
+						ref={ref1}
 						key={item.id}
 						title={<Tooltip title={item.title} placement="top" ><h3 style={{ fontFamily: "Montserrat" }}>{item.title}</h3></Tooltip>}
 						extra={
@@ -178,13 +203,16 @@ const Announcements: React.FC = () => {
 
 				))}
 			</div>
-			<Pagination
-				style={{ marginTop: '16px', textAlign: 'center' }}
-				total={announcements.length}
-				pageSize={itemsPerPage}
-				current={currentPage}
-				onChange={handlePageChange}
-			/>
+			<div ref={ref3}>
+				<Pagination
+
+					style={{ marginTop: '16px', textAlign: 'center' }}
+					total={announcements.length}
+					pageSize={itemsPerPage}
+					current={currentPage}
+					onChange={handlePageChange}
+				/></div>
+			<Tour open={open} onClose={() => dispatch(setOpenModalAnnouncements())} steps={steps} />
 		</Card>
 	);
 };
