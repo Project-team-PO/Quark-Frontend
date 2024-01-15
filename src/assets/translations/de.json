@@ -1,7 +1,7 @@
 {
     "people": "Menschen",
     "announcements": "Ankündigungen",
-    "global": "Globaler Kanäl",
+    "global": "Global",
     "channels": "Kanäle",
     "UserProfile": "Benutzerprofil",
     "Summary": "Zusammenfassung",
@@ -12,7 +12,7 @@
     "Position": "Position",
     "SignOut": "Abmelden",
     "Logout": {
-        "title": "Sind Sie sicher, dass Sie sich abmelden möchten?",
+        "title": "Möchten Sie sich wirklich abmelden?",
         "content": "Klicken Sie auf OK, um sich abzumelden"
     },
     "UserSearch": {
@@ -22,20 +22,23 @@
     },
     "Announcement": {
         "AddAnnouncement": "Ankündigung hinzufügen",
-        "title": "Nach Ankündigungen suchen",
+        "title": "Ankündigungen suchen",
         "titleMessage": "Bitte geben Sie einen Titel ein",
         "content": "Inhalt",
         "contentMessage": "Bitte geben Sie einen Inhalt ein",
         "selectDate": "Datum auswählen",
         "selectDateMessage": "Bitte wählen Sie ein Datum aus",
         "confirmDelete": "Löschen bestätigen",
-        "confirmDeleteMessage": "Sind Sie sicher, dass Sie diese Ankündigung löschen möchten?"
+        "confirmDeleteMessage": "Möchten Sie diese Ankündigung wirklich löschen?"
     },
     "Settings": {
         "Settings": "Einstellungen",
         "MuteNotifications": "Benachrichtigungen stummschalten",
         "DarkMode": "Dunkelmodus",
         "GeneralOptions": "Allgemeine Optionen",
-        "ChooseLanguage": "Wähle deine Sprache"
+        "ChooseLanguage": "Wählen Sie Ihre Sprache",
+        "UserMenuTutorial": "Benutzermenü-Tutorial",
+        "AnnouncementsTutorial": "Ankündigungen-Tutorial",
+        "Tutorials": "Tutorials"
     }
 }

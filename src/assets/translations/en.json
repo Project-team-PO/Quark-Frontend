@@ -37,6 +37,9 @@
         "MuteNotifications": "Mute Notifications",
         "DarkMode": "Dark Mode",
         "GeneralOptions": "General Options",
-        "ChooseLanguage": "Choose your Language"
+        "ChooseLanguage": "Choose your Language",
+        "UserMenuTutorial": "User menu tutorial",
+        "AnnouncementsTutorial": "Announcements tutorial",
+        "Tutorials": "Tutorials"
     }
 }
