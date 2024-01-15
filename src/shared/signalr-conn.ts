@@ -6,7 +6,6 @@ const URL = "http://localhost:5253/QuarkHub"; //or whatever your backend port is
 class Connector {
   private connection: signalR.HubConnection;
   public events: (
-    onMessageReceived: (message: string, username: string) => void,
     onMessageReceivedGroup: (message: IMessageGroup) => void
   ) => void;
   static instance: Connector;
@@ -22,10 +21,7 @@ class Connector {
         this.JoinGroup(groupName);
       })
       .catch((err) => document.write(err));
-    this.events = (onMessageReceived, onMessageReceivedGroup) => {
-      this.connection.on("ReceiveMessage", (message, username) => {
-        onMessageReceived(message, username);
-      });
+    this.events = (onMessageReceivedGroup) => {
       this.connection.on("ReceiveMessageGroup", (message) => {
         onMessageReceivedGroup(message);
       });
@@ -37,12 +33,6 @@ class Connector {
       .invoke("JoinGroup", groupName)
       .catch((err) => console.error(err));
     console.log("Joined group", groupName);
-  };
-
-  public PushMessage = (message: string, username: string) => {
-    this.connection
-      .invoke("PushMessage", message, username)
-      .catch((err) => console.error(err));
   };
 
   public PushToGroup = (groupName: string, message: IMessageGroup) => {

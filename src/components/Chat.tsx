@@ -7,7 +7,7 @@ import Connector from "../shared/signalr-conn"
 import Message from './Message';
 import styles from "../styles/Components/Chat.module.css"
 
-import { IMessage, IMessageGroup } from '../ts/interfaces';
+import { IMessageGroup } from '../ts/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsers } from '../app/slices/user.slice';
 import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
@@ -36,16 +36,6 @@ const Chat: React.FC = () => {
 	const { events, PushToGroup } = connector;
 
 	useEffect(() => {
-		const handleMessageReceived = (message: string, username: string) => {
-			const newMessage: IMessage = {
-				text: message,
-				timestamp: getCurrTime(),
-				sender: username,
-			};
-			console.log(`Message -> ${newMessage.text} sent by ${username}`);
-			//setMessages(prev => [...prev, newMessage]);
-		};
-
 		const handleMessageReceivedGroup = (message: IMessageGroup) => {
 			const groupMessage: IMessageGroup = {
 				email: message.email,
@@ -57,8 +47,7 @@ const Chat: React.FC = () => {
 			setMessages(prev => [...prev, groupMessage])
 		};
 
-		// Add event listeners only once by using the useEffect dependency array
-		events(handleMessageReceived, handleMessageReceivedGroup);
+		events(handleMessageReceivedGroup);
 	}, [events]);
 
 	const handleEmojiClick = () => {
