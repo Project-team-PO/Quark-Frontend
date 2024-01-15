@@ -13,11 +13,11 @@ const Message = ({ index, message }: MessageProps) => {
           fontSize: 20,
         }}
       >
-        <span style={{ fontSize: 10, color: 'gray' }}>{message.sender}</span>
+        <span style={{ fontSize: 10, color: 'gray' }}>{message.username}</span>
         <div
           style={{
-            backgroundColor: message.sender === userState.user.username ? '#0084ff' : '#f0f0f0',
-            color: message.sender === userState.user.username ? 'white' : 'black',
+            backgroundColor: message.username === userState.user.username ? '#0084ff' : '#f0f0f0',
+            color: message.username === userState.user.username ? 'white' : 'black',
             borderRadius: 10,
             padding: 10,
           }}

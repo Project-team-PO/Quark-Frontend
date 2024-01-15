@@ -1,9 +1,9 @@
 // types.ts
-import { IMessage } from "./interfaces";
+import { IMessageGroup } from "./interfaces";
 
 export type MessageProps = {
   index: number;
-  message: IMessage;
+  message: IMessageGroup;
 };
 
 export type MailInfo = {
