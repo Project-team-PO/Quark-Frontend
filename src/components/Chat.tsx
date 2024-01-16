@@ -7,12 +7,13 @@ import Connector from "../shared/signalr-conn"
 import Message from './Message';
 import styles from "../styles/Components/Chat.module.css"
 
-import { IMessage } from '../ts/interfaces';
+import { IMessageGroup } from '../ts/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsers } from '../app/slices/user.slice';
 import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
 
 import { User } from '../ts/interfaces';
+
 
 const getCurrTime = () => {
 	const now = new Date();
@@ -26,21 +27,27 @@ const Chat: React.FC = () => {
 	const { userState } = useSelector((state: any) => state.auth)
 	const [ModalVisible, setModalVisible] = useState(false);
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-	const [messages, setMessages] = useState<IMessage[]>([])
+	const [messages, setMessages] = useState<IMessageGroup[]>([])
 	const [messageInput, setMessageInput] = useState('');
 
-	const { PushMessage, events } = Connector();
+	const groupName = params.username!
+	const connector = Connector.getInstance(groupName)
+
+	const { events, PushToGroup } = connector;
 
 	useEffect(() => {
-		events((message, username) => {
-			const newMessage: IMessage = {
-				text: message,
-				timestamp: getCurrTime(),
-				sender: username
-			};
-			console.log(`Message -> ${newMessage.text} sent by ${username}`);
-			setMessages(prev => [...prev, newMessage]);
-		});
+		const handleMessageReceivedGroup = (message: IMessageGroup) => {
+			const groupMessage: IMessageGroup = {
+				email: message.email,
+				username: message.username,
+				timestamp: message.timestamp,
+				text: message.text
+			}
+			console.log(`Message -> ${groupMessage.text} sent to ${params.username}`)
+			setMessages(prev => [...prev, groupMessage])
+		};
+
+		events(handleMessageReceivedGroup);
 	}, [events]);
 
 	const handleEmojiClick = () => {
@@ -53,7 +60,13 @@ const Chat: React.FC = () => {
 
 	const handleSend = () => {
 		if (messageInput.trim() !== '') {
-			PushMessage(messageInput, userState.user.username);
+			const message: IMessageGroup = {
+				email: userState.user.email,
+				username: userState.user.username,
+				text: messageInput,
+				timestamp: getCurrTime()
+			}
+			PushToGroup(groupName, message);
 			setMessageInput('');
 		}
 	};

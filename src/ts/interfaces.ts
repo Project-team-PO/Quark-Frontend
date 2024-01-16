@@ -39,3 +39,10 @@ export interface IMessage {
 export interface IRouteChildren {
   children: JSX.Element;
 }
+
+export interface IMessageGroup {
+  email: string;
+  timestamp: string;
+  username: string;
+  text: string;
+}
