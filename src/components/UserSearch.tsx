@@ -43,8 +43,11 @@ const UserSearch: React.FC = () => {
   }, [])
 
   const { users } = useSelector((state: any) => state.users)
+  const { userState } = useSelector((state: any) => state.auth)
 
-  const filteredUsers: User[] = users
+  const mappedUsers: User[] = users.filter((user: User) => user.id !== userState.user.id);
+
+  const filteredUsers: User[] = mappedUsers
     ?.filter((user: User) => user?.firstName.toLowerCase().includes(searchText?.toLowerCase()))
     .slice(0, 15);
 

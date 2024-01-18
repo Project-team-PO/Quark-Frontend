@@ -1,11 +1,11 @@
 import { MessageProps } from "../ts/types"
 import { useSelector } from "react-redux";
 
-const Message = ({ index, message }: MessageProps) => {
+const Message = ({ message }: MessageProps) => {
   const { userState } = useSelector((state: any) => state.auth);
 
   return (
-    <div key={index} style={{ marginLeft: 5, marginRight: 6 }}>
+    <div style={{ marginLeft: 5, marginRight: 6 }}>
       <div
         style={{
           display: 'block',

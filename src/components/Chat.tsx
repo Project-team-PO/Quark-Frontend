@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Card, Tooltip, Input } from 'antd';
+import { Button, Card, Tooltip, Input, message } from 'antd';
 import { SmileOutlined, SendOutlined } from '@ant-design/icons';
 import EmojiPicker from 'emoji-picker-react';
 import { useParams } from 'react-router-dom';
@@ -7,7 +7,7 @@ import Connector from "../shared/signalr-conn"
 import Message from './Message';
 import styles from "../styles/Components/Chat.module.css"
 
-import { IMessageGroup } from '../ts/interfaces';
+import { IMessageGroup, ISendMessage } from '../ts/interfaces';
 import { useSelector } from 'react-redux';
 
 const getCurrTime = () => {
@@ -53,12 +53,11 @@ const Chat: React.FC = () => {
 
 	const handleSend = () => {
 		if (messageInput.trim() !== '') {
-			const message: IMessageGroup = {
+			const message: ISendMessage = {
 				username: userState.user.username,
 				text: messageInput,
 				timestamp: getCurrTime()
 			}
-
 			SendMessage(message, groupName);
 			setMessageInput('');
 		}
@@ -68,8 +67,8 @@ const Chat: React.FC = () => {
 		<Card className={styles.chat_main}>
 			<div style={{ background: '#fff', color: 'black', height: '85vh', overflowY: 'scroll' }}>
 				{messages && messages.length === 0 ? <p>Type to start chatting</p> : ""}
-				{messages.map((message, index) => (
-					<Message message={message} index={index} />
+				{messages.map((message) => (
+					<Message message={message} key={message.id}/>
 				))}
 			</div>
 			<div

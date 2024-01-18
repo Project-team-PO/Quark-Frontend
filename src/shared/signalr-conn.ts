@@ -1,6 +1,6 @@
 import * as signalR from "@microsoft/signalr";
 
-import { IMessageGroup } from "../ts/interfaces";
+import { IMessageGroup, ISendMessage } from "../ts/interfaces";
 
 const URL = "http://localhost:5253/QuarkHub"; //or whatever your backend port is
 class Connector {
@@ -41,7 +41,7 @@ class Connector {
     console.log(`Opened conversation: [${groupName}]`);
   };
 
-  public SendMessage = (message: IMessageGroup, groupName: string) => {
+  public SendMessage = (message: ISendMessage, groupName: string) => {
     this.connection
       .invoke("SendMessage", message, groupName)
       .catch((err) => console.error(err));

@@ -2,7 +2,6 @@
 import { IMessageGroup } from "./interfaces";
 
 export type MessageProps = {
-  index: number;
   message: IMessageGroup;
 };
 

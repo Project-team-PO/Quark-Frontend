@@ -42,6 +42,13 @@ export interface IRouteChildren {
 }
 
 export interface IMessageGroup {
+  id: number;
+  timestamp: string;
+  username: string;
+  text: string;
+}
+
+export interface ISendMessage {
   timestamp: string;
   username: string;
   text: string;
