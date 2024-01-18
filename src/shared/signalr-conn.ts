@@ -1,13 +1,13 @@
 import * as signalR from "@microsoft/signalr";
 
-import { IConversationWindow, IMessageGroup } from "../ts/interfaces";
+import { IMessageGroup } from "../ts/interfaces";
 
 const URL = "http://localhost:5253/QuarkHub"; //or whatever your backend port is
 class Connector {
   private connection: signalR.HubConnection;
   public events: (
     onMessageRecieved: (message: IMessageGroup) => void,
-    onShowConversation: (conversationModel: IConversationWindow) => void
+    onShowConversation: (conversationMessages: IMessageGroup[]) => void
   ) => void;
   static instance: Connector;
   constructor(groupName: string) {
@@ -28,8 +28,8 @@ class Connector {
         onMessageReceived(message);
       });
 
-      this.connection.on("ShowConversation", (conversationModel) => {
-        onShowConversation(conversationModel)
+      this.connection.on("ShowConversation", (conversationMessages) => {
+        onShowConversation(conversationMessages)
       })
     };
   }

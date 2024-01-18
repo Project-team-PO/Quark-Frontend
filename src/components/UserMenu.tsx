@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Badge, Spin } from 'antd';
+import { Menu, Badge, Spin, Avatar } from 'antd';
 import { UserOutlined, ScheduleOutlined, GlobalOutlined } from '@ant-design/icons';
 import { IConversation } from '../ts/interfaces';
 import { NavLink } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { setOpenModalUserMenu } from '../app/slices/tour.slice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetConversationsEndpointMutation } from '../app/slices/auth.api.slice';
 import { setConversations } from '../app/slices/conversations.slice';
+import { filterConversation } from '../shared/functions';
 
 const UserMenu: React.FC = () => {
   //@ts-ignore
@@ -77,6 +78,14 @@ const UserMenu: React.FC = () => {
 
   const { conversations } = useSelector((state: any) => state.conversations);
 
+  const conversationsMapped = conversations.map((conversation: IConversation) => {
+    const newConversation = {
+      ...conversation,
+      users: filterConversation(conversation.users, userId)
+    }
+    return newConversation
+  })
+
   return (
     <div>
       <Menu theme="dark" mode="inline" >
@@ -92,11 +101,13 @@ const UserMenu: React.FC = () => {
         </Menu.Item>
 
         <span style={{ color: 'gray', marginLeft: '16px', fontSize: 10 }}>{languagePack.channels}</span>
-        {conversations ? conversations.map((conversation: IConversation) => (
+        {conversationsMapped ? conversationsMapped.map((conversation: IConversation) => (
           <Menu.Item key={conversation.id}>
             <div ref={ref4}>
-              {/*<Avatar src={user.pictureUrl} />*/}
-              <NavLink to={`/home/chat/${conversation.name}`} style={{ marginLeft: "15px" }}>{conversation.name}</NavLink>
+              <Avatar src={conversation.users[0].pictureUrl} />
+              <NavLink to={`/home/chat/${conversation.name}`} style={{ marginLeft: "15px" }}>
+                {conversation.users[0].firstName} {conversation.users[0].lastName}
+              </NavLink>
             </div>
           </Menu.Item>
         )) : "Loading.."}

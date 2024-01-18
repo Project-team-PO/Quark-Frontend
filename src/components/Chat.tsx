@@ -7,10 +7,8 @@ import Connector from "../shared/signalr-conn"
 import Message from './Message';
 import styles from "../styles/Components/Chat.module.css"
 
-import { IConversationWindow, IMessageGroup } from '../ts/interfaces';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUsers } from '../app/slices/user.slice';
-import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
+import { IMessageGroup } from '../ts/interfaces';
+import { useSelector } from 'react-redux';
 
 const getCurrTime = () => {
 	const now = new Date();
@@ -37,8 +35,9 @@ const Chat: React.FC = () => {
 			setMessages(prev => [...prev, message])
 		};
 
-		const handleShowConversation = (conversationModel: IConversationWindow) => {
-			console.log(conversationModel)
+		const handleShowConversation = (conversationMessages: IMessageGroup[]) => {
+			console.log(conversationMessages)
+			setMessages(conversationMessages);
 		}
 
 		events(handleReceivedMessage, handleShowConversation)
@@ -65,21 +64,6 @@ const Chat: React.FC = () => {
 		}
 	};
 
-	const dispatch = useDispatch();
-	const [GetUsersEndpoint] = useGetUsersEndpointMutation();
-
-	useEffect(() => {
-		const fetchUsers = async () => {
-			try {
-				const response = await GetUsersEndpoint(undefined).unwrap();
-				dispatch(setUsers(response));
-			} catch (error) {
-				console.error(error)
-			}
-		}
-		fetchUsers();
-	}, [])
-
 	return (
 		<Card className={styles.chat_main}>
 			<div style={{ background: '#fff', color: 'black', height: '85vh', overflowY: 'scroll' }}>
@@ -97,7 +81,6 @@ const Chat: React.FC = () => {
 					alignItems: 'center',
 					justifyContent: 'center',
 					padding: '20px',
-
 				}}
 			>
 				<Input
@@ -112,7 +95,6 @@ const Chat: React.FC = () => {
 						fontSize: '16px',
 						position: 'absolute',
 						bottom: '0',
-
 					}}
 					value={messageInput}
 					onChange={(e) => setMessageInput(e.target.value)}
