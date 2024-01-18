@@ -1,17 +1,18 @@
 import React from 'react'
-import { Menu, Badge, Avatar } from 'antd';
+import { Menu, Badge, Spin } from 'antd';
 import { UserOutlined, ScheduleOutlined, GlobalOutlined } from '@ant-design/icons';
-import { User } from '../ts/interfaces';
+import { IConversation } from '../ts/interfaces';
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import Tour from 'antd/lib/tour';
 import type { TourProps } from 'antd';
 import { setOpenModalUserMenu } from '../app/slices/tour.slice';
 import { useSelector, useDispatch } from 'react-redux';
+import { useGetConversationsEndpointMutation } from '../app/slices/auth.api.slice';
+import { setConversations } from '../app/slices/conversations.slice';
 
 const UserMenu: React.FC = () => {
   //@ts-ignore
-  const { favourites } = useSelector((state: any) => state.favourites);
   const language: string = useSelector((state: { language: { currentLanguage: string } }) => state.language.currentLanguage);
   const [languagePack, setLanguagePack] = useState<any>("");
   const dispatch = useDispatch();
@@ -19,6 +20,11 @@ const UserMenu: React.FC = () => {
   const ref2 = useRef(null);
   const ref3 = useRef(null);
   const ref4 = useRef(null);
+
+  const [GetConversationsEndpoint, { isLoading }] = useGetConversationsEndpointMutation();
+
+  const { userState } = useSelector((state: any) => state.auth);
+  const userId = userState.user.id;
 
   const open = useSelector((state: any) => state.tour.openModalUserMenu)
   const steps: TourProps['steps'] = [
@@ -43,6 +49,7 @@ const UserMenu: React.FC = () => {
       target: () => ref4.current,
     },
   ];
+
   useEffect(() => {
     const fetchLanguagePack = async () => {
       try {
@@ -55,34 +62,47 @@ const UserMenu: React.FC = () => {
 
     fetchLanguagePack();
   }, [language]);
+
+  useEffect(() => {
+    const fetchConversations = async () => {
+      try {
+        const response = await GetConversationsEndpoint(userId).unwrap();
+        dispatch(setConversations(response.conversations));
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchConversations();
+  }, [userId])
+
+  const { conversations } = useSelector((state: any) => state.conversations);
+
   return (
     <div>
       <Menu theme="dark" mode="inline" >
-        <Menu.Item key="-1" icon={<UserOutlined />}>
+        <Menu.Item key="-2" icon={<UserOutlined />}>
           <NavLink ref={ref1} to="/home/">{languagePack.people}</NavLink>
-          <Badge count={favourites.length} style={{ marginLeft: '8px' }} />
+          {isLoading ? <Spin /> : <Badge count={conversations.length} style={{ marginLeft: '8px' }} />}
         </Menu.Item>
-        <Menu.Item key="0" icon={<ScheduleOutlined />}>
+        <Menu.Item key="-1" icon={<ScheduleOutlined />}>
           <NavLink ref={ref2} to="/home/Announcements">{languagePack.announcements}</NavLink>
         </Menu.Item>
-        <Menu.Item key="1" icon={<GlobalOutlined />}>
+        <Menu.Item key="0" icon={<GlobalOutlined />}>
           <NavLink ref={ref3} to="/home/chat/global">{languagePack.global}</NavLink>
         </Menu.Item>
 
         <span style={{ color: 'gray', marginLeft: '16px', fontSize: 10 }}>{languagePack.channels}</span>
-        {favourites ? favourites.map((user: User) => (
-          <Menu.Item key={user.id}>
+        {conversations ? conversations.map((conversation: IConversation) => (
+          <Menu.Item key={conversation.id}>
             <div ref={ref4}>
-              <Avatar src={user.pictureUrl} />
-              <NavLink to={`/home/chat/${user.id}`} style={{ marginLeft: "15px" }}>{user.firstName} {user.lastName}</NavLink>
+              {/*<Avatar src={user.pictureUrl} />*/}
+              <NavLink to={`/home/chat/${conversation.name}`} style={{ marginLeft: "15px" }}>{conversation.name}</NavLink>
             </div>
           </Menu.Item>
         )) : "Loading.."}
 
-
       </Menu>
       <Tour open={open} onClose={() => dispatch(setOpenModalUserMenu())} steps={steps} />
-
     </div>
   )
 }
