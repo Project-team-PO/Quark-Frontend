@@ -29,8 +29,8 @@ class Connector {
       });
 
       this.connection.on("ShowConversation", (conversationMessages) => {
-        onShowConversation(conversationMessages)
-      })
+        onShowConversation(conversationMessages);
+      });
     };
   }
 
