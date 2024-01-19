@@ -8,6 +8,8 @@ import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
 import styles from "../styles/Pages/UserSearch.module.css"
 
 import { User } from '../ts/interfaces';
+import Connector from '../shared/signalr-conn';
+import { addConversation } from '../app/slices/conversations.slice';
 
 const UserSearch: React.FC = () => {
   const [searchText, setSearchText] = useState('');
@@ -15,6 +17,9 @@ const UserSearch: React.FC = () => {
   const [GetUsersEndpoint] = useGetUsersEndpointMutation();
   const language: string = useSelector((state: { language: { currentLanguage: string } }) => state.language.currentLanguage);
   const [languagePack, setLanguagePack] = useState<any>("");
+
+  const connector = Connector.getInstance("people");
+  const { InitiatePrivateConversation } = connector;
 
   useEffect(() => {
     const fetchLanguagePack = async () => {
@@ -51,15 +56,9 @@ const UserSearch: React.FC = () => {
     ?.filter((user: User) => user?.firstName.toLowerCase().includes(searchText?.toLowerCase()))
     .slice(0, 15);
 
-  {/*const AddToFavourites = (user: User) => {
-    const userExists = favourites.find((favUser: User) => favUser.email === user.email);
-    if (!userExists) {
-      dispatch(addFavourites(user));
-      message.success(`${user.firstName} ${languagePack?.UserSearch?.success}`);
-    } else {
-      message.warning(`${languagePack?.UserSearch?.warning}`);
-    }
-  }*/}
+  const initiateConversation = (username: string) => {
+    InitiatePrivateConversation(username);
+  }
 
   return (
     <Card className={styles.user_search_container} style={{ background: '#FFFFFF', padding: '24px', minHeight: '360px' }}>
@@ -69,12 +68,11 @@ const UserSearch: React.FC = () => {
         onChange={e => setSearchText(e.target.value)}
         style={{ marginBottom: '24px' }}
       />
-
       <List
         itemLayout="horizontal"
         dataSource={filteredUsers}
         renderItem={(user: User) => (
-          <List.Item className={styles.user_list_item} key={user.id}>
+          <List.Item className={styles.user_list_item} key={user.id} onClick={() => initiateConversation(user.username)}>
             <List.Item.Meta
               avatar={<Avatar src={user.pictureUrl} />}
               title={`${user.firstName} ${user.lastName}`}

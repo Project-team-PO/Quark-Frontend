@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Card, Tooltip, Input, message } from 'antd';
+import { Button, Card, Tooltip, Input } from 'antd';
 import { SmileOutlined, SendOutlined } from '@ant-design/icons';
 import EmojiPicker from 'emoji-picker-react';
 import { useParams } from 'react-router-dom';
@@ -27,7 +27,7 @@ const Chat: React.FC = () => {
 	const groupName = params.conversationName!
 	const connector = Connector.getInstance(groupName)
 
-	const { events, SendMessage } = connector;
+	const { chatEvents, SendMessage } = connector;
 
 	useEffect(() => {
 		const handleReceivedMessage = (message: IMessageGroup) => {
@@ -40,8 +40,8 @@ const Chat: React.FC = () => {
 			setMessages(conversationMessages);
 		}
 
-		events(handleReceivedMessage, handleShowConversation)
-	}, [events]);
+		chatEvents(handleReceivedMessage, handleShowConversation)
+	}, [chatEvents]);
 
 	const handleEmojiClick = () => {
 		setShowEmojiPicker(!showEmojiPicker);

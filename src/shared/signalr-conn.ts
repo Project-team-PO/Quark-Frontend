@@ -5,9 +5,12 @@ import { IMessageGroup, ISendMessage } from "../ts/interfaces";
 const URL = "http://localhost:5253/QuarkHub"; //or whatever your backend port is
 class Connector {
   private connection: signalR.HubConnection;
-  public events: (
+  public chatEvents: (
     onMessageRecieved: (message: IMessageGroup) => void,
     onShowConversation: (conversationMessages: IMessageGroup[]) => void
+  ) => void;
+  public conversationEvents: (
+    onInitiatePrivateConversation: (username: string) => void
   ) => void;
   static instance: Connector;
   constructor(groupName: string) {
@@ -23,7 +26,7 @@ class Connector {
       })
       .catch((err) => document.write(err));
 
-    this.events = (onMessageReceived, onShowConversation) => {
+    this.chatEvents = (onMessageReceived, onShowConversation) => {
       this.connection.on("ReceiveMessage", (message) => {
         onMessageReceived(message);
       });
@@ -32,6 +35,12 @@ class Connector {
         onShowConversation(conversationMessages);
       });
     };
+
+    this.conversationEvents = (onInitiatePrivateConversation) => {
+      this.connection.on("InitiatePrivateConversation", (username) => {
+        onInitiatePrivateConversation(username);
+      })
+    }
   }
 
   public OpenConversation = (groupName: string) => {
