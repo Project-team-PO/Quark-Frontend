@@ -1,14 +1,15 @@
 // UserSearch.tsx
 import React, { useState, useEffect } from 'react';
-import { Input, List, Avatar, message, Card } from 'antd';
+import { Input, List, Avatar, Card } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsers } from '../app/slices/user.slice';
 import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
 
 import styles from "../styles/Pages/UserSearch.module.css"
 
-import { User } from '../ts/interfaces';
-import { addFavourites } from '../app/slices/favourites.slice';
+import { IConversation, User } from '../ts/interfaces';
+import Connector from '../shared/signalr-conn';
+import { addConversation } from '../app/slices/conversations.slice';
 
 const UserSearch: React.FC = () => {
   const [searchText, setSearchText] = useState('');
@@ -17,7 +18,10 @@ const UserSearch: React.FC = () => {
   const language: string = useSelector((state: { language: { currentLanguage: string } }) => state.language.currentLanguage);
   const [languagePack, setLanguagePack] = useState<any>("");
 
-  React.useEffect(() => {
+  const connector = Connector.getInstance("people");
+  const { InitiatePrivateConversation, conversationEvents } = connector;
+
+  useEffect(() => {
     const fetchLanguagePack = async () => {
       try {
         let pack = await import(`../assets/translations/${language}.json`);
@@ -29,10 +33,12 @@ const UserSearch: React.FC = () => {
 
     fetchLanguagePack();
   }, [language]);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await GetUsersEndpoint(undefined).unwrap();
+        console.log(response)
         dispatch(setUsers(response));
       } catch (error) {
         console.error(error)
@@ -41,21 +47,25 @@ const UserSearch: React.FC = () => {
     fetchUsers();
   }, [])
 
-  const { users } = useSelector((state: any) => state.users)
-  const { favourites } = useSelector((state: any) => state.favourites)
+  useEffect(() => {
+    const handleInitiateConversation = (conversation: IConversation) => {
+      dispatch(addConversation(conversation))
+    }
 
-  const filteredUsers: User[] = users
+    conversationEvents(handleInitiateConversation)
+  }, [conversationEvents])
+
+  const { users } = useSelector((state: any) => state.users)
+  const { userState } = useSelector((state: any) => state.auth)
+
+  const mappedUsers: User[] = users.filter((user: User) => user.id !== userState.user.id);
+
+  const filteredUsers: User[] = mappedUsers
     ?.filter((user: User) => user?.firstName.toLowerCase().includes(searchText?.toLowerCase()))
     .slice(0, 15);
 
-  const AddToFavourites = (user: User) => {
-    const userExists = favourites.find((favUser: User) => favUser.email === user.email);
-    if (!userExists) {
-      dispatch(addFavourites(user));
-      message.success(`${user.firstName} ${languagePack?.UserSearch?.success}`);
-    } else {
-      message.warning(`${languagePack?.UserSearch?.warning}`);
-    }
+  const initiateConversation = (username: string, loggedUsername: string) => {
+    InitiatePrivateConversation(username, loggedUsername);
   }
 
   return (
@@ -66,12 +76,12 @@ const UserSearch: React.FC = () => {
         onChange={e => setSearchText(e.target.value)}
         style={{ marginBottom: '24px' }}
       />
-
       <List
         itemLayout="horizontal"
         dataSource={filteredUsers}
         renderItem={(user: User) => (
-          <List.Item onClick={() => AddToFavourites(user)} className={styles.user_list_item}>
+          <List.Item className={styles.user_list_item} key={user.id}
+            onClick={() => initiateConversation(user.username, userState.user.username)}>
             <List.Item.Meta
               avatar={<Avatar src={user.pictureUrl} />}
               title={`${user.firstName} ${user.lastName}`}
@@ -80,7 +90,6 @@ const UserSearch: React.FC = () => {
         )}
       />
     </Card>
-
   );
 };
 

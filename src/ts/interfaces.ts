@@ -21,13 +21,7 @@ export interface User {
   firstName: string;
   lastName: string;
   pictureUrl: string;
-}
-
-export interface MenuItems {
-  key: string;
-  type: string;
-  label: string;
-  children?: MenuItems[];
+  username: string;
 }
 
 export interface IMessage {
@@ -41,8 +35,29 @@ export interface IRouteChildren {
 }
 
 export interface IMessageGroup {
-  email: string;
+  id: number;
   timestamp: string;
   username: string;
   text: string;
+}
+
+export interface ISendMessage {
+  timestamp: string;
+  username: string;
+  text: string;
+}
+
+export interface IConversation {
+  id: number;
+  name: string;
+  isPrivate: boolean;
+  users: User[];
+}
+
+export interface IConversationWindow {
+  username: string;
+  text: string;
+  date: Date;
+  timestamp: string;
+  messages: IMessageGroup[];
 }

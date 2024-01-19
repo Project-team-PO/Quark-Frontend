@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 import { apiSlice } from './slices/api.slice'
+
 import authReducer from './slices/auth.slice'
 import usersReducer from './slices/user.slice'
 import announcementReducer from './slices/announcement.slice'
-import favouritesReducer from './slices/favourites.slice'
+import conversationsReducer from './slices/conversations.slice'
 import languageSlice from './slices/language.slice'
 import tourSlice from './slices/tour.slice'
 
@@ -14,7 +15,7 @@ export default configureStore({
     auth: authReducer,
     language: languageSlice,
     announcement: announcementReducer,
-    favourites: favouritesReducer,
+    conversations: conversationsReducer,
     tour: tourSlice,
     [apiSlice.reducerPath]: apiSlice.reducer
   },

@@ -3,7 +3,7 @@ const PATH = {
   SIGN_IN: "/sign_in",
   ACTIVATE_ACCOUNT: "/activate_account",
   HOME: "/home",
-  CHAT: "/home/chat/:username",
+  CHAT: "/home/chat/:conversationName",
   SEARCH: "/home",
   ANNOUNCEMENT: "/home/announcements",
   ADMIN: "/admin/dashboard",

@@ -1,12 +1,16 @@
 import * as signalR from "@microsoft/signalr";
 
-import { IMessageGroup } from "../ts/interfaces";
+import { IConversation, IMessageGroup, ISendMessage } from "../ts/interfaces";
 
 const URL = "http://localhost:5253/QuarkHub"; //or whatever your backend port is
 class Connector {
   private connection: signalR.HubConnection;
-  public events: (
-    onMessageReceivedGroup: (message: IMessageGroup) => void
+  public chatEvents: (
+    onMessageRecieved: (message: IMessageGroup) => void,
+    onShowConversation: (conversationMessages: IMessageGroup[]) => void
+  ) => void;
+  public conversationEvents: (
+    onInitiatePrivateConversation: (conversation: IConversation) => void
   ) => void;
   static instance: Connector;
   constructor(groupName: string) {
@@ -18,32 +22,50 @@ class Connector {
       .start()
       .then(() => {
         console.log("Connection started successfully!");
-        this.JoinGroup(groupName);
+        this.OpenConversation(groupName);
       })
       .catch((err) => document.write(err));
-    this.events = (onMessageReceivedGroup) => {
-      this.connection.on("ReceiveMessageGroup", (message) => {
-        onMessageReceivedGroup(message);
+
+    this.chatEvents = (onMessageReceived, onShowConversation) => {
+      this.connection.on("ReceiveMessage", (message) => {
+        onMessageReceived(message);
+      });
+
+      this.connection.on("ShowConversation", (conversationMessages) => {
+        onShowConversation(conversationMessages);
       });
     };
+
+    this.conversationEvents = (onInitiatePrivateConversation) => {
+      this.connection.on("InitiatePrivateConversation", (conversation) => {
+        onInitiatePrivateConversation(conversation);
+      })
+    }
   }
 
-  public JoinGroup = (groupName: string) => {
+  public OpenConversation = (groupName: string) => {
     this.connection
-      .invoke("JoinGroup", groupName)
+      .invoke("OpenConversation", groupName)
       .catch((err) => console.error(err));
-    console.log("Joined group", groupName);
+    console.log(`Opened conversation: [${groupName}]`);
   };
 
-  public PushToGroup = (groupName: string, message: IMessageGroup) => {
+  public SendMessage = (message: ISendMessage, groupName: string) => {
     this.connection
-      .invoke("PushToGroup", groupName, message)
+      .invoke("SendMessage", message, groupName)
       .catch((err) => console.error(err));
   };
 
-  public static getInstance(username: string): Connector {
+  public InitiatePrivateConversation = (username: string, loggedUsername: string) => {
+    this.connection
+      .invoke("InitiatePrivateConversation", username, loggedUsername)
+      .catch((err) => console.error(err));
+    console.log(`Created convo with ${username}`);
+  };
+
+  public static getInstance(groupName: string): Connector {
     if (!Connector.instance) {
-      Connector.instance = new Connector(username);
+      Connector.instance = new Connector(groupName);
     }
     return Connector.instance;
   }
