@@ -1,6 +1,6 @@
 import * as signalR from "@microsoft/signalr";
 
-import { IMessageGroup, ISendMessage } from "../ts/interfaces";
+import { IConversation, IMessageGroup, ISendMessage } from "../ts/interfaces";
 
 const URL = "http://localhost:5253/QuarkHub"; //or whatever your backend port is
 class Connector {
@@ -10,7 +10,7 @@ class Connector {
     onShowConversation: (conversationMessages: IMessageGroup[]) => void
   ) => void;
   public conversationEvents: (
-    onInitiatePrivateConversation: (username: string) => void
+    onInitiatePrivateConversation: (conversation: IConversation) => void
   ) => void;
   static instance: Connector;
   constructor(groupName: string) {
@@ -37,8 +37,8 @@ class Connector {
     };
 
     this.conversationEvents = (onInitiatePrivateConversation) => {
-      this.connection.on("InitiatePrivateConversation", (username) => {
-        onInitiatePrivateConversation(username);
+      this.connection.on("InitiatePrivateConversation", (conversation) => {
+        onInitiatePrivateConversation(conversation);
       })
     }
   }
@@ -56,9 +56,9 @@ class Connector {
       .catch((err) => console.error(err));
   };
 
-  public InitiatePrivateConversation = (username: string) => {
+  public InitiatePrivateConversation = (username: string, loggedUsername: string) => {
     this.connection
-      .invoke("InitiatePrivateConversation", username)
+      .invoke("InitiatePrivateConversation", username, loggedUsername)
       .catch((err) => console.error(err));
     console.log(`Created convo with ${username}`);
   };

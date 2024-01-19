@@ -7,7 +7,7 @@ import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
 
 import styles from "../styles/Pages/UserSearch.module.css"
 
-import { User } from '../ts/interfaces';
+import { IConversation, User } from '../ts/interfaces';
 import Connector from '../shared/signalr-conn';
 import { addConversation } from '../app/slices/conversations.slice';
 
@@ -19,7 +19,7 @@ const UserSearch: React.FC = () => {
   const [languagePack, setLanguagePack] = useState<any>("");
 
   const connector = Connector.getInstance("people");
-  const { InitiatePrivateConversation } = connector;
+  const { InitiatePrivateConversation, conversationEvents } = connector;
 
   useEffect(() => {
     const fetchLanguagePack = async () => {
@@ -47,6 +47,14 @@ const UserSearch: React.FC = () => {
     fetchUsers();
   }, [])
 
+  useEffect(() => {
+    const handleInitiateConversation = (conversation: IConversation) => {
+      dispatch(addConversation(conversation))
+    }
+
+    conversationEvents(handleInitiateConversation)
+  }, [conversationEvents])
+
   const { users } = useSelector((state: any) => state.users)
   const { userState } = useSelector((state: any) => state.auth)
 
@@ -56,8 +64,8 @@ const UserSearch: React.FC = () => {
     ?.filter((user: User) => user?.firstName.toLowerCase().includes(searchText?.toLowerCase()))
     .slice(0, 15);
 
-  const initiateConversation = (username: string) => {
-    InitiatePrivateConversation(username);
+  const initiateConversation = (username: string, loggedUsername: string) => {
+    InitiatePrivateConversation(username, loggedUsername);
   }
 
   return (
@@ -72,7 +80,8 @@ const UserSearch: React.FC = () => {
         itemLayout="horizontal"
         dataSource={filteredUsers}
         renderItem={(user: User) => (
-          <List.Item className={styles.user_list_item} key={user.id} onClick={() => initiateConversation(user.username)}>
+          <List.Item className={styles.user_list_item} key={user.id}
+            onClick={() => initiateConversation(user.username, userState.user.username)}>
             <List.Item.Meta
               avatar={<Avatar src={user.pictureUrl} />}
               title={`${user.firstName} ${user.lastName}`}
