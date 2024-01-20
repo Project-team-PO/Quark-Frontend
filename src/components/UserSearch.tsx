@@ -65,9 +65,9 @@ const UserSearch: React.FC = () => {
 
   const initiateConversation = (username: string, loggedUsername: string) => {
     const toCheck = [username, loggedUsername];
-    const conversationExist: boolean = conversations.some((conversation: IConversation) => {
-      toCheck.every(username => conversation.users.some(user => user.username === username));
-    })
+    const conversationExist: boolean = conversations.some((conversation: IConversation) =>
+      toCheck.every(username => conversation.users.some(user => user.username === username))
+    ); // Check if any conversation already has the given usernames
 
     if (conversationExist) {
       message.error(`You're already in conversation with ${username}`)
