@@ -18,40 +18,37 @@ const UserSearch: React.FC = () => {
   const language: string = useSelector((state: { language: { currentLanguage: string } }) => state.language.currentLanguage);
   const [languagePack, setLanguagePack] = useState<any>("");
 
-  const connector = Connector.getInstance("people");
+  const connector = Connector.getInstance("");
   const { InitiatePrivateConversation, conversationEvents } = connector;
 
+  const fetchLanguagePack = async () => {
+    try {
+      let pack = await import(`../assets/translations/${language}.json`);
+      setLanguagePack(pack);
+    } catch (error) {
+      console.error(`Failed to load language pack for ${language}`, error);
+    }
+  }
+
+  const fetchUsers = async () => {
+    try {
+      const response = await GetUsersEndpoint(undefined).unwrap();
+      console.log(response)
+      dispatch(setUsers(response));
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleInitiateConversation = (conversation: IConversation) => {
+    dispatch(addConversation(conversation))
+  }
+
   useEffect(() => {
-    const fetchLanguagePack = async () => {
-      try {
-        let pack = await import(`../assets/translations/${language}.json`);
-        setLanguagePack(pack);
-      } catch (error) {
-        console.error(`Failed to load language pack for ${language}`, error);
-      }
-    };
     fetchLanguagePack();
-  }, [language]);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await GetUsersEndpoint(undefined).unwrap();
-        console.log(response)
-        dispatch(setUsers(response));
-      } catch (error) {
-        console.error(error)
-      }
-    }
     fetchUsers();
-  }, [])
-
-  useEffect(() => {
-    const handleInitiateConversation = (conversation: IConversation) => {
-      dispatch(addConversation(conversation))
-    }
     conversationEvents(handleInitiateConversation)
-  }, [conversationEvents])
+  }, [])
 
   const { users } = useSelector((state: any) => state.users)
   const { conversations } = useSelector((state: any) => state.conversations)

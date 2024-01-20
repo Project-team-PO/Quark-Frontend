@@ -25,7 +25,7 @@ const Chat: React.FC = () => {
 	const [messageInput, setMessageInput] = useState('');
 
 	const groupName = params.conversationName!
-	const connector = Connector.getInstance(groupName)
+	const connector = Connector.getInstance(groupName);
 
 	const { chatEvents, SendMessage } = connector;
 
@@ -41,7 +41,7 @@ const Chat: React.FC = () => {
 		}
 
 		chatEvents(handleReceivedMessage, handleShowConversation)
-	}, [chatEvents]);
+	}, []);
 
 	const handleEmojiClick = () => {
 		setShowEmojiPicker(!showEmojiPicker);
@@ -68,7 +68,7 @@ const Chat: React.FC = () => {
 			<div style={{ background: '#fff', color: 'black', height: '85vh', overflowY: 'scroll' }}>
 				{messages && messages.length === 0 ? <p>Type to start chatting</p> : ""}
 				{messages.map((message) => (
-					<Message message={message} key={message.id}/>
+					<Message message={message} key={message.id} />
 				))}
 			</div>
 			<div

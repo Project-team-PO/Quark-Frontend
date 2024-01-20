@@ -2,7 +2,7 @@ import * as signalR from "@microsoft/signalr";
 
 import { IConversation, IMessageGroup, ISendMessage } from "../ts/interfaces";
 
-const URL = "http://localhost:5253/QuarkHub"; //or whatever your backend port is
+const URL = "http://localhost:5253/QuarkHub";
 class Connector {
   private connection: signalR.HubConnection;
   public chatEvents: (
@@ -39,8 +39,8 @@ class Connector {
     this.conversationEvents = (onInitiatePrivateConversation) => {
       this.connection.on("InitiatePrivateConversation", (conversation) => {
         onInitiatePrivateConversation(conversation);
-      })
-    }
+      });
+    };
   }
 
   public OpenConversation = (groupName: string) => {
@@ -56,7 +56,10 @@ class Connector {
       .catch((err) => console.error(err));
   };
 
-  public InitiatePrivateConversation = (username: string, loggedUsername: string) => {
+  public InitiatePrivateConversation = (
+    username: string,
+    loggedUsername: string
+  ) => {
     this.connection
       .invoke("InitiatePrivateConversation", username, loggedUsername)
       .catch((err) => console.error(err));

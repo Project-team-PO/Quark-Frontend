@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, Badge, Spin, Avatar } from 'antd';
-import { UserOutlined, ScheduleOutlined, GlobalOutlined } from '@ant-design/icons';
+import { UserOutlined, ScheduleOutlined } from '@ant-design/icons';
 import { IConversation } from '../ts/interfaces';
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
@@ -89,15 +89,12 @@ const UserMenu: React.FC = () => {
   return (
     <div>
       <Menu theme="dark" mode="inline" >
-        <Menu.Item key="-2" icon={<UserOutlined />}>
-          <NavLink ref={ref1} to="/home/">{languagePack.people}</NavLink>
+        <Menu.Item key="-1" icon={<UserOutlined />}>
+          <NavLink ref={ref1} to="/home/search">{languagePack.people}</NavLink>
           {isLoading ? <Spin /> : <Badge count={conversations.length} style={{ marginLeft: '8px' }} />}
         </Menu.Item>
-        <Menu.Item key="-1" icon={<ScheduleOutlined />}>
+        <Menu.Item key="-0" icon={<ScheduleOutlined />}>
           <NavLink ref={ref2} to="/home/Announcements">{languagePack.announcements}</NavLink>
-        </Menu.Item>
-        <Menu.Item key="0" icon={<GlobalOutlined />}>
-          <NavLink ref={ref3} to="/home/chat/global">{languagePack.global}</NavLink>
         </Menu.Item>
 
         <span style={{ color: 'gray', marginLeft: '16px', fontSize: 10 }}>{languagePack.channels}</span>
