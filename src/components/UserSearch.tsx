@@ -1,6 +1,6 @@
 // UserSearch.tsx
 import React, { useState, useEffect } from 'react';
-import { Input, List, Avatar, Card } from 'antd';
+import { Input, List, Avatar, Card, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsers } from '../app/slices/user.slice';
 import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
@@ -30,7 +30,6 @@ const UserSearch: React.FC = () => {
         console.error(`Failed to load language pack for ${language}`, error);
       }
     };
-
     fetchLanguagePack();
   }, [language]);
 
@@ -51,11 +50,11 @@ const UserSearch: React.FC = () => {
     const handleInitiateConversation = (conversation: IConversation) => {
       dispatch(addConversation(conversation))
     }
-
     conversationEvents(handleInitiateConversation)
   }, [conversationEvents])
 
   const { users } = useSelector((state: any) => state.users)
+  const { conversations } = useSelector((state: any) => state.conversations)
   const { userState } = useSelector((state: any) => state.auth)
 
   const mappedUsers: User[] = users.filter((user: User) => user.id !== userState.user.id);
@@ -65,7 +64,17 @@ const UserSearch: React.FC = () => {
     .slice(0, 15);
 
   const initiateConversation = (username: string, loggedUsername: string) => {
-    InitiatePrivateConversation(username, loggedUsername);
+    const toCheck = [username, loggedUsername];
+    const conversationExist: boolean = conversations.some((conversation: IConversation) => {
+      toCheck.every(username => conversation.users.some(user => user.username === username));
+    })
+
+    if (conversationExist) {
+      message.error(`You're already in conversation with ${username}`)
+    } else {
+      InitiatePrivateConversation(username, loggedUsername);
+      message.success(`You initiated conversation with ${username}`)
+    }
   }
 
   return (
