@@ -18,7 +18,7 @@ const UserSearch: React.FC = () => {
   const language: string = useSelector((state: { language: { currentLanguage: string } }) => state.language.currentLanguage);
   const [languagePack, setLanguagePack] = useState<any>("");
 
-  const connector = Connector.getInstance("");
+  const connector = Connector.getInstance()
   const { InitiatePrivateConversation, conversationEvents } = connector;
 
   const fetchLanguagePack = async () => {
@@ -33,7 +33,6 @@ const UserSearch: React.FC = () => {
   const fetchUsers = async () => {
     try {
       const response = await GetUsersEndpoint(undefined).unwrap();
-      console.log(response)
       dispatch(setUsers(response));
     } catch (error) {
       console.error(error)
@@ -54,10 +53,10 @@ const UserSearch: React.FC = () => {
   const { conversations } = useSelector((state: any) => state.conversations)
   const { userState } = useSelector((state: any) => state.auth)
 
-  const mappedUsers: User[] = users.filter((user: User) => user.id !== userState.user.id);
+  const mappedUsers: User[] = users?.filter((user: User) => user.id !== userState.user.id);
 
   const filteredUsers: User[] = mappedUsers
-    ?.filter((user: User) => user?.firstName.toLowerCase().includes(searchText?.toLowerCase()))
+    ?.filter((user: User) => user.firstName.toLowerCase().includes(searchText?.toLowerCase()))
     .slice(0, 15);
 
   const initiateConversation = (username: string, loggedUsername: string) => {

@@ -8,7 +8,8 @@ import Message from './Message';
 import styles from "../styles/Components/Chat.module.css"
 
 import { IMessageGroup, ISendMessage } from '../ts/interfaces';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addMessage, setMessages } from '../app/slices/messages.slice';
 
 const getCurrTime = () => {
 	const now = new Date();
@@ -21,27 +22,37 @@ const Chat: React.FC = () => {
 	const params = useParams();
 	const { userState } = useSelector((state: any) => state.auth)
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-	const [messages, setMessages] = useState<IMessageGroup[]>([])
 	const [messageInput, setMessageInput] = useState('');
 
-	const groupName = params.conversationName!
-	const connector = Connector.getInstance(groupName);
+	const currentGroup = params.conversationName!;
 
-	const { chatEvents, SendMessage } = connector;
+	const dispatch = useDispatch();
+
+	const connector = Connector.getInstance()
+
+	const { chatEvents, SendMessage, OpenConversation } = connector;
+
+	const { messages } = useSelector((state: any) => state.messages);
 
 	useEffect(() => {
 		const handleReceivedMessage = (message: IMessageGroup) => {
-			console.log(`Message -> ${message.text} sent to ${groupName}`)
-			setMessages(prev => [...prev, message])
+			console.log(`Message -> ${message.text} sent to ${currentGroup}`)
+			dispatch(addMessage(message))
 		};
 
 		const handleShowConversation = (conversationMessages: IMessageGroup[]) => {
 			console.log(conversationMessages)
-			setMessages(conversationMessages);
+			dispatch(setMessages(conversationMessages))
 		}
 
+		OpenConversation(currentGroup)
+
 		chatEvents(handleReceivedMessage, handleShowConversation)
-	}, []);
+
+		return () => {
+			chatEvents(() => { }, () => { })
+		}
+	}, [currentGroup, chatEvents, OpenConversation]);
 
 	const handleEmojiClick = () => {
 		setShowEmojiPicker(!showEmojiPicker);
@@ -58,7 +69,7 @@ const Chat: React.FC = () => {
 				text: messageInput,
 				timestamp: getCurrTime()
 			}
-			SendMessage(message, groupName);
+			SendMessage(message, currentGroup);
 			setMessageInput('');
 		}
 	};
@@ -67,7 +78,7 @@ const Chat: React.FC = () => {
 		<Card className={styles.chat_main}>
 			<div style={{ background: '#fff', color: 'black', height: '85vh', overflowY: 'scroll' }}>
 				{messages && messages.length === 0 ? <p>Type to start chatting</p> : ""}
-				{messages.map((message) => (
+				{messages.map((message: IMessageGroup) => (
 					<Message message={message} key={message.id} />
 				))}
 			</div>
@@ -84,7 +95,7 @@ const Chat: React.FC = () => {
 			>
 				<Input
 					type="text"
-					placeholder={groupName == "global" ? `Type a message for everyone to see!` : `Type a message in ${groupName}`}
+					placeholder={`Write a message to the members of ${currentGroup} group!`}
 					style={{
 						padding: '15px',
 						borderRadius: '4px',

@@ -4,7 +4,12 @@ import { IConversation, IMessageGroup, ISendMessage } from "../ts/interfaces";
 
 const URL = "http://localhost:5253/QuarkHub";
 class Connector {
+  private static instance: Connector | null = null;
   private connection: signalR.HubConnection;
+
+  private connectionReady: boolean = false;
+  private queuedActions: (() => void)[] = [];
+
   public chatEvents: (
     onMessageRecieved: (message: IMessageGroup) => void,
     onShowConversation: (conversationMessages: IMessageGroup[]) => void
@@ -12,19 +17,14 @@ class Connector {
   public conversationEvents: (
     onInitiatePrivateConversation: (conversation: IConversation) => void
   ) => void;
-  static instance: Connector;
-  constructor(groupName: string) {
+
+  constructor() {
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl(URL)
       .withAutomaticReconnect()
       .build();
-    this.connection
-      .start()
-      .then(() => {
-        console.log("Connection started successfully!");
-        this.OpenConversation(groupName);
-      })
-      .catch((err) => document.write(err));
+
+    this.StartConnection();
 
     this.chatEvents = (onMessageReceived, onShowConversation) => {
       this.connection.on("ReceiveMessage", (message) => {
@@ -43,11 +43,33 @@ class Connector {
     };
   }
 
-  public OpenConversation = (groupName: string) => {
+  private StartConnection = () => {
     this.connection
-      .invoke("OpenConversation", groupName)
+      .start()
+      .then(() => {
+        console.log("Connection started successfully!");
+
+        this.connectionReady = true;
+
+        this.queuedActions.forEach((action) => action());
+        this.queuedActions = [];
+      })
       .catch((err) => console.error(err));
-    console.log(`Opened conversation: [${groupName}]`);
+  };
+
+  public OpenConversation = (groupName: string) => {
+    const OpenConversationAction = () => {
+      this.connection
+        .invoke("OpenConversation", groupName)
+        .catch((err) => console.error(err));
+      console.log(`Opened conversation: [${groupName}]`);
+    };
+
+    if (this.connectionReady) {
+      OpenConversationAction();
+    } else {
+      this.queuedActions.push(OpenConversationAction);
+    }
   };
 
   public SendMessage = (message: ISendMessage, groupName: string) => {
@@ -66,9 +88,9 @@ class Connector {
     console.log(`Created convo with ${username}`);
   };
 
-  public static getInstance(groupName: string): Connector {
+  public static getInstance(): Connector {
     if (!Connector.instance) {
-      Connector.instance = new Connector(groupName);
+      Connector.instance = new Connector();
     }
     return Connector.instance;
   }

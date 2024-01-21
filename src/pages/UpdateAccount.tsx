@@ -63,7 +63,7 @@ const UpdateAccount: React.FC = () => {
     try {
       const response = await UpdateProfileEndpoint(values).unwrap();
       dispatch(updateCredentials({ ...response }));
-      navigate("/home")
+      navigate("/home/search")
     } catch (error) {
       console.error(error)
     }

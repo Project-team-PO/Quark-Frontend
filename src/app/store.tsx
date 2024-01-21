@@ -8,6 +8,7 @@ import announcementReducer from './slices/announcement.slice'
 import conversationsReducer from './slices/conversations.slice'
 import languageSlice from './slices/language.slice'
 import tourSlice from './slices/tour.slice'
+import messagesReducer from './slices/messages.slice'
 
 export default configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export default configureStore({
     announcement: announcementReducer,
     conversations: conversationsReducer,
     tour: tourSlice,
+    messages: messagesReducer,
     [apiSlice.reducerPath]: apiSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),

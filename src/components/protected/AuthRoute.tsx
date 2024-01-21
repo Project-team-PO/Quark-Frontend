@@ -11,7 +11,7 @@ const AuthRoute: React.FC<IRouteChildren> = ({ children }) => {
   let navigation;
   if (userState) {
     if (userState.user.firstName) {
-      navigation = <Navigate to="/home" />
+      navigation = <Navigate to="/home/search" />
     } else {
       navigation = <Navigate to="/update_account"/> 
     }
