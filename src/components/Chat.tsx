@@ -50,7 +50,7 @@ const Chat: React.FC = () => {
 		chatEvents(handleReceivedMessage, handleShowConversation)
 
 		return () => {
-			chatEvents(() => { }, () => { })
+			chatEvents(() => { }, () => { }) // Doesn't work
 		}
 	}, [currentGroup, chatEvents, OpenConversation]);
 

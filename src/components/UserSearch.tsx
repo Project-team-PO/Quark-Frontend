@@ -55,9 +55,9 @@ const UserSearch: React.FC = () => {
 
   const mappedUsers: User[] = users?.filter((user: User) => user.id !== userState.user.id);
 
-  const filteredUsers: User[] = mappedUsers
-    ?.filter((user: User) => user.firstName.toLowerCase().includes(searchText?.toLowerCase()))
-    .slice(0, 15);
+  const filteredUsers: User[] = mappedUsers.length > 0 ?
+    mappedUsers.filter((user: User) => user.firstName.toLowerCase().includes(searchText?.toLowerCase()))
+      .slice(0, 15) : [];
 
   const initiateConversation = (username: string, loggedUsername: string) => {
     const toCheck = [username, loggedUsername];
