@@ -91,7 +91,7 @@ const UserMenu: React.FC = () => {
       <Menu theme="dark" mode="inline" >
         <Menu.Item key="-1" icon={<UserOutlined />}>
           <NavLink ref={ref1} to="/home/search">{languagePack.people}</NavLink>
-          {isLoading ? <Spin /> : <Badge count={conversations.length} style={{ marginLeft: '8px' }} />}
+          {isLoading ? <Spin style={{ paddingLeft: '5px' }}/> : <Badge count={conversations.length} style={{ marginLeft: '8px' }} />}
         </Menu.Item>
         <Menu.Item key="-0" icon={<ScheduleOutlined />}>
           <NavLink ref={ref2} to="/home/Announcements">{languagePack.announcements}</NavLink>

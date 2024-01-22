@@ -1,6 +1,6 @@
 // UserSearch.tsx
 import React, { useState, useEffect } from 'react';
-import { Input, List, Avatar, Card, message } from 'antd';
+import { Input, List, Avatar, Card, message, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsers } from '../app/slices/user.slice';
 import { useGetUsersEndpointMutation } from '../app/slices/auth.api.slice';
@@ -14,7 +14,7 @@ import { addConversation } from '../app/slices/conversations.slice';
 const UserSearch: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const dispatch = useDispatch();
-  const [GetUsersEndpoint] = useGetUsersEndpointMutation();
+  const [GetUsersEndpoint, { isLoading }] = useGetUsersEndpointMutation();
   const language: string = useSelector((state: { language: { currentLanguage: string } }) => state.language.currentLanguage);
   const [languagePack, setLanguagePack] = useState<any>("");
 
@@ -53,7 +53,7 @@ const UserSearch: React.FC = () => {
   const { conversations } = useSelector((state: any) => state.conversations)
   const { userState } = useSelector((state: any) => state.auth)
 
-  const mappedUsers: User[] = users?.filter((user: User) => user.id !== userState.user.id);
+  const mappedUsers: User[] = users ? users.filter((user: User) => user.id !== userState.user.id && user.firstName !== null) : [];
 
   const filteredUsers: User[] = mappedUsers.length > 0 ?
     mappedUsers.filter((user: User) => user.firstName.toLowerCase().includes(searchText?.toLowerCase()))
@@ -81,7 +81,7 @@ const UserSearch: React.FC = () => {
         onChange={e => setSearchText(e.target.value)}
         style={{ marginBottom: '24px' }}
       />
-      <List
+      {isLoading ? <Spin /> : <List
         itemLayout="horizontal"
         dataSource={filteredUsers}
         renderItem={(user: User) => (
@@ -93,7 +93,7 @@ const UserSearch: React.FC = () => {
             />
           </List.Item>
         )}
-      />
+      />}
     </Card>
   );
 };

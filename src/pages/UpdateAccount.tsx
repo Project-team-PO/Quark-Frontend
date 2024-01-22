@@ -12,7 +12,6 @@ import { useUpdateProfileEndpointMutation } from "../app/slices/auth.api.slice";
 import { useNavigate } from "react-router-dom";
 import { selectOptions } from "../shared/options";
 
-
 const UpdateAccount: React.FC = () => {
   const [avatar, setAvatar] = React.useState<string | null>(null)
 
