@@ -64,10 +64,10 @@ const SettingsMenu: React.FC = () => {
         />
         <p>{languagePack?.Settings?.GeneralOptions}:</p>
 
-        <Button type="primary">
+        <Button type="primary" disabled>
           {languagePack?.Settings?.MuteNotifications} <NotificationOutlined />
         </Button><br />
-        <Button type="primary" style={{ marginTop: '5px' }}>
+        <Button type="primary" style={{ marginTop: '5px' }} disabled>
           {languagePack?.Settings?.DarkMode}<AlertOutlined />
         </Button>
         <p>{languagePack?.Settings?.Tutorials}:</p>
