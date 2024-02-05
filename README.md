@@ -41,13 +41,13 @@ Run preview (with build)
 
 Do uruchomienia projektu trzeba wrzucić pare zmiennych do pliku .env.local (trzeba go utworzyć) i umieścić go w głównym folderze projektu (obok src).
 
-`VITE_UPLOAD_PRESET=quarkUpload`
+`VITE_UPLOAD_PRESET=`
 
-`VITE_API_BASE_URl=https://api.cloudinary.com/v1_1/ddrf0klbu/image/upload`
+`VITE_API_BASE_URl=`
 
-`VITE_SERVICE_ID=service_xvclb2i`
+`VITE_SERVICE_ID=`
 
-`VITE_TEMPLATE_ID=template_2b3pntj`
+`VITE_TEMPLATE_ID=`
 
-`VITE_PUBLIC_KEY=M9B0ds_Is3kjmQxD0`
+`VITE_PUBLIC_KEY=`
 
